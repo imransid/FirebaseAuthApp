@@ -4,6 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Modal from 'react-native-modal';
 import Animated, { Easing, withSpring, withTiming, useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import ToastPopUp from '@/utils/Toast.android';
 
 const { height } = Dimensions.get('window');
 
@@ -55,16 +56,21 @@ const HomeScreen = ({ navigation }) => {
         }
 
         try {
-            setIsSubmitting(true);
+            setIsSubmitting(true); // Set to true to disable button
 
             if (editMode) {
+
+                console.log('data', '< data >')
                 // Edit existing blog
-                await firestore().collection('blogs').doc(editBlogId).update({
+                const data = await firestore().collection('blogs').doc(editBlogId).update({
                     title: blogTitle,
                     content: blogContent,
                     updatedAt: firestore.FieldValue.serverTimestamp(),
                 });
-                Alert.alert('Success', 'Blog updated successfully!');
+
+                console.log('data', data)
+
+                ToastPopUp('Success.. Blog updated successfully!');
             } else {
                 // Add new blog
                 await firestore().collection('blogs').add({
@@ -72,16 +78,17 @@ const HomeScreen = ({ navigation }) => {
                     content: blogContent,
                     createdAt: firestore.FieldValue.serverTimestamp(),
                 });
-                Alert.alert('Success', 'Blog added successfully!');
+                ToastPopUp('Success.. Blog added successfully!');
             }
 
+            // Reset form after successful submission
             setBlogTitle('');
             setBlogContent('');
             closeModal();
         } catch (error) {
             Alert.alert('Error', 'Something went wrong. Please try again later.');
         } finally {
-            setIsSubmitting(false);
+            setIsSubmitting(false); // Set back to false to re-enable button
         }
     };
 
@@ -131,9 +138,11 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Welcome to Home!</Text>
+            <View style={{ height: 10, width: '100%' }}></View>
             <Button title="Sign Out" color="red" onPress={handleSignOut} />
+            <View style={{ height: 10, width: '100%' }}></View>
             <Button title="ExploreTab" color="green" onPress={() => navigation.navigate('ExploreTab')} />
-
+            <View style={{ height: 10, width: '100%' }}></View>
             <Button title="Add Blog" onPress={openModal} />
 
             {/* Modal for adding or editing blog */}

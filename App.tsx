@@ -55,16 +55,19 @@ import { MD3DarkTheme, DefaultTheme, Provider as PaperProvider } from 'react-nat
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Platform } from 'react-native';
 
 
 const App = () => {
 
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId: '709351998176-dtbag3km4rt06h6upn2hv18n24noj81b.apps.googleusercontent.com',
-      scopes: ['profile', 'email'], // Additional scopes if needed
+      webClientId: '709351998176-dtbag3km4rt06h6upn2hv18n24noj81b.apps.googleusercontent.com', // Web Client ID from google-services.json
+      offlineAccess: true, // Required for server-side authentication if needed
+      scopes: ['profile', 'email'], // Add more if you need more permissions
+      //iosClientId: Platform.OS === 'ios' ? 'com.googleusercontent.apps.709351998176-8me570r8cv85prubflsa56vnophqbqsv' : undefined, // iOS specific client ID
     });
-  }, [])
+  }, []);
 
   const isDarkMode = false; // Replace with state management for theme toggle
 
