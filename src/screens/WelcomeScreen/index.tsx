@@ -1,171 +1,257 @@
-import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    ImageBackground,
+    Dimensions,
+    TouchableOpacity,
+    Alert,
+} from 'react-native';
 import Animated, {
-    withTiming,
-    withRepeat,
-    useSharedValue,
     useAnimatedStyle,
-    Easing,
+    useSharedValue,
+    withSpring,
+    withTiming,
 } from 'react-native-reanimated';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 
-const WelcomeScreen = ({ navigation }) => {
-    // Shared values for watch hands animation
-    const secondHandRotation = useSharedValue(0); // Rotate the second hand
-    const minuteHandRotation = useSharedValue(0); // Rotate the minute hand
-    const hourHandRotation = useSharedValue(0); // Rotate the hour hand
+import {
+    useNavigation,
+} from '@react-navigation/native';
 
-    // Animation trigger when the component mounts
-    useEffect(() => {
-        // Animate the second hand (360 degrees per minute)
-        secondHandRotation.value = withRepeat(
-            withTiming(360, { duration: 60000, easing: Easing.linear }),
-            -1,
-            false
-        );
+// Get screen width for swipe animations
+const { width } = Dimensions.get('window');
 
-        // Animate the minute hand (360 degrees per hour)
-        minuteHandRotation.value = withRepeat(
-            withTiming(360, { duration: 3600000, easing: Easing.linear }),
-            -1,
-            false
-        );
+// Updated image paths
+const Image1 = require("../../assets/images/image_1.jpg");
+const Image2 = require("../../assets/images/image_2.jpeg");
+const Image3 = require("../../assets/images/image_3.png");
+const Image4 = require("../../assets/images/image_4.jpg");
 
-        // Animate the hour hand (360 degrees per 12 hours)
-        hourHandRotation.value = withRepeat(
-            withTiming(360, { duration: 43200000, easing: Easing.linear }),
-            -1,
-            false
-        );
-    }, []);
+// Background image data
+const images = [
+    {
+        id: 1,
+        uri: Image1,
+        title: 'Innovate Your Design with Cutting-Edge Imagery',
+    },
+    {
+        id: 2,
+        uri: Image2,
+        title: 'Transform Your UI with Future-Ready Visuals',
+    },
+    {
+        id: 3,
+        uri: Image3,
+        title: 'Optimize Your Workflow with Intelligent Visuals',
+    },
+    {
+        id: 4,
+        uri: Image4,
+        title: "Welcome! Let's get you started on a journey to better productivity.",
+    },
+];
 
-    // Animated styles for the watch hands
-    const secondHandStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ rotate: `${secondHandRotation.value}deg` }],
-        };
-    });
+const Onboarding = () => {
+    const translateX = useSharedValue(0); // Tracks the swipe position
+    const currentIndex = useSharedValue(0); // Shared value to track the current index
+    const navigation = useNavigation();
 
-    const minuteHandStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ rotate: `${minuteHandRotation.value}deg` }],
-        };
-    });
+    // Handle swipe gesture
+    const handleSwipe = (event: any) => {
+        const { translationX, velocityX } = event.nativeEvent;
 
-    const hourHandStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ rotate: `${hourHandRotation.value}deg` }],
-        };
-    });
+        if (Math.abs(velocityX) > 500 || Math.abs(translationX) > width / 3) {
+            const direction = translationX > 0 ? -1 : 1; // Determine the swipe direction
 
-    const handleContinue = () => {
-        navigation.navigate('Home');
+            if (
+                (currentIndex.value === 0 && direction === -1) || // Prevent left swipe on the first image
+                (currentIndex.value === images.length - 1 && direction === 1) // Prevent right swipe on the last image
+            ) {
+                translateX.value = withSpring(-currentIndex.value * width); // Snap back to current image
+                return;
+            }
+
+            // Update the current index based on swipe direction
+            currentIndex.value += direction;
+        }
+
+        // Animate the swipe to the next image
+        translateX.value = withSpring(-currentIndex.value * width, {
+            damping: 10, // Smoother transition
+            stiffness: 100, // Adjust stiffness for smoother effect
+        });
+    };
+
+    // Swipe to the next image
+    const swipeToNext = () => {
+        if (currentIndex.value < images.length - 1) {
+            goToImage(currentIndex.value += 1);
+        } else {
+            navigation.navigate("Home" as never)
+        }
+    };
+
+    // Skip onboarding and move to the last slide
+    const skipOnboarding = () => {
+        currentIndex.value = images.length - 1;
+        translateX.value = withSpring(-currentIndex.value * width, {
+            damping: 10,
+            stiffness: 100,
+        });
+
+    };
+
+    // Go to a specific image when a dot is pressed
+    const goToImage = (index: any) => {
+        currentIndex.value = index;
+        translateX.value = withSpring(-index * width, {
+            damping: 10,
+            stiffness: 100,
+        });
+    };
+
+    // Auto-swipe logic removed (as requested)
+
+    // Animated style for swipe transition
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: translateX.value }],
+    }));
+
+    // Animated style for text fade-out and fade-in effect
+    const getTextStyle = (index: any) => {
+        return useAnimatedStyle(() => ({
+            opacity: withTiming(currentIndex.value === index ? 1 : 0, {
+                duration: 500, // Duration of fade effect
+            }),
+        }));
     };
 
     return (
         <View style={styles.container}>
-            <Animated.Text style={styles.title}>Welcome Back!</Animated.Text>
+            {/* Swipeable images */}
+            <PanGestureHandler onGestureEvent={handleSwipe}>
+                <Animated.View style={[styles.swiperContainer, animatedStyle]}>
+                    {images.map((image, index) => (
+                        <View key={image.id} style={styles.imageContainer}>
+                            <ImageBackground
+                                source={image.uri}
+                                style={styles.backgroundImage}
+                            >
+                                <View style={styles.overlay}>
+                                    <Animated.Text style={[styles.title, getTextStyle(index)]}>
+                                        {image.title}
+                                    </Animated.Text>
+                                </View>
+                            </ImageBackground>
+                        </View>
+                    ))}
+                </Animated.View>
+            </PanGestureHandler>
 
-            {/* Watch */}
-            <View style={styles.watchContainer}>
-                <View style={styles.watchFace}>
-                    {/* Hour Hand */}
-                    <Animated.View style={[styles.watchHand, styles.hourHand, hourHandStyle]} />
-                    {/* Minute Hand */}
-                    <Animated.View style={[styles.watchHand, styles.minuteHand, minuteHandStyle]} />
-                    {/* Second Hand */}
-                    <Animated.View style={[styles.watchHand, styles.secondHand, secondHandStyle]} />
-                </View>
+            {/* Pagination Dots */}
+            <View style={styles.pagination}>
+                {images.map((_, index) => {
+                    const dotStyle = useAnimatedStyle(() => ({
+                        width: currentIndex.value === index ? 20 : 10,
+                        backgroundColor:
+                            currentIndex.value === index ? '#FF5673' : '#aaa',
+                    }));
+                    return (
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => goToImage(index)}
+                        >
+                            <Animated.View style={[styles.dot, dotStyle]} />
+                        </TouchableOpacity>
+                    );
+                })}
             </View>
 
+            {/* Skip Button */}
+            <TouchableOpacity style={styles.skipButton} onPress={skipOnboarding}>
+                <Text style={styles.skipButtonText}>Skip</Text>
+            </TouchableOpacity>
+
             {/* Continue Button */}
-            <Animated.View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={handleContinue}>
-                    <Text style={styles.buttonText}>Continue</Text>
-                </TouchableOpacity>
-            </Animated.View>
+            <TouchableOpacity style={styles.button} onPress={swipeToNext}>
+                <Text style={styles.buttonText}>Continue</Text>
+            </TouchableOpacity>
         </View>
     );
 };
 
+export default Onboarding;
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
+    },
+    swiperContainer: {
+        flexDirection: 'row',
+        width: width * images.length,
+        height: '100%',
+    },
+    imageContainer: {
+        width,
+        height: '100%',
+    },
+    backgroundImage: {
+        flex: 1,
+        justifyContent: 'flex-end',
+    },
+    overlay: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 20,
-        backgroundColor: '#6200EE', // Vibrant background color
-        borderRadius: 15,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 8,
     },
     title: {
-        fontSize: 36,
+        fontSize: 24,
         fontWeight: 'bold',
         color: '#fff',
         marginBottom: 20,
         textAlign: 'center',
-        textShadowColor: 'rgba(0, 0, 0, 0.3)',
-        textShadowOffset: { width: 2, height: 2 },
-        textShadowRadius: 3,
     },
-    watchContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 30,
-    },
-    watchFace: {
-        width: 150,
-        height: 150,
-        borderRadius: 75,
-        borderWidth: 6,
-        borderColor: '#fff', // White border for the watch
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative',
-    },
-    watchHand: {
+    pagination: {
         position: 'absolute',
-        width: 2,
-        height: 50,
-        backgroundColor: '#fff',
-        top: 25,
-        left: 74, // Center of the watch face
-        transformOrigin: '50% 100%',
+        bottom: 120,
+        flexDirection: 'row',
+        alignSelf: 'center',
     },
-    secondHand: {
-        height: 60,
-        backgroundColor: '#FF4081', // Red color for the second hand
+    dot: {
+        height: 10,
+        borderRadius: 5,
+        marginHorizontal: 5,
     },
-    minuteHand: {
-        height: 50,
-        backgroundColor: '#00FF00', // Green color for the minute hand
+    skipButton: {
+        position: 'absolute',
+        top: 50,
+        right: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        borderRadius: 20,
+        paddingVertical: 5,
+        paddingHorizontal: 15,
     },
-    hourHand: {
-        height: 40,
-        backgroundColor: '#0000FF', // Blue color for the hour hand
-    },
-    buttonContainer: {
-        marginTop: 20,
+    skipButtonText: {
+        color: '#FF5673',
+        fontWeight: 'bold',
     },
     button: {
-        paddingVertical: 12,
-        paddingHorizontal: 30,
-        backgroundColor: '#FF4081', // Vibrant button color
-        borderRadius: 30,
-        elevation: 5,
-        shadowColor: '#FF4081',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
+        position: 'absolute',
+        bottom: 50,
+        alignSelf: 'center',
+        backgroundColor: '#FF5673',
+        borderRadius: 25,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
     },
     buttonText: {
-        fontSize: 18,
+        fontSize: 16,
         color: '#fff',
         fontWeight: 'bold',
     },
 });
-
-export default WelcomeScreen;

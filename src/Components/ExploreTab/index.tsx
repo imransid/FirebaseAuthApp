@@ -1,198 +1,194 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, Animated, TouchableOpacity } from 'react-native';
-import FastImage from 'react-native-fast-image'; // For optimized image loading
+import React, { useState, useEffect } from 'react';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image,
+    FlatList,
+    TouchableOpacity,
+    ActivityIndicator,
+} from 'react-native';
+import Animated, { Easing, withRepeat, withSequence, withSpring, withTiming } from 'react-native-reanimated';
+import {
+    useNavigation,
+} from '@react-navigation/native';
+import BackIcon from '../../assets/svg/back';
 
-interface ImageData {
-    id: string;
-    author: string;
-    width: number;
-    height: number;
-    url: string;
-    download_url: string;
-}
-
-const ExploreTab = () => {
-    const [images, setImages] = useState<ImageData[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const [selectedImageDetails, setSelectedImageDetails] = useState<ImageData | null>(null);
-
-    const scaleValue = useRef(new Animated.Value(1)).current; // Use useRef for scaling animation
-
-    useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                const res = await fetch('https://picsum.photos/v2/list?page=1&limit=30');
-                if (!res.ok) throw new Error('Failed to fetch images');
-                const data: ImageData[] = await res.json();
-                setImages(data);
-            } catch (error) {
-                setError(error.message);
-                console.error('Error fetching images:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchImages();
-    }, []);
-
-    // Handle image click for zoom and details display
-    const handleImageClick = (imageUrl: string, imageDetails: ImageData) => {
-        setSelectedImage(imageUrl);
-        setSelectedImageDetails(imageDetails);
-
-        // Trigger the scaling animation
-        Animated.spring(scaleValue, {
-            toValue: 1.5, // Scale up
-            useNativeDriver: true,
-        }).start();
-    };
-
-    // Close the selected image view
-    const handleClose = () => {
-        setSelectedImage(null);
-        setSelectedImageDetails(null);
-        Animated.spring(scaleValue, {
-            toValue: 1, // Reset the scale
-            useNativeDriver: true,
-        }).start();
-    };
-
-    // Memoize the render function for FlatList items to prevent unnecessary re-renders
-    const renderExploreItem = useCallback(
-        ({ item }: { item: ImageData }) => (
-            <TouchableOpacity onPress={() => handleImageClick(item.download_url, item)}>
-                <View style={styles.imageContainer}>
-                    <FastImage
-                        source={{ uri: item.download_url }}
-                        style={styles.exploreImage}
-                        resizeMode={FastImage.resizeMode.cover} // For better image fitting
-                    />
-                </View>
-            </TouchableOpacity>
+// Skeleton Component with Reanimated for Instagram-like UI
+const Skeleton = () => {
+    // Define animation for skeleton fade effect
+    const pulseAnim = withRepeat(
+        withSequence(
+            withTiming(1, { duration: 1000, easing: Easing.ease }), // Fade in
+            withTiming(0.7, { duration: 1000, easing: Easing.ease }) // Fade out
         ),
-        []
+        -1, // Infinite repeat
+        1 // Repeat indefinitely
     );
 
-    // Optimized FlatList rendering
-    const renderContent = () => {
-        if (loading) {
-            return <ActivityIndicator size="large" color="#0000ff" />;
-        }
+    return (
+        <View style={styles.skeletonContainer}>
+            {/* Profile Image */}
+            <Animated.View style={[styles.skeletonProfile, { opacity: pulseAnim }]} />
 
-        if (error) {
-            return <Text style={styles.errorText}>{error}</Text>;
-        }
+            {/* Username Skeleton */}
+            <Animated.View style={[styles.skeletonText, { opacity: pulseAnim, width: '40%' }]} />
 
-        return (
-            <FlatList
-                data={images}
-                renderItem={renderExploreItem}
-                keyExtractor={(item) => item.id} // Use id for keyExtractor to improve list performance
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={styles.exploreList}
-                initialNumToRender={5} // Number of items initially rendered
-                maxToRenderPerBatch={10} // Maximum items to render in a batch
-                windowSize={5}  // Render 5 batches in the viewport at once
-                getItemLayout={(data, index) => ({ length: 120, offset: 120 * index, index })} // Improve scrolling performance
-            />
-        );
+            {/* Image Skeleton */}
+            <Animated.View style={[styles.skeletonImage, { opacity: pulseAnim }]} />
+
+            {/* Caption Skeleton */}
+            <Animated.View style={[styles.skeletonText, { opacity: pulseAnim, width: '60%' }]} />
+        </View>
+    );
+};
+
+const App = () => {
+    const [images, setImages] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [numColumns, setNumColumns] = useState(1); // Control the number of columns
+
+    const navigation = useNavigation();
+
+
+    const fetchImages = async (newPage) => {
+        try {
+            const response = await fetch(`https://picsum.photos/v2/list?page=${newPage}&limit=10`);
+            if (!response.ok) throw new Error('Failed to fetch images');
+            const data = await response.json();
+            setImages((prev) => (newPage === 1 ? data : [...prev, ...data]));
+        } catch (error) {
+            console.error('Error fetching images:', error);
+        } finally {
+            setLoading(false);
+            setLoadingMore(false);
+        }
     };
 
-    const renderSelectedImageDetails = () => {
-        if (!selectedImage || !selectedImageDetails) return null;
+    useEffect(() => {
+        fetchImages(1);
+    }, []);
 
-        return (
-            <Animated.View
-                style={[styles.overlay, { transform: [{ scale: scaleValue }] }]}>
-                <TouchableOpacity style={styles.closeButton} onPress={handleClose}>
-                    <Text style={styles.closeButtonText}>X</Text>
-                </TouchableOpacity>
-                <FastImage
-                    source={{ uri: selectedImage }}
-                    style={styles.selectedImage}
-                    resizeMode={FastImage.resizeMode.contain}
-                />
+    const handleLoadMore = () => {
+        if (!loadingMore) {
+            setLoadingMore(true);
+            setPage((prev) => {
+                const nextPage = prev + 1;
+                fetchImages(nextPage);
+                return nextPage;
+            });
+        }
+    };
 
-                <Text style={styles.imageDetailsText}>Author: {selectedImageDetails.author}</Text>
-                <Text style={styles.imageDetailsText}>Width: {selectedImageDetails.width}</Text>
-                <Text style={styles.imageDetailsText}>Height: {selectedImageDetails.height}</Text>
-                <Text style={styles.imageDetailsText}>ID: {selectedImageDetails.id}</Text>
-            </Animated.View>
-        );
+    const renderCapture = ({ item }) => (
+        <View style={styles.imageContainer}>
+            <Image source={{ uri: item.download_url }} style={styles.captureImage} />
+        </View>
+    );
+
+    const renderFooter = () => {
+        if (!loadingMore) return null;
+        return <ActivityIndicator style={{ marginVertical: 16 }} size="large" color="#00aaff" />;
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Explore</Text>
-            {renderContent()}
-            {renderSelectedImageDetails()}
+            <Text style={styles.headerText}><TouchableOpacity onPress={() => navigation.navigate("Home" as never)} ><BackIcon /></TouchableOpacity> Revisit your memories</Text>
+            {loading ? (
+                <FlatList
+                    data={Array.from({ length: 6 })}
+                    renderItem={({ index }) => <Skeleton key={index} />}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            ) : (
+                <FlatList
+                    data={images}
+                    renderItem={renderCapture}
+                    keyExtractor={(item) => item.id}
+                    numColumns={numColumns}
+                    showsVerticalScrollIndicator={false}
+                    onEndReached={handleLoadMore}
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={renderFooter}
+                    key={numColumns} // Dynamically change key to force re-render
+                />
+            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
-    header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-    exploreList: { marginBottom: 20 },
-    imageContainer: {
-        width: 120, // Fixed size for the image container
-        height: 120, // Maintain a consistent height and width ratio
-        marginRight: 10,
-        borderRadius: 10,
-        overflow: 'hidden', // Prevent image overflow
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        padding: 16,
     },
-    exploreImage: {
+    headerText: {
+        fontSize: 18,
+        color: '#000',
+        marginBottom: 12,
+    },
+    skeletonContainer: {
+        marginBottom: 16,
+        marginTop: 10,
+    },
+    skeletonProfile: {
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        backgroundColor: '#ddd',
+        marginBottom: 10,
+    },
+    skeletonImage: {
         width: '100%',
-        height: '100%',
-        borderRadius: 10, // Optional: you can tweak this for rounded corners
+        height: 200,
+        backgroundColor: '#ddd',
+        borderRadius: 12,
+        marginBottom: 10,
     },
-    errorText: {
-        fontSize: 16,
-        color: 'red',
-        textAlign: 'center',
-        marginTop: 20,
+    skeletonText: {
+        height: 12,
+        backgroundColor: '#ddd',
+        marginBottom: 6,
+        borderRadius: 4,
     },
-    overlay: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        justifyContent: 'center',
+    imageContainer: {
+        marginBottom: 16,
+    },
+    captureImage: {
+        width: '100%',
+        height: 200,
+        borderRadius: 12,
+        marginBottom: 10,
+    },
+    username: {
+        fontSize: 14,
+        color: '#333',
+        marginBottom: 4,
+    },
+    caption: {
+        fontSize: 12,
+        color: '#666',
+    },
+    bottomNav: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        zIndex: 1,
-        padding: 20,
+        backgroundColor: '#302d2d',
+        padding: 12,
+        borderRadius: 12,
+        position: 'absolute',
+        bottom: 16,
+        left: 16,
+        right: 16,
     },
-    selectedImage: {
-        width: 300,
-        height: 300,
-        borderRadius: 15,
-        marginBottom: 20,
-    },
-    imageDetailsText: {
-        color: 'white',
-        fontSize: 16,
-        marginVertical: 5,
-        textAlign: 'center',
-    },
-    closeButton: {
-        // position: 'absolute',
-        top: 20,
-        right: 20,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        borderRadius: 20,
-        padding: 10,
-        color: 'rgba(109, 107, 107, 0.7)',
-    },
-    closeButtonText: {
-        color: 'white',
-        fontSize: 15,
-        fontWeight: 'bold',
+    addButton: {
+        backgroundColor: '#00aaff',
+        borderRadius: 50,
+        padding: 12,
     },
 });
 
-export default ExploreTab;
+export default App;

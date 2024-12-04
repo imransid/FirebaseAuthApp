@@ -5,7 +5,6 @@ import HomeScreen from '../screens/HomeScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import ExploreTab from '@/Components/ExploreTab';
-import AddBlog from "@/Components/AddBlog"
 
 const Stack = createStackNavigator();
 

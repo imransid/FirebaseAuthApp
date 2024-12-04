@@ -1,38 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Button, StyleSheet, FlatList, TextInput, TouchableOpacity, Alert, Dimensions } from 'react-native';
+
+
+
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, TextInput, Button, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Row } from 'react-native-easy-grid';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import Modal from 'react-native-modal';
-import Animated, { Easing, withSpring, withTiming, useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
-import ToastPopUp from '@/utils/Toast.android';
+import { useSharedValue, withSpring, useAnimatedStyle } from 'react-native-reanimated'; // Import for animation
+import PlusIcon from '../../../src/assets/svg/plus';
+import moment from 'moment';
+import { useNavigation } from '@react-navigation/native';
 
-const { height } = Dimensions.get('window');
+const categories = [
+    { id: 1, name: 'Sport' },
+    { id: 2, name: 'Politics' },
+    { id: 3, name: 'Technology', isActive: true },
+    { id: 4, name: 'Economy' },
+];
 
-const HomeScreen = ({ navigation }) => {
+const App = () => {
+    const [activeCategory, setActiveCategory] = useState('Technology');
     const [blogs, setBlogs] = useState([]);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [blogTitle, setBlogTitle] = useState('');
-    const [blogContent, setBlogContent] = useState('');
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [editMode, setEditMode] = useState(false);
-    const [editBlogId, setEditBlogId] = useState(null);
-
-    // Animated values for modal animation
-    const translateY = useSharedValue(height); // Initially offscreen
-    const opacity = useSharedValue(0); // Initially invisible
-
-    // Animate modal when visible
-    const modalStyle = useAnimatedStyle(() => {
-        return {
-            transform: [{ translateY: withSpring(translateY.value, { damping: 20, stiffness: 100 }) }],
-            opacity: withTiming(opacity.value, { duration: 300 }),
-        };
-    });
+    const [newBlog, setNewBlog] = useState({ title: '', description: '', image: '', date: '', category: activeCategory });
+    const [showModal, setShowModal] = useState(false);
+    const [editMode, setEditMode] = useState(false); // To handle editing mode
+    const [selectedBlog, setSelectedBlog] = useState(null); // To store selected blog for editing
+    const navigation = useNavigation();
+    // Bottom sheet animation value
+    const bottomSheetOffset = useSharedValue(-500);
 
     useEffect(() => {
-        // Fetch Blogs from Firestore
         const unsubscribeBlogs = firestore()
-            .collection('blogs')
+            .collection("blogs")
             .onSnapshot((snapshot) => {
                 const blogList = snapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -41,202 +39,351 @@ const HomeScreen = ({ navigation }) => {
                 setBlogs(blogList);
             });
 
-        // Clean up subscription
         return () => unsubscribeBlogs();
     }, []);
 
-    const handleSignOut = () => {
-        auth().signOut().then(() => navigation.replace('SignIn'));
-    };
+    const renderCategory = ({ item }) => (
+        <TouchableOpacity
+            style={[styles.categoryButton, item.name === activeCategory && styles.activeCategory]}
+            onPress={() => setActiveCategory(item.name)}
+        >
+            <Text style={[styles.categoryText, item.name === activeCategory && styles.activeCategoryText]}>
+                {item.name.slice(0, 4)}
+            </Text>
+        </TouchableOpacity>
+    );
 
-    const handleAddOrEditBlog = async () => {
-        if (!blogTitle || !blogContent) {
-            Alert.alert('Error', 'Please fill in both title and content.');
-            return;
-        }
-
-        try {
-            setIsSubmitting(true); // Set to true to disable button
-
-            if (editMode) {
-
-                console.log('data', '< data >')
-                // Edit existing blog
-                const data = await firestore().collection('blogs').doc(editBlogId).update({
-                    title: blogTitle,
-                    content: blogContent,
-                    updatedAt: firestore.FieldValue.serverTimestamp(),
-                });
-
-                console.log('data', data)
-
-                ToastPopUp('Success.. Blog updated successfully!');
-            } else {
-                // Add new blog
-                await firestore().collection('blogs').add({
-                    title: blogTitle,
-                    content: blogContent,
-                    createdAt: firestore.FieldValue.serverTimestamp(),
-                });
-                ToastPopUp('Success.. Blog added successfully!');
-            }
-
-            // Reset form after successful submission
-            setBlogTitle('');
-            setBlogContent('');
-            closeModal();
-        } catch (error) {
-            Alert.alert('Error', 'Something went wrong. Please try again later.');
-        } finally {
-            setIsSubmitting(false); // Set back to false to re-enable button
-        }
-    };
-
-    const renderBlogItem = ({ item }) => (
-        <View style={styles.blogItem}>
-            <Text style={styles.blogTitle}>{item.title}</Text>
-            <Text style={styles.blogContent}>{item.content}</Text>
-            <TouchableOpacity
-                onPress={() => openEditModal(item)}
-                style={styles.editButton}
-            >
-                <Text style={styles.buttonText}>Edit</Text>
-            </TouchableOpacity>
+    const renderPost = ({ item }) => (
+        <View style={styles.card}>
+            <Image source={{ uri: item.image }} style={styles.cardImage} />
+            <View style={styles.cardContent}>
+                <Text style={styles.cardTitle}>{item.title}</Text>
+                <Text style={styles.cardDescription}>{item.description}</Text>
+                <View style={styles.cardFooter}>
+                    <TouchableOpacity
+                        style={[styles.voteButton, styles.editButton]}
+                        onPress={() => handleEditBlog(item)}
+                    >
+                        <Text style={styles.voteText}>Edit</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.voteButton, styles.deleteButton]}
+                        onPress={() => handleDeleteBlog(item.id)}
+                    >
+                        <Text style={styles.voteText}>Delete</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.postDate}>Posted: {item.date}</Text>
+                </View>
+            </View>
         </View>
     );
 
-    // Show modal with animation
+    const filteredPosts = blogs.filter(post => post.category === activeCategory);
+
+    const handleAddBlog = async () => {
+        if (newBlog.title && newBlog.description && newBlog.image && newBlog.date && newBlog.category) {
+            try {
+                const date = moment(newBlog.date);
+                if (editMode) {
+                    await firestore().collection('blogs').doc(selectedBlog.id).update({
+                        ...newBlog,
+                        date: date.format('DD/MM/YYYY'),
+                    });
+                    setEditMode(false);
+                    setSelectedBlog(null);
+                } else {
+                    await firestore().collection('blogs').add({
+                        ...newBlog,
+                        date: date.format('DD/MM/YYYY'),
+                    });
+                }
+                setShowModal(false);
+                setNewBlog({ title: '', description: '', image: '', date: '', category: activeCategory });
+            } catch (error) {
+                console.error('Error adding/updating blog: ', error);
+            }
+        } else {
+            alert('Please fill all fields');
+        }
+    };
+
+    const handleEditBlog = (blog) => {
+        setEditMode(true);
+        setSelectedBlog(blog);
+        setNewBlog({
+            title: blog.title,
+            description: blog.description,
+            image: blog.image,
+            date: blog.date,
+            category: blog.category,
+        });
+        openModal();
+    };
+
+    const handleDeleteBlog = async (blogId) => {
+        try {
+            await firestore().collection('blogs').doc(blogId).delete();
+        } catch (error) {
+            console.error('Error deleting blog: ', error);
+        }
+    };
+
+    // Bottom sheet style animation
+    const bottomSheetStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: withSpring(bottomSheetOffset.value, { damping: 20, stiffness: 90 }) }],
+        };
+    });
+
     const openModal = () => {
-        setModalVisible(true);
-        setEditMode(false); // Reset to add mode
-        translateY.value = 0; // Move the modal into view
-        opacity.value = 1; // Fade in the modal
+        setShowModal(true);
+        bottomSheetOffset.value = 0; // Trigger the modal to slide up
     };
 
-    // Show edit modal with data
-    const openEditModal = (blog) => {
-        setModalVisible(true);
-        setEditMode(true); // Switch to edit mode
-        setEditBlogId(blog.id); // Set blog ID for editing
-        setBlogTitle(blog.title); // Populate title
-        setBlogContent(blog.content); // Populate content
-        translateY.value = 0; // Move the modal into view
-        opacity.value = 1; // Fade in the modal
-    };
-
-    // Hide modal with animation
     const closeModal = () => {
-        translateY.value = height; // Move the modal offscreen
-        opacity.value = 0; // Fade out the modal
-        setTimeout(() => setModalVisible(false), 300); // Close after animation completes
-        setBlogTitle(''); // Reset input fields
-        setBlogContent('');
-        setEditBlogId(null);
         setEditMode(false);
+        setNewBlog({ title: '', description: '', image: '', date: '', category: activeCategory });
+        bottomSheetOffset.value = -500; // Close the modal by sliding it down
+        setTimeout(() => {
+            setShowModal(false);
+        }, 300);
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Welcome to Home!</Text>
-            <View style={{ height: 10, width: '100%' }}></View>
-            <Button title="Sign Out" color="red" onPress={handleSignOut} />
-            <View style={{ height: 10, width: '100%' }}></View>
-            <Button title="ExploreTab" color="green" onPress={() => navigation.navigate('ExploreTab')} />
-            <View style={{ height: 10, width: '100%' }}></View>
-            <Button title="Add Blog" onPress={openModal} />
+            <Text style={styles.headerTitle}>Home</Text>
 
-            {/* Modal for adding or editing blog */}
-            <Modal
-                isVisible={modalVisible}
-                onBackdropPress={closeModal}
-                onBackButtonPress={closeModal}
-                backdropOpacity={0.5}
-                style={styles.modal}
-            >
-                <Animated.View style={[styles.modalContent, modalStyle]}>
-                    <Text style={styles.modalHeader}>{editMode ? 'Edit Blog' : 'Add Blog'}</Text>
+            <Row style={{ height: 120 }}>
+                <FlatList
+                    horizontal
+                    data={categories}
+                    renderItem={renderCategory}
+                    keyExtractor={(item) => item.id.toString()}
+                    contentContainerStyle={styles.categoryList}
+                    showsHorizontalScrollIndicator={false}
+                />
+            </Row>
 
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Blog Title"
-                        value={blogTitle}
-                        onChangeText={setBlogTitle}
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Blog Content"
-                        value={blogContent}
-                        onChangeText={setBlogContent}
-                        multiline
-                    />
-
-                    <TouchableOpacity
-                        style={styles.submitButton}
-                        onPress={handleAddOrEditBlog}
-                        disabled={isSubmitting}
-                    >
-                        <Text style={styles.buttonText}>{isSubmitting ? 'Submitting...' : 'Submit'}</Text>
-                    </TouchableOpacity>
-                </Animated.View>
-            </Modal>
-
-            {/* List of blogs */}
+            <TouchableOpacity onPress={() => navigation.navigate("ExploreTab" as never)}><Text style={styles.sectionTitle}>{activeCategory}</Text></TouchableOpacity>
             <FlatList
-                data={blogs}
-                renderItem={renderBlogItem}
+                data={filteredPosts}
+                renderItem={renderPost}
                 keyExtractor={(item) => item.id}
-                style={styles.blogList}
+                contentContainerStyle={styles.postList}
             />
+
+            <TouchableOpacity style={styles.addButton} onPress={openModal}>
+                <PlusIcon />
+            </TouchableOpacity>
+
+            {/* Modal for adding a new blog */}
+            {showModal && (
+                <TouchableWithoutFeedback onPress={closeModal}>
+                    <View style={[styles.modalContainer, bottomSheetStyle]}>
+                        <View style={styles.modalContent} onStartShouldSetResponder={() => true}>
+                            <Text style={styles.modalTitle}>{editMode ? 'Edit Blog' : 'Add New Blog'}</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Title"
+                                value={newBlog.title}
+                                onChangeText={(text) => setNewBlog({ ...newBlog, title: text })}
+                            />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Description"
+                                value={newBlog.description}
+                                onChangeText={(text) => setNewBlog({ ...newBlog, description: text })}
+                            />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Image URL"
+                                value={newBlog.image}
+                                onChangeText={(text) => setNewBlog({ ...newBlog, image: text })}
+                            />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Date"
+                                value={newBlog.date}
+                                onChangeText={(text) => setNewBlog({ ...newBlog, date: text })}
+                            />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Category"
+                                value={newBlog.category}
+                                onChangeText={(text) => setNewBlog({ ...newBlog, category: text })}
+                            />
+
+                            <Button title={editMode ? "Update Blog" : "Add Blog"} onPress={handleAddBlog} />
+                            <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
+                                <Text style={styles.closeText}>Close</Text>
+                            </TouchableOpacity>
+
+                            <View style={{ height: 120, width: '100%' }}></View>
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            )}
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
-    header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-    blogList: { flex: 1, marginVertical: 10 },
-    blogItem: {
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 10,
-        padding: 15,
+    container: {
+        flex: 1,
+        backgroundColor: '#F4F4F4',
+        paddingTop: 20,
+    },
+    headerTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginVertical: 10,
+        color: '#2A2A2A',
+    },
+    categoryList: {
+        paddingHorizontal: 10,
         marginVertical: 10,
     },
-    blogTitle: { fontSize: 18, fontWeight: 'bold' },
-    blogContent: { fontSize: 14, marginVertical: 10 },
-    editButton: { backgroundColor: '#007BFF', padding: 10, borderRadius: 5 },
-    buttonText: { color: '#fff', textAlign: 'center' },
-
-    modal: {
+    categoryButton: {
+        width: 90,
+        paddingVertical: 8,
+        paddingHorizontal: 5,
+        backgroundColor: '#EDEDED',
+        borderRadius: 20,
+        marginHorizontal: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    activeCategory: {
+        backgroundColor: '#FFBE0B',
+    },
+    categoryText: {
+        fontSize: 14,
+        color: '#2A2A2A',
+        fontWeight: '600',
+    },
+    activeCategoryText: {
+        color: '#FFF',
+        fontWeight: '800',
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginHorizontal: 16,
+        marginVertical: 10,
+        color: '#2A2A2A',
+    },
+    postList: {
+        paddingBottom: 20,
+    },
+    card: {
+        flexDirection: 'row',
+        backgroundColor: '#FFF',
+        marginHorizontal: 16,
+        marginVertical: 10,
+        borderRadius: 8,
+        shadowColor: '#000',
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        shadowOffset: { width: 0, height: 3 },
+        elevation: 3,
+    },
+    cardImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 8,
+    },
+    cardContent: {
+        flex: 1,
+        padding: 10,
+    },
+    cardTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    cardDescription: {
+        fontSize: 14,
+        color: '#666',
+        marginVertical: 5,
+    },
+    cardFooter: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    voteButton: {
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    editButton: {
+        backgroundColor: '#FFBE0B',
+    },
+    deleteButton: {
+        backgroundColor: '#F44336',
+    },
+    voteText: {
+        color: '#FFF',
+        fontSize: 12,
+    },
+    postDate: {
+        fontSize: 12,
+        color: '#777',
+    },
+    addButton: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        backgroundColor: '#FFBE0B',
+        borderRadius: 50,
+        padding: 15,
+        elevation: 5,
+    },
+    modalContainer: {
+        flex: 1,
         justifyContent: 'flex-end',
-        margin: 0,
+        alignItems: 'center',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modalContent: {
-        backgroundColor: 'white',
+        backgroundColor: '#FFF',
+        width: '100%',
         padding: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        minHeight: 250,
     },
-    modalHeader: {
-        fontSize: 24,
+    modalTitle: {
+        fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 20,
+        marginBottom: 10,
+        color: '#333',
     },
     input: {
-        height: 50,
+        height: 40,
+        borderColor: '#CCC',
         borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
         marginBottom: 10,
         paddingLeft: 10,
-    },
-    submitButton: {
-        backgroundColor: '#007BFF',
-        padding: 15,
         borderRadius: 5,
-        alignItems: 'center',
+    },
+    closeButton: {
+        backgroundColor: '#FF5722',
+        paddingVertical: 10,
+        borderRadius: 5,
+        marginTop: 10,
+    },
+    closeText: {
+        color: '#FFF',
+        textAlign: 'center',
+        fontSize: 16,
     },
 });
 
-export default HomeScreen;
+export default App;
