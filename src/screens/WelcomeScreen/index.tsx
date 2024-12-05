@@ -1,257 +1,235 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect } from "react";
 import {
     View,
-    Text,
     StyleSheet,
-    ImageBackground,
     Dimensions,
     TouchableOpacity,
-    Alert,
-} from 'react-native';
+    ScrollView,
+} from "react-native";
+import { Text } from "react-native-paper";
 import Animated, {
-    useAnimatedStyle,
     useSharedValue,
-    withSpring,
+    useAnimatedStyle,
     withTiming,
-} from 'react-native-reanimated';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+    Easing,
+    interpolate,
+    Extrapolate,
+} from "react-native-reanimated";
 
-import {
-    useNavigation,
-} from '@react-navigation/native';
+// Screen dimensions
+const { width, height } = Dimensions.get("window");
 
-// Get screen width for swipe animations
-const { width } = Dimensions.get('window');
+// Images
+const Image1 = require("../../assets/images/1.jpeg");
+const Image2 = require("../../assets/images/2.jpeg");
+const Image3 = require("../../assets/images/3.jpeg");
+const Image4 = require("../../assets/images/4.jpg");
 
-// Updated image paths
-const Image1 = require("../../assets/images/image_1.jpg");
-const Image2 = require("../../assets/images/image_2.jpeg");
-const Image3 = require("../../assets/images/image_3.png");
-const Image4 = require("../../assets/images/image_4.jpg");
-
-// Background image data
 const images = [
-    {
-        id: 1,
-        uri: Image1,
-        title: 'Innovate Your Design with Cutting-Edge Imagery',
-    },
-    {
-        id: 2,
-        uri: Image2,
-        title: 'Transform Your UI with Future-Ready Visuals',
-    },
-    {
-        id: 3,
-        uri: Image3,
-        title: 'Optimize Your Workflow with Intelligent Visuals',
-    },
-    {
-        id: 4,
-        uri: Image4,
-        title: "Welcome! Let's get you started on a journey to better productivity.",
-    },
+    { id: 1, uri: Image1, title: "Innovate Your Design with Cutting-Edge Imagery" },
+    { id: 2, uri: Image2, title: "Transform Your UI with Future-Ready Visuals" },
+    { id: 3, uri: Image3, title: "Optimize Your Workflow with Intelligent Visuals" },
+    { id: 4, uri: Image4, title: "A new world awaits not in distant lands, but in the vision we dare to create today." },
 ];
 
-const Onboarding = () => {
-    const translateX = useSharedValue(0); // Tracks the swipe position
-    const currentIndex = useSharedValue(0); // Shared value to track the current index
-    const navigation = useNavigation();
+const AnimatedImageCarousel = () => {
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const [displayedTitle, setDisplayedTitle] = useState(""); // For typewriter effect
+    const [titleIndex, setTitleIndex] = useState(0); // To track the character being typed
+    const translateX = useSharedValue(0);
+    const opacity = useSharedValue(1);
+    const scale = useSharedValue(1);
+    const textOpacity = useSharedValue(0);
+    const shake = useSharedValue(0); // For shake effect
+    const backgroundColor = useSharedValue("transparent"); // For background color change
 
-    // Handle swipe gesture
-    const handleSwipe = (event: any) => {
-        const { translationX, velocityX } = event.nativeEvent;
-
-        if (Math.abs(velocityX) > 500 || Math.abs(translationX) > width / 3) {
-            const direction = translationX > 0 ? -1 : 1; // Determine the swipe direction
-
-            if (
-                (currentIndex.value === 0 && direction === -1) || // Prevent left swipe on the first image
-                (currentIndex.value === images.length - 1 && direction === 1) // Prevent right swipe on the last image
-            ) {
-                translateX.value = withSpring(-currentIndex.value * width); // Snap back to current image
-                return;
+    // Create the typewriter effect
+    useEffect(() => {
+        const title = images[activeImageIndex]?.title || "";
+        const interval = setInterval(() => {
+            if (titleIndex < title.length) {
+                setDisplayedTitle((prev) => prev + title[titleIndex]);
+                setTitleIndex((prev) => prev + 1);
+            } else {
+                clearInterval(interval); // Stop when all characters are displayed
             }
+        }, 100); // Adjust the speed here
 
-            // Update the current index based on swipe direction
-            currentIndex.value += direction;
+        return () => clearInterval(interval); // Cleanup on component unmount
+    }, [titleIndex, activeImageIndex]);
+
+    // Reset title and typewriter effect when the active image changes
+    useEffect(() => {
+        setDisplayedTitle(""); // Reset displayed title
+        setTitleIndex(0); // Reset title index
+    }, [activeImageIndex]);
+
+    // Trigger the shake effect when the title changes
+    useEffect(() => {
+        shake.value = withTiming(10, { duration: 100, easing: Easing.bounce }, () => {
+            shake.value = withTiming(-10, { duration: 100, easing: Easing.bounce }, () => {
+                shake.value = withTiming(0, { duration: 100, easing: Easing.bounce });
+            });
+        });
+    }, [activeImageIndex]);
+
+    const handleScroll = (event) => {
+        const scrollX = event.nativeEvent.contentOffset.x;
+        const focusIndex = Math.round(scrollX / 150);
+        if (focusIndex !== activeImageIndex) {
+            setActiveImageIndex(focusIndex);
+            translateX.value = withTiming(-width * focusIndex, {
+                duration: 800,
+                easing: Easing.out(Easing.exp),
+            });
+            opacity.value = 0;
+            scale.value = 1.2;
+            textOpacity.value = withTiming(0, { duration: 300 });
+            backgroundColor.value = withTiming(
+                images[focusIndex].uri === Image1
+                    ? "#FF6347"
+                    : images[focusIndex].uri === Image2
+                        ? "#32CD32"
+                        : images[focusIndex].uri === Image3
+                            ? "#1E90FF"
+                            : "#FFD700",
+                { duration: 500 }
+            );
+
+            setTimeout(() => {
+                opacity.value = withTiming(1, { duration: 500 });
+                scale.value = withTiming(1, { duration: 500 });
+                textOpacity.value = withTiming(1, { duration: 500 });
+            }, 300);
         }
-
-        // Animate the swipe to the next image
-        translateX.value = withSpring(-currentIndex.value * width, {
-            damping: 10, // Smoother transition
-            stiffness: 100, // Adjust stiffness for smoother effect
-        });
     };
 
-    // Swipe to the next image
-    const swipeToNext = () => {
-        if (currentIndex.value < images.length - 1) {
-            goToImage(currentIndex.value += 1);
-        } else {
-            navigation.navigate("Home" as never)
-        }
-    };
-
-    // Skip onboarding and move to the last slide
-    const skipOnboarding = () => {
-        currentIndex.value = images.length - 1;
-        translateX.value = withSpring(-currentIndex.value * width, {
-            damping: 10,
-            stiffness: 100,
-        });
-
-    };
-
-    // Go to a specific image when a dot is pressed
-    const goToImage = (index: any) => {
-        currentIndex.value = index;
-        translateX.value = withSpring(-index * width, {
-            damping: 10,
-            stiffness: 100,
-        });
-    };
-
-    // Auto-swipe logic removed (as requested)
-
-    // Animated style for swipe transition
-    const animatedStyle = useAnimatedStyle(() => ({
+    // Animated style for the background image transition
+    const animatedBackgroundStyle = useAnimatedStyle(() => ({
         transform: [{ translateX: translateX.value }],
     }));
 
-    // Animated style for text fade-out and fade-in effect
-    const getTextStyle = (index: any) => {
-        return useAnimatedStyle(() => ({
-            opacity: withTiming(currentIndex.value === index ? 1 : 0, {
-                duration: 500, // Duration of fade effect
-            }),
-        }));
-    };
+    const animatedBackgroundColorStyle = useAnimatedStyle(() => ({
+        backgroundColor: backgroundColor.value,
+    }));
+
+    const animatedImageStyle = useAnimatedStyle(() => ({
+        opacity: interpolate(opacity.value, [0, 1], [0.5, 1], Extrapolate.CLAMP),
+        transform: [{ scale: interpolate(scale.value, [1, 1.2], [1, 1.2], Extrapolate.CLAMP) }],
+    }));
+
+    const animatedTextStyle = useAnimatedStyle(() => ({
+        opacity: textOpacity.value,
+    }));
+
+    const animatedShakeStyle = useAnimatedStyle(() => ({
+        transform: [{ translateX: shake.value }],
+    }));
 
     return (
         <View style={styles.container}>
-            {/* Swipeable images */}
-            <PanGestureHandler onGestureEvent={handleSwipe}>
-                <Animated.View style={[styles.swiperContainer, animatedStyle]}>
+            <Animated.View
+                style={[styles.carousel, animatedBackgroundStyle, animatedBackgroundColorStyle]}
+            >
+                {images.map((image) => (
+                    <Animated.Image
+                        key={image.id}
+                        source={image.uri}
+                        style={[styles.image, animatedImageStyle]}
+                        resizeMode="cover"
+                    />
+                ))}
+            </Animated.View>
+
+            {/* Title Text with Typewriter and Shake effect */}
+            <Animated.View style={[animatedTextStyle, animatedShakeStyle]}>
+                <Text style={styles.title}>{displayedTitle}</Text>
+            </Animated.View>
+
+            {/* Scrollable Thumbnail Navigation */}
+            <View style={styles.thumbnailNavigation}>
+                <ScrollView
+                    horizontal
+                    contentContainerStyle={[
+                        styles.thumbnailContainer,
+                        { paddingRight: width / 2 - 75 },
+                    ]}
+                    showsHorizontalScrollIndicator={false}
+                    decelerationRate="fast"
+                    onScroll={handleScroll}
+                    scrollEventThrottle={16}
+                >
                     {images.map((image, index) => (
-                        <View key={image.id} style={styles.imageContainer}>
-                            <ImageBackground
-                                source={image.uri}
-                                style={styles.backgroundImage}
-                            >
-                                <View style={styles.overlay}>
-                                    <Animated.Text style={[styles.title, getTextStyle(index)]}>
-                                        {image.title}
-                                    </Animated.Text>
-                                </View>
-                            </ImageBackground>
-                        </View>
-                    ))}
-                </Animated.View>
-            </PanGestureHandler>
-
-            {/* Pagination Dots */}
-            <View style={styles.pagination}>
-                {images.map((_, index) => {
-                    const dotStyle = useAnimatedStyle(() => ({
-                        width: currentIndex.value === index ? 20 : 10,
-                        backgroundColor:
-                            currentIndex.value === index ? '#FF5673' : '#aaa',
-                    }));
-                    return (
                         <TouchableOpacity
-                            key={index}
-                            onPress={() => goToImage(index)}
+                            key={image.id}
+                            style={styles.thumbnailButton}
                         >
-                            <Animated.View style={[styles.dot, dotStyle]} />
+                            <Animated.Image
+                                source={image.uri}
+                                style={[
+                                    styles.thumbnailImage,
+                                    index === activeImageIndex && styles.activeThumbnailImage,
+                                ]}
+                            />
                         </TouchableOpacity>
-                    );
-                })}
+                    ))}
+                </ScrollView>
             </View>
-
-            {/* Skip Button */}
-            <TouchableOpacity style={styles.skipButton} onPress={skipOnboarding}>
-                <Text style={styles.skipButtonText}>Skip</Text>
-            </TouchableOpacity>
-
-            {/* Continue Button */}
-            <TouchableOpacity style={styles.button} onPress={swipeToNext}>
-                <Text style={styles.buttonText}>Continue</Text>
-            </TouchableOpacity>
         </View>
     );
 };
 
-export default Onboarding;
-
+// Styles
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: "#000",
+        justifyContent: "center",
+        alignItems: "center",
     },
-    swiperContainer: {
-        flexDirection: 'row',
-        width: width * images.length,
-        height: '100%',
+    carousel: {
+        flexDirection: "row",
+        width: "100%",
+        height: height,
+        position: "absolute",
     },
-    imageContainer: {
-        width,
-        height: '100%',
-    },
-    backgroundImage: {
-        flex: 1,
-        justifyContent: 'flex-end',
-    },
-    overlay: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 20,
+    image: {
+        width: width,
+        height: height,
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#fff',
+        color: "#FFF",
+        fontSize: 17,
+        fontWeight: "bold",
+        textAlign: "center",
         marginBottom: 20,
-        textAlign: 'center',
+        paddingHorizontal: 20,
+        zIndex: 1,
     },
-    pagination: {
-        position: 'absolute',
-        bottom: 120,
-        flexDirection: 'row',
-        alignSelf: 'center',
+    thumbnailNavigation: {
+        position: "absolute",
+        bottom: 10,
+        zIndex: 1,
+        alignItems: "center",
     },
-    dot: {
-        height: 10,
-        borderRadius: 5,
-        marginHorizontal: 5,
-    },
-    skipButton: {
-        position: 'absolute',
-        top: 50,
-        right: 20,
-        backgroundColor: 'rgba(255, 255, 255, 0.6)',
-        borderRadius: 20,
-        paddingVertical: 5,
-        paddingHorizontal: 15,
-    },
-    skipButtonText: {
-        color: '#FF5673',
-        fontWeight: 'bold',
-    },
-    button: {
-        position: 'absolute',
-        bottom: 50,
-        alignSelf: 'center',
-        backgroundColor: '#FF5673',
-        borderRadius: 25,
-        paddingVertical: 10,
+    thumbnailContainer: {
+        flexDirection: "row",
         paddingHorizontal: 20,
     },
-    buttonText: {
-        fontSize: 16,
-        color: '#fff',
-        fontWeight: 'bold',
+    thumbnailButton: {
+        marginHorizontal: 5,
+    },
+    thumbnailImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: "#FFF",
+    },
+    activeThumbnailImage: {
+        borderColor: "#FF5252",
     },
 });
+
+export default AnimatedImageCarousel;
+

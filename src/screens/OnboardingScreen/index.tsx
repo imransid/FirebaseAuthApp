@@ -21,10 +21,9 @@ import { useNavigation } from '@react-navigation/native';
 const { width } = Dimensions.get('window');
 
 // Updated image paths
-const Image1 = require("../../assets/images/image_1.jpg");
-const Image2 = require("../../assets/images/image_2.jpeg");
-const Image3 = require("../../assets/images/image_3.png");
-const Image4 = require("../../assets/images/image_4.jpg");
+const Image1 = require("../../assets/images/1.jpeg");
+const Image2 = require("../../assets/images/2.jpeg");
+const Image3 = require("../../assets/images/3.jpeg");
 
 // Background image data
 const images = [
@@ -42,12 +41,7 @@ const images = [
         id: 3,
         uri: Image3,
         title: 'Optimize Your Workflow with Intelligent Visuals',
-    },
-    {
-        id: 4,
-        uri: Image4,
-        title: "Welcome! Let's get you started on a journey to better productivity.",
-    },
+    }
 ];
 
 const Onboarding = () => {
