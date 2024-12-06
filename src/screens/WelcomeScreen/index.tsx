@@ -32,6 +32,11 @@ const images = [
     { id: 4, uri: Image4, title: "A new world awaits not in distant lands" },
 ];
 
+
+const thumbnailWidth = 160; // Thumbnail width
+const centerOffset = width / 2 - thumbnailWidth / 2;
+
+
 const AnimatedImageCarousel = () => {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [displayedTitle, setDisplayedTitle] = useState(""); // For typewriter effect
@@ -43,6 +48,8 @@ const AnimatedImageCarousel = () => {
     const shake = useSharedValue(0); // For shake effect
     const backgroundColor = useSharedValue("transparent"); // For background color change
     const scrollViewRef = useRef(null);
+
+
 
     // Create the typewriter effect
     useEffect(() => {
@@ -79,6 +86,20 @@ const AnimatedImageCarousel = () => {
                 const nextIndex = (activeImageIndex + 1) % images.length; // Loop back to the first image
                 setActiveImageIndex(nextIndex);
 
+
+                if (scrollViewRef.current !== null) {
+                    const thumbnailWidth = 160; // Width of each thumbnail
+                    const centeredOffset = width / 2 - thumbnailWidth / 2;
+                    const scrollPosition = nextIndex * thumbnailWidth - centeredOffset;
+
+                    // Scroll to the first image to center it on load
+                    scrollViewRef.current.scrollTo({
+                        x: scrollPosition,
+                        animated: true,
+                    });
+                }
+
+
                 // Update animations for the next image
                 translateX.value = withTiming(-width * nextIndex, {
                     duration: 800,
@@ -103,22 +124,13 @@ const AnimatedImageCarousel = () => {
                     scale.value = withTiming(1, { duration: 500 });
                     textOpacity.value = withTiming(1, { duration: 500 });
                 }, 300);
-            }, 2000); // Delay of 2 seconds after full text display
+            }, 1500); // Delay of 2 seconds after full text display
 
             return () => clearTimeout(timeout); // Cleanup timeout on unmount
         }
     }, [displayedTitle, activeImageIndex]);
 
 
-    useEffect(() => {
-        if (scrollViewRef.current) {
-            // Scroll to the active thumbnail
-            scrollViewRef.current.scrollTo({
-                x: activeImageIndex * 160, // Adjust thumbnail size + margin
-                animated: true,
-            });
-        }
-    }, [activeImageIndex]);
 
 
 
@@ -140,6 +152,8 @@ const AnimatedImageCarousel = () => {
     const handleScroll = (event) => {
         const scrollX = event.nativeEvent.contentOffset.x;
         const focusIndex = Math.round(scrollX / 150);
+
+
         if (focusIndex !== activeImageIndex) {
             setActiveImageIndex(focusIndex);
             translateX.value = withTiming(-width * focusIndex, {
@@ -217,6 +231,7 @@ const AnimatedImageCarousel = () => {
                     decelerationRate="fast"
                     onScroll={handleScroll}
                     scrollEventThrottle={16}
+                    ref={scrollViewRef}
                 >
                     {images.map((image, index) => (
                         <TouchableOpacity
@@ -353,4 +368,6 @@ const styles = StyleSheet.create({
 });
 
 export default AnimatedImageCarousel;
+
+
 
