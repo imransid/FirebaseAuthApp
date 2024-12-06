@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     View,
     StyleSheet,
@@ -26,10 +26,10 @@ const Image3 = require("../../assets/images/3.jpeg");
 const Image4 = require("../../assets/images/4.jpg");
 
 const images = [
-    { id: 1, uri: Image1, title: "Innovate Your Design with Cutting-Edge Imagery" },
-    { id: 2, uri: Image2, title: "Transform Your UI with Future-Ready Visuals" },
-    { id: 3, uri: Image3, title: "Optimize Your Workflow with Intelligent Visuals" },
-    { id: 4, uri: Image4, title: "A new world awaits not in distant lands, but in the vision we dare to create today." },
+    { id: 1, uri: Image1, title: "Innovate Your Design" },
+    { id: 2, uri: Image2, title: "Transform Your UI" },
+    { id: 3, uri: Image3, title: "Optimize Your Workflow" },
+    { id: 4, uri: Image4, title: "A new world awaits not in distant lands" },
 ];
 
 const AnimatedImageCarousel = () => {
@@ -42,6 +42,7 @@ const AnimatedImageCarousel = () => {
     const textOpacity = useSharedValue(0);
     const shake = useSharedValue(0); // For shake effect
     const backgroundColor = useSharedValue("transparent"); // For background color change
+    const scrollViewRef = useRef(null);
 
     // Create the typewriter effect
     useEffect(() => {
@@ -57,6 +58,69 @@ const AnimatedImageCarousel = () => {
 
         return () => clearInterval(interval); // Cleanup on component unmount
     }, [titleIndex, activeImageIndex]);
+
+
+    // Animated style for thumbnails
+    const animatedThumbnailStyle = (isActive) =>
+        useAnimatedStyle(() => ({
+            transform: [{ scale: withTiming(isActive ? 1.2 : 1, { duration: 300 }) }],
+            marginLeft: withTiming(isActive ? 20 : 0, { duration: 300 }),
+            marginRight: withTiming(isActive ? 20 : 0, { duration: 300 }),
+        }));
+
+
+
+    useEffect(() => {
+        // Check if the full text is displayed
+        const currentTitle = images[activeImageIndex]?.title || "";
+        if (displayedTitle === currentTitle) {
+            // Delay before auto-scrolling to the next image
+            const timeout = setTimeout(() => {
+                const nextIndex = (activeImageIndex + 1) % images.length; // Loop back to the first image
+                setActiveImageIndex(nextIndex);
+
+                // Update animations for the next image
+                translateX.value = withTiming(-width * nextIndex, {
+                    duration: 800,
+                    easing: Easing.out(Easing.exp),
+                });
+                opacity.value = 0;
+                scale.value = 1.2;
+                textOpacity.value = withTiming(0, { duration: 300 });
+                backgroundColor.value = withTiming(
+                    images[nextIndex].uri === Image1
+                        ? "#FF6347"
+                        : images[nextIndex].uri === Image2
+                            ? "#32CD32"
+                            : images[nextIndex].uri === Image3
+                                ? "#1E90FF"
+                                : "#FFD700",
+                    { duration: 500 }
+                );
+
+                setTimeout(() => {
+                    opacity.value = withTiming(1, { duration: 500 });
+                    scale.value = withTiming(1, { duration: 500 });
+                    textOpacity.value = withTiming(1, { duration: 500 });
+                }, 300);
+            }, 2000); // Delay of 2 seconds after full text display
+
+            return () => clearTimeout(timeout); // Cleanup timeout on unmount
+        }
+    }, [displayedTitle, activeImageIndex]);
+
+
+    useEffect(() => {
+        if (scrollViewRef.current) {
+            // Scroll to the active thumbnail
+            scrollViewRef.current.scrollTo({
+                x: activeImageIndex * 160, // Adjust thumbnail size + margin
+                animated: true,
+            });
+        }
+    }, [activeImageIndex]);
+
+
 
     // Reset title and typewriter effect when the active image changes
     useEffect(() => {
@@ -141,11 +205,6 @@ const AnimatedImageCarousel = () => {
                 ))}
             </Animated.View>
 
-            {/* Title Text with Typewriter and Shake effect */}
-            <Animated.View style={[animatedTextStyle, animatedShakeStyle]}>
-                <Text style={styles.title}>{displayedTitle}</Text>
-            </Animated.View>
-
             {/* Scrollable Thumbnail Navigation */}
             <View style={styles.thumbnailNavigation}>
                 <ScrollView
@@ -168,12 +227,35 @@ const AnimatedImageCarousel = () => {
                                 source={image.uri}
                                 style={[
                                     styles.thumbnailImage,
+                                    animatedThumbnailStyle(index === activeImageIndex),
                                     index === activeImageIndex && styles.activeThumbnailImage,
                                 ]}
                             />
                         </TouchableOpacity>
                     ))}
+
                 </ScrollView>
+            </View>
+            <View style={styles.bottomView}>
+                <Animated.View style={[animatedTextStyle, animatedShakeStyle]}>
+                    <Text style={styles.title}>{displayedTitle}</Text>
+                </Animated.View>
+                <View style={styles.pagination}>
+                    {images.map((_, index) => {
+                        // Animated style for dots
+                        const dotStyle = useAnimatedStyle(() => ({
+                            width: withTiming(activeImageIndex === index ? 20 : 10, { duration: 300 }),
+                            backgroundColor: activeImageIndex === index ? '#FF5673' : '#aaa',
+                        }));
+
+                        return (
+                            <Animated.View key={index} style={[styles.dot, dotStyle]} />
+                        );
+                    })}
+                </View>
+                <TouchableOpacity style={styles.button} >
+                    <Text style={styles.buttonText}>Continue</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -208,13 +290,15 @@ const styles = StyleSheet.create({
     },
     thumbnailNavigation: {
         position: "absolute",
-        bottom: 10,
+        bottom: 175,
         zIndex: 1,
         alignItems: "center",
     },
     thumbnailContainer: {
         flexDirection: "row",
-        paddingHorizontal: 20,
+        paddingHorizontal: 30,
+        height: 200,
+        alignItems: 'center'
     },
     thumbnailButton: {
         marginHorizontal: 5,
@@ -229,6 +313,43 @@ const styles = StyleSheet.create({
     activeThumbnailImage: {
         borderColor: "#FF5252",
     },
+    bottomView: {
+        backgroundColor: 'black',
+        height: 220,
+        width: '100%',
+        position: 'absolute', // Ensure it's positioned absolutely
+        bottom: 0,
+        paddingTop: 70
+    },
+    dot: {
+        height: 10,
+        borderRadius: 5,
+        marginHorizontal: 5,
+    },
+    pagination: {
+        flexDirection: 'row',
+        alignSelf: 'center',
+    },
+    button: {
+        position: 'absolute',
+        bottom: 20,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#e73553',
+        borderRadius: 15,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        width: '100%',
+        height: 46,
+        marginTop: 15
+    },
+    buttonText: {
+        fontSize: 16,
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+
 });
 
 export default AnimatedImageCarousel;
