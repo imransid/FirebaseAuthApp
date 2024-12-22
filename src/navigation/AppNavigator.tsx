@@ -6,6 +6,7 @@ import OnboardingScreen from '../screens/OnboardingScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import ExploreTab from '@/Components/ExploreTab';
 import ContentScreen from '@/screens/ContentScreen';
+import MainScreen from '@/screens/MainScreen';
 
 export type RootStackParamList = {
   HomeScreen: {videoURL?: ''} | undefined;
@@ -16,10 +17,15 @@ const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="Main">
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
+        options={{headerShown: false}} // Hides the header for SignIn
+      />
+      <Stack.Screen
+        name="Main"
+        component={MainScreen}
         options={{headerShown: false}} // Hides the header for SignIn
       />
       <Stack.Screen

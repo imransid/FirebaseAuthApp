@@ -7854,6 +7854,7 @@ eslint-plugin-prettier@latest:
     react-native-progress: ^5.0.1
     react-native-push-notification: ^8.1.1
     react-native-reanimated: ^3.16.3
+    react-native-reanimated-carousel: ^3.5.1
     react-native-safe-area-context: ^4.12.0
     react-native-screens: ^3.24.0
     react-native-size-matters: ^0.4.2
@@ -11989,6 +11990,18 @@ prettier@latest:
     "@react-native-community/push-notification-ios": ^1.10.1
     react-native: ">=0.33"
   checksum: 64d500c1163eaa4eee549e6e2f8204cac643f91ae918a227e9d93f8261afdebbdaa7ba5d12da0039155cbf6a599032dd15be4ebe53737cbeeadec4469893f00d
+  languageName: node
+  linkType: hard
+
+"react-native-reanimated-carousel@npm:^3.5.1":
+  version: 3.5.1
+  resolution: "react-native-reanimated-carousel@npm:3.5.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-native: ">=0.6.0"
+    react-native-gesture-handler: ">=2.0.0"
+    react-native-reanimated: ">=3.0.0"
+  checksum: a2eb640453fa35f659c1fb5575f903364d513fb7f621104afa14fee2284132674dfaf0d87cb29e8c119f7513094a5967d5193f3dfa24043af167c6f26abcfe73
   languageName: node
   linkType: hard
 
