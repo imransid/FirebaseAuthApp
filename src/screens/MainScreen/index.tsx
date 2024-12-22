@@ -10,29 +10,33 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import styles from './style';
+import {useNavigation} from '@react-navigation/native';
+
+const Image1 = require('../../assets/images/1.jpeg');
+const Image2 = require('../../assets/images/2.jpeg');
+const Image3 = require('../../assets/images/3.jpeg');
 
 const carouselItems = [
   {
-    image:
-      'https://images.unsplash.com/photo-1678436748951-ef6d381e7a25?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDN8YWV1NnJMLWo2ZXd8fGVufDB8fHx8fA%3D%3D',
-    ar: 0.7,
+    id: 1,
+    uri: Image1,
+    title: 'Innovate Your Design with Cutting-Edge Imagery',
   },
   {
-    image:
-      'https://images.unsplash.com/photo-1680813977591-5518e78445a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    ar: 0.67,
+    id: 2,
+    uri: Image2,
+    title: 'Transform Your UI with Future-Ready Visuals',
   },
   {
-    image:
-      'https://images.unsplash.com/photo-1679508056887-5c76269dad54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    ar: 0.8,
+    id: 3,
+    uri: Image3,
+    title: 'Optimize Your Workflow with Intelligent Visuals',
   },
 ];
 
-const items = ['Speaking', 'Reading', 'Writing', 'Listening'];
-
 const MainScreen: FC = () => {
   const width = Dimensions.get('window').width;
+  const navigation = useNavigation();
 
   return (
     <>
@@ -69,8 +73,9 @@ const MainScreen: FC = () => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 16,
-            }}>
-            <Text>Speaking</Text>
+            }}
+            onPress={() => navigation.navigate('ContentScreen' as never)}>
+            <Text style={styles.topCardText2}>Speaking</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -80,8 +85,9 @@ const MainScreen: FC = () => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 16,
-            }}>
-            <Text>Writing</Text>
+            }}
+            onPress={() => navigation.navigate('ContentScreen' as never)}>
+            <Text style={styles.topCardText2}>Writing</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -96,8 +102,9 @@ const MainScreen: FC = () => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 16,
-            }}>
-            <Text>Listening</Text>
+            }}
+            onPress={() => navigation.navigate('ContentScreen' as never)}>
+            <Text style={styles.topCardText2}>Listening</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -107,8 +114,9 @@ const MainScreen: FC = () => {
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 16,
-            }}>
-            <Text>Reading</Text>
+            }}
+            onPress={() => navigation.navigate('ContentScreen' as never)}>
+            <Text style={styles.topCardText2}>Reading</Text>
           </TouchableOpacity>
         </View>
       </View>
