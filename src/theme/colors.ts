@@ -42,7 +42,7 @@ const palette = {
   color38: 'rgba(0, 0, 0, 0.7)',
   color39: '#1D1C2B',
   color40: '#009963',
-  color41: '#FBFAF3'
+  color41: '#FBFAF3',
 };
 
 export const colors = {
@@ -91,5 +91,6 @@ export const colors = {
   calendarDate: palette.color39,
   toggleEnabled: palette.color40,
   secondaryButtonText: palette.color41,
-  error: palette.color28
+  error: palette.color28,
+  signInHeader: palette.color27,
 };

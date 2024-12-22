@@ -5,7 +5,7 @@ import HomeScreen from '../screens/HomeScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import ExploreTab from '@/Components/ExploreTab';
-import VideoScreen from '@/screens/VideoScreen';
+import ContentScreen from '@/screens/ContentScreen';
 
 export type RootStackParamList = {
   HomeScreen: {videoURL?: ''} | undefined;
@@ -44,9 +44,9 @@ const AppNavigator = () => {
         options={{headerShown: false}} // Hides the header for Home
       />
       <Stack.Screen
-        name="VideoScreen"
-        component={VideoScreen}
-        options={{headerShown: false}} // Hides the header for Home
+        name="ContentScreen"
+        component={ContentScreen}
+        options={{headerShown: true}} // Hides the header for Home
       />
     </Stack.Navigator>
   );
