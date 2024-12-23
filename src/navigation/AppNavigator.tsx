@@ -10,6 +10,11 @@ import ListeningScreen from '@/screens/ListeningScreen';
 import WritingScreen from '@/screens/WritingScreen';
 import ReadingScreen from '@/screens/ReadingScreen';
 import MainScreen from '@/screens/MainScreen';
+import {colors} from '@/theme/colors';
+import {TouchableOpacity, View} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import styles from './style';
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -21,6 +26,8 @@ export type RootStackParamList = {
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator initialRouteName="Main">
       <Stack.Screen
@@ -67,8 +74,30 @@ const AppNavigator = () => {
       <Stack.Screen
         name="ListeningScreen"
         component={ListeningScreen}
-        options={{headerShown: true}} // Hides the header for Home
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: colors.listeningChipColor, // Header background color
+          },
+          title: '',
+          headerTintColor: '#fff', // Back arrow color
+          headerLeft: () => (
+            <TouchableOpacity
+              style={styles.backArrowBackground}
+              onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={24} color="#fff" />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <View style={styles.headerRightPosition}>
+              <TouchableOpacity style={styles.backArrowBackground}>
+                <Ionicons name="share-social" size={24} color="#fff" />
+              </TouchableOpacity>
+            </View>
+          ),
+        }}
       />
+
       <Stack.Screen
         name="ReadingScreen"
         component={ReadingScreen}
