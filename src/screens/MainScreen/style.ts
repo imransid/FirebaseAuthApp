@@ -1,7 +1,7 @@
 import {colors} from '@/theme/colors';
 import {StyleSheet} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-import {scale} from 'react-native-size-matters';
+import {scale, moderateScale} from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,6 +46,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: scale(10),
   },
+  chipInside: {
+    flexDirection: 'row',
+    gap: scale(5),
+  },
+  chipItems: {
+    marginLeft: scale(14),
+  },
+  chipText: {
+    color: 'white',
+    fontSize: moderateScale(16),
+    fontWeight: '600',
+  },
+  chipSecondText: {
+    color: 'white',
+    fontSize: moderateScale(13),
+    fontWeight: '400',
+  },
+  chipShadeInsideProperties: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  chipShadeStyle: {
+    height: scale(80),
+    width: scale(27),
+    backgroundColor: '#FFFFFF33',
+    borderTopLeftRadius: 20,
+    borderBottomLeftRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  chipShadePosition: {
+    marginLeft: scale(10),
+  },
   firstChipsPosition: {
     alignItems: 'center',
     top: scale(190),
@@ -59,7 +92,6 @@ const styles = StyleSheet.create({
     width: scale(145),
     backgroundColor: colors.speakingChipColor,
     justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 16,
   },
   writingChipProperties: {
@@ -67,7 +99,6 @@ const styles = StyleSheet.create({
     width: scale(145),
     backgroundColor: colors.writingChipColor,
     justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 16,
   },
   listeningChipProperties: {
@@ -75,7 +106,6 @@ const styles = StyleSheet.create({
     width: scale(145),
     backgroundColor: colors.listeningChipColor,
     justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 16,
   },
   readingChipProperties: {
@@ -83,7 +113,6 @@ const styles = StyleSheet.create({
     width: scale(145),
     backgroundColor: colors.readingChipColor,
     justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 16,
   },
   userNameChip: {
@@ -112,7 +141,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#F2F1F6',
-    height: scale(120),
+    padding: scale(20),
   },
   headerChipProperties: {
     flexDirection: 'row',
@@ -131,6 +160,12 @@ const styles = StyleSheet.create({
   notificationAndSettings: {
     flexDirection: 'row',
     gap: scale(10),
+  },
+  writingAndReadingShade: {
+    marginLeft: scale(18),
+  },
+  listeningShadePosition: {
+    marginLeft: scale(4),
   },
 });
 

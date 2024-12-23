@@ -5,7 +5,10 @@ import HomeScreen from '../screens/HomeScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import ExploreTab from '@/Components/ExploreTab';
-import ContentScreen from '@/screens/ContentScreen';
+import SpeakingScreen from '@/screens/SpeakingScreen';
+import ListeningScreen from '@/screens/ListeningScreen';
+import WritingScreen from '@/screens/WritingScreen';
+import ReadingScreen from '@/screens/ReadingScreen';
 import MainScreen from '@/screens/MainScreen';
 
 export type RootStackParamList = {
@@ -13,7 +16,6 @@ export type RootStackParamList = {
   Welcome: undefined;
   HomeScreen: {videoURL?: ''} | undefined;
   MainScreen: {chipName?: ''} | undefined;
-  ContentScreen: {chipName: string};
 };
 
 const Stack = createStackNavigator();
@@ -53,9 +55,24 @@ const AppNavigator = () => {
         options={{headerShown: false}} // Hides the header for Home
       />
       <Stack.Screen
-        name="ContentScreen"
-        component={ContentScreen}
-        options={{headerShown: false}} // Hides the header for Home
+        name="SpeakingScreen"
+        component={SpeakingScreen}
+        options={{headerShown: true}} // Hides the header for Home
+      />
+      <Stack.Screen
+        name="WritingScreen"
+        component={WritingScreen}
+        options={{headerShown: true}} // Hides the header for Home
+      />
+      <Stack.Screen
+        name="ListeningScreen"
+        component={ListeningScreen}
+        options={{headerShown: true}} // Hides the header for Home
+      />
+      <Stack.Screen
+        name="ReadingScreen"
+        component={ReadingScreen}
+        options={{headerShown: true}} // Hides the header for Home
       />
     </Stack.Navigator>
   );
