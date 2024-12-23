@@ -7,13 +7,13 @@ const palette = {
   color4: '#000000',
   color5: '#FFFFFF',
   transparent: 'transparent',
-  color6: '#31CF77',
-  color7: '#FFC107',
+  color6: '#117a65',
+  color7: '#f49042',
   color8: '#FF5252',
   color9: '#686C78',
   color10: '#F1F4F3',
   color11: '#333333',
-  color12: '#333',
+  color12: '#7d3c98',
   color13: '#f5f5f5',
   color14: '#0B0B0B',
   color15: '#F0F0F0',
@@ -42,7 +42,7 @@ const palette = {
   color38: 'rgba(0, 0, 0, 0.7)',
   color39: '#1D1C2B',
   color40: '#009963',
-  color41: '#FBFAF3'
+  color41: '#FBFAF3',
 };
 
 export const colors = {
@@ -80,16 +80,8 @@ export const colors = {
   linkWater: palette.color29,
 
   typedText: palette.color30,
-  header: palette.color31,
-  mainText: palette.color32,
-  subText: palette.color33,
-  textInput: palette.color34,
-  selectButtonBg: palette.color35,
-  progressbarColor: palette.color36,
-  addCircle: palette.color37,
-  modalBackground: palette.color38,
-  calendarDate: palette.color39,
-  toggleEnabled: palette.color40,
-  secondaryButtonText: palette.color41,
-  error: palette.color28
+  speakingChipColor: palette.color7,
+  writingChipColor: palette.color6,
+  listeningChipColor: palette.color19,
+  readingChipColor: palette.color12,
 };
