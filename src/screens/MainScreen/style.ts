@@ -4,6 +4,10 @@ import Carousel from 'react-native-reanimated-carousel';
 import {scale} from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.appBackground,
+  },
   carouselPosition: {
     top: scale(120),
   },
@@ -21,13 +25,13 @@ const styles = StyleSheet.create({
   topCard: {
     height: scale(75),
     width: scale(300),
-    backgroundColor: 'red',
+    //backgroundColor: 'red',
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
   topCardPosition: {
-    top: scale(350),
+    top: scale(180),
     alignItems: 'center',
   },
   topCardText1: {
@@ -44,11 +48,11 @@ const styles = StyleSheet.create({
   },
   firstChipsPosition: {
     alignItems: 'center',
-    top: scale(360),
+    top: scale(190),
   },
   secondChipsPosition: {
     alignItems: 'center',
-    top: scale(370),
+    top: scale(200),
   },
   speakingChipProperties: {
     height: scale(85),
@@ -81,6 +85,52 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 16,
+  },
+  userNameChip: {
+    backgroundColor: 'white',
+    height: scale(50),
+    width: scale(150),
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notificationChip: {
+    backgroundColor: 'white',
+    height: 50,
+    width: 55,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  settingsChip: {
+    backgroundColor: 'white',
+    height: 50,
+    width: 55,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  header: {
+    backgroundColor: '#F2F1F6',
+    height: scale(120),
+  },
+  headerChipProperties: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: scale(10),
+  },
+  userNameText: {
+    color: colors.userNameTextColor,
+    fontSize: scale(12),
+    fontWeight: '600',
+  },
+  notificationAndSettingsProperties: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  notificationAndSettings: {
+    flexDirection: 'row',
+    gap: scale(10),
   },
 });
 
