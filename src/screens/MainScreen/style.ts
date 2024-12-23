@@ -1,3 +1,4 @@
+import {colors} from '@/theme/colors';
 import {StyleSheet} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {scale} from 'react-native-size-matters';
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   topCard: {
-    height: scale(100),
+    height: scale(75),
     width: scale(300),
     backgroundColor: 'red',
     borderRadius: 16,
@@ -36,6 +37,50 @@ const styles = StyleSheet.create({
   topCardText2: {
     color: 'white',
     fontSize: 15,
+  },
+  chipPosition: {
+    flexDirection: 'row',
+    gap: scale(10),
+  },
+  firstChipsPosition: {
+    alignItems: 'center',
+    top: scale(360),
+  },
+  secondChipsPosition: {
+    alignItems: 'center',
+    top: scale(370),
+  },
+  speakingChipProperties: {
+    height: scale(85),
+    width: scale(145),
+    backgroundColor: colors.speakingChipColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+  },
+  writingChipProperties: {
+    height: scale(85),
+    width: scale(145),
+    backgroundColor: colors.writingChipColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+  },
+  listeningChipProperties: {
+    height: scale(85),
+    width: scale(145),
+    backgroundColor: colors.listeningChipColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
+  },
+  readingChipProperties: {
+    height: scale(85),
+    width: scale(145),
+    backgroundColor: colors.readingChipColor,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 16,
   },
 });
 

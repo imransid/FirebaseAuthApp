@@ -9,8 +9,11 @@ import ContentScreen from '@/screens/ContentScreen';
 import MainScreen from '@/screens/MainScreen';
 
 export type RootStackParamList = {
+  Onboarding: undefined;
+  Welcome: undefined;
   HomeScreen: {videoURL?: ''} | undefined;
-  VideoScreen: {videoURL: string};
+  MainScreen: {chipName?: ''} | undefined;
+  ContentScreen: {chipName: string};
 };
 
 const Stack = createStackNavigator();
@@ -52,7 +55,7 @@ const AppNavigator = () => {
       <Stack.Screen
         name="ContentScreen"
         component={ContentScreen}
-        options={{headerShown: true}} // Hides the header for Home
+        options={{headerShown: false}} // Hides the header for Home
       />
     </Stack.Navigator>
   );

@@ -10,7 +10,16 @@ import {
 } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '@/navigation/AppNavigator';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+type MainScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'MainScreen'
+>;
+
+type MainScreenRouteProp = RouteProp<RootStackParamList, 'MainScreen'>;
 
 const Image1 = require('../../assets/images/1.jpeg');
 const Image2 = require('../../assets/images/2.jpeg');
@@ -36,7 +45,7 @@ const carouselItems = [
 
 const MainScreen: FC = () => {
   const width = Dimensions.get('window').width;
-  const navigation = useNavigation();
+  const navigation = useNavigation<MainScreenNavigationProp>();
 
   return (
     <>
@@ -63,59 +72,39 @@ const MainScreen: FC = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={{alignItems: 'center', top: 425}}>
-        <View style={{flexDirection: 'row', gap: 10}}>
+      <View style={styles.firstChipsPosition}>
+        <View style={styles.chipPosition}>
           <TouchableOpacity
-            style={{
-              height: 100,
-              width: 170,
-              backgroundColor: 'orange',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 16,
-            }}
-            onPress={() => navigation.navigate('ContentScreen' as never)}>
+            style={styles.speakingChipProperties}
+            onPress={() =>
+              navigation.navigate('ContentScreen', {chipName: 'Speaking'})
+            }>
             <Text style={styles.topCardText2}>Speaking</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{
-              height: 100,
-              width: 170,
-              backgroundColor: 'teal',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 16,
-            }}
-            onPress={() => navigation.navigate('ContentScreen' as never)}>
+            style={styles.writingChipProperties}
+            onPress={() =>
+              navigation.navigate('ContentScreen', {chipName: 'Writing'})
+            }>
             <Text style={styles.topCardText2}>Writing</Text>
           </TouchableOpacity>
         </View>
       </View>
 
-      <View style={{alignItems: 'center', top: 440}}>
-        <View style={{flexDirection: 'row', gap: 10}}>
+      <View style={styles.secondChipsPosition}>
+        <View style={styles.chipPosition}>
           <TouchableOpacity
-            style={{
-              height: 100,
-              width: 170,
-              backgroundColor: 'red',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 16,
-            }}
-            onPress={() => navigation.navigate('ContentScreen' as never)}>
+            style={styles.listeningChipProperties}
+            onPress={() =>
+              navigation.navigate('ContentScreen', {chipName: 'Listening'})
+            }>
             <Text style={styles.topCardText2}>Listening</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{
-              height: 100,
-              width: 170,
-              backgroundColor: 'purple',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 16,
-            }}
-            onPress={() => navigation.navigate('ContentScreen' as never)}>
+            style={styles.readingChipProperties}
+            onPress={() =>
+              navigation.navigate('ContentScreen', {chipName: 'Reading'})
+            }>
             <Text style={styles.topCardText2}>Reading</Text>
           </TouchableOpacity>
         </View>

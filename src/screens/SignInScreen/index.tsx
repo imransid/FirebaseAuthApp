@@ -19,12 +19,7 @@ import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import {colors} from '@/theme/colors';
 import {mobileSignInFormValidation} from '@/utils/formValidation';
 import CustomButton from '@/Components/CustomButton/CustomButton';
-
-// Define the type for your navigation stack
-type RootStackParamList = {
-  Onboarding: undefined;
-  Welcome: undefined;
-};
+import {RootStackParamList} from '@/navigation/AppNavigator';
 
 // Define the type of navigation object
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Onboarding'>;
