@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   headerView: {
     height: scale(120),
     width: 'auto',
-    backgroundColor: colors.speakingChipColor,
+    backgroundColor: colors.writingChipColor,
   },
   activityNameText: {
     color: 'white',
