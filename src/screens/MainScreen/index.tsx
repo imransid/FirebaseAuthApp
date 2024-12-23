@@ -1,34 +1,19 @@
 import React from 'react';
 import {FC} from 'react';
-import {
-  Dimensions,
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
-import Carousel from 'react-native-reanimated-carousel';
+import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './style';
-import {RouteProp, useNavigation} from '@react-navigation/native';
-import {RootStackParamList} from '@/navigation/AppNavigator';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Col, Grid, Row} from 'react-native-easy-grid';
+import {useNavigation} from '@react-navigation/native';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Foundation from 'react-native-vector-icons/Foundation';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {colors} from '@/theme/colors';
 import LinearGradient from 'react-native-linear-gradient';
 
-type MainScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  'MainScreen'
->;
-
-type MainScreenRouteProp = RouteProp<RootStackParamList, 'MainScreen'>;
-
 const MainScreen: FC = () => {
-  const width = Dimensions.get('window').width;
-  const navigation = useNavigation<MainScreenNavigationProp>();
+  const navigation = useNavigation();
 
   return (
     <>
@@ -77,17 +62,55 @@ const MainScreen: FC = () => {
         <View style={styles.chipPosition}>
           <TouchableOpacity
             style={styles.speakingChipProperties}
-            onPress={() =>
-              navigation.navigate('ContentScreen', {chipName: 'Speaking'})
-            }>
-            <Text style={styles.topCardText2}>Speaking</Text>
+            onPress={() => navigation.navigate('SpeakingScreen' as never)}>
+            <View style={styles.chipShadeInsideProperties}>
+              <View style={styles.chipItems}>
+                <View style={styles.chipInside}>
+                  <MaterialCommunityIcons
+                    name="microphone"
+                    size={28}
+                    color={colors.white}
+                  />
+                  <Text style={styles.chipText}>Speaking</Text>
+                </View>
+                <Text style={styles.chipSecondText}>with teacher</Text>
+                <Text style={styles.chipSecondText}>feedback</Text>
+              </View>
+              <View style={styles.chipShadePosition}>
+                <View style={styles.chipShadeStyle}>
+                  <Entypo name="chevron-right" size={20} color={colors.white} />
+                </View>
+              </View>
+            </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.writingChipProperties}
-            onPress={() =>
-              navigation.navigate('ContentScreen', {chipName: 'Writing'})
-            }>
-            <Text style={styles.topCardText2}>Writing</Text>
+            onPress={() => navigation.navigate('WritingScreen' as never)}>
+            <View style={styles.chipShadeInsideProperties}>
+              <View style={styles.chipItems}>
+                <View style={styles.chipInside}>
+                  <MaterialCommunityIcons
+                    name="pencil"
+                    size={25}
+                    color={colors.white}
+                  />
+                  <Text style={styles.chipText}>Writing</Text>
+                </View>
+                <Text style={styles.chipSecondText}>with teacher</Text>
+                <Text style={styles.chipSecondText}>feedback</Text>
+              </View>
+              <View style={styles.writingAndReadingShade}>
+                <View style={styles.chipShadePosition}>
+                  <View style={styles.chipShadeStyle}>
+                    <Entypo
+                      name="chevron-right"
+                      size={20}
+                      color={colors.white}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -96,17 +119,61 @@ const MainScreen: FC = () => {
         <View style={styles.chipPosition}>
           <TouchableOpacity
             style={styles.listeningChipProperties}
-            onPress={() =>
-              navigation.navigate('ContentScreen', {chipName: 'Listening'})
-            }>
-            <Text style={styles.topCardText2}>Listening</Text>
+            onPress={() => navigation.navigate('ListeningScreen' as never)}>
+            <View style={styles.chipShadeInsideProperties}>
+              <View style={styles.chipItems}>
+                <View style={styles.chipInside}>
+                  <MaterialIcons
+                    name="headset"
+                    size={25}
+                    color={colors.white}
+                  />
+                  <Text style={styles.chipText}>Listening</Text>
+                </View>
+                <Text style={styles.chipSecondText}>with instant</Text>
+                <Text style={styles.chipSecondText}>feedback</Text>
+              </View>
+              <View style={styles.listeningShadePosition}>
+                <View style={styles.chipShadePosition}>
+                  <View style={styles.chipShadeStyle}>
+                    <Entypo
+                      name="chevron-right"
+                      size={20}
+                      color={colors.white}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.readingChipProperties}
-            onPress={() =>
-              navigation.navigate('ContentScreen', {chipName: 'Reading'})
-            }>
-            <Text style={styles.topCardText2}>Reading</Text>
+            onPress={() => navigation.navigate('ReadingScreen' as never)}>
+            <View style={styles.chipShadeInsideProperties}>
+              <View style={styles.chipItems}>
+                <View style={styles.chipInside}>
+                  <Foundation
+                    name="book-bookmark"
+                    size={26}
+                    color={colors.white}
+                  />
+                  <Text style={styles.chipText}>Reading</Text>
+                </View>
+                <Text style={styles.chipSecondText}>with instant</Text>
+                <Text style={styles.chipSecondText}>feedback</Text>
+              </View>
+              <View style={styles.writingAndReadingShade}>
+                <View style={styles.chipShadePosition}>
+                  <View style={styles.chipShadeStyle}>
+                    <Entypo
+                      name="chevron-right"
+                      size={20}
+                      color={colors.white}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
