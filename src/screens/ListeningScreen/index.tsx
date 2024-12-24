@@ -19,23 +19,19 @@ const ListeningScreen: FC = () => {
           <Text style={styles.headerTextStyle}>IELTS Daily Listening</Text>
         </View>
 
-        <View style={{left: 270, bottom: 60}}>
-          <View
-            style={{
-              height: 54,
-              width: 200,
-              backgroundColor: '#ffffff40',
-              borderRadius: 50,
-            }}>
-            <View style={{marginTop: 2}}>
-              <View
-                style={{
-                  height: 50,
-                  width: 50,
-                  backgroundColor: '#ffffff40',
-                  borderRadius: 50,
-                  alignItems: 'center',
-                }}></View>
+        <View style={styles.completedContainerPosition}>
+          <View style={styles.completedContainer}>
+            <View style={styles.completedContainerInside}>
+              <View style={styles.completedContainerOuterRoundPosition}>
+                <View style={styles.completedContainerOuterRound}>
+                  <View style={styles.completedContainerInnerRound}>
+                    <Text style={styles.completedPercentText}>0%</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.completedTextPosition}>
+                <Text style={styles.completedText}>Completed</Text>
+              </View>
             </View>
           </View>
         </View>
