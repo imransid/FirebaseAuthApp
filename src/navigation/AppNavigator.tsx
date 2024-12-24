@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
@@ -11,17 +11,17 @@ import ListeningScreen from '@/screens/ListeningScreen';
 import WritingScreen from '@/screens/WritingScreen';
 import ReadingScreen from '@/screens/ReadingScreen';
 import MainScreen from '@/screens/MainScreen';
-import { colors } from '@/theme/colors';
-import { TouchableOpacity, View } from 'react-native';
+import {colors} from '@/theme/colors';
+import {TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import styles from './style';
 
 export type RootStackParamList = {
   Onboarding: undefined;
   Welcome: undefined;
-  HomeScreen: { videoURL?: '' } | undefined;
-  MainScreen: { chipName?: '' } | undefined;
+  HomeScreen: {videoURL?: ''} | undefined;
+  MainScreen: {chipName?: ''} | undefined;
 };
 
 const Stack = createStackNavigator();
@@ -34,42 +34,38 @@ const AppNavigator = () => {
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
-        options={{ headerShown: false }} // Hides the header for SignIn
+        options={{headerShown: false}} // Hides the header for SignIn
       />
       <Stack.Screen
         name="Main"
         component={MainScreen}
-        options={{ headerShown: false }} // Hides the header for SignIn
+        options={{headerShown: false}} // Hides the header for SignIn
       />
       <Stack.Screen
         name="Onboarding"
         component={OnboardingScreen}
-        options={{ headerShown: false }} // Hides the header for Onboarding
+        options={{headerShown: false}} // Hides the header for Onboarding
       />
       <Stack.Screen
         name="Welcome"
         component={WelcomeScreen}
-        options={{ headerShown: false }} // Hides the header for Welcome
+        options={{headerShown: false}} // Hides the header for Welcome
       />
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ headerShown: false }} // Hides the header for Home
+        options={{headerShown: false}} // Hides the header for Home
       />
 
       <Stack.Screen
         name="ExploreTab"
         component={ExploreTab}
-        options={{ headerShown: false }} // Hides the header for Home
+        options={{headerShown: false}} // Hides the header for Home
       />
       <Stack.Screen
         name="VideoPlayer"
         component={VideoPlayerScreen}
-        options={{
-          headerTitle: 'Video Player',
-          headerStyle: { backgroundColor: '#007BFF' },
-          headerTintColor: '#fff',
-        }}
+        options={{headerShown: false}}
       />
       <Stack.Screen
         name="ListeningScreen"
@@ -176,7 +172,6 @@ const AppNavigator = () => {
         }}
       />
     </Stack.Navigator>
-
   );
 };
 
