@@ -1,17 +1,12 @@
 import React from 'react';
 import {FC} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  ImageBackground,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './style';
 import {Card, Paragraph, Title} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
 const listData = [
   {
@@ -64,33 +59,35 @@ const WritingScreen: FC = () => {
   const navigation = useNavigation();
 
   const renderItem = ({item}: {item: (typeof listData)[0]}) => (
-    <Card style={{margin: 10}}>
-      <ImageBackground
-        source={{uri: item.image}}
-        style={styles.imageBackground}
-        imageStyle={styles.imageStyle} // Optional: To customize the image styling
-      >
-        <Card.Content>
-          <Title style={styles.titleText}>{item.title}</Title>
-          <Paragraph style={styles.dateText}>Date: {item.date}</Paragraph>
-        </Card.Content>
-      </ImageBackground>
-      <Card.Content>
-        <Paragraph>{item.description}</Paragraph>
-      </Card.Content>
-      <Card.Actions>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('VideoPlayer', {
-              videoUrl: item.videoUrl,
-              title: item.title,
-              description: item.description,
-            })
-          }>
-          <Text style={{color: '#007BFF', fontSize: 16}}>View Video</Text>
-        </TouchableOpacity>
-      </Card.Actions>
-    </Card>
+    <>
+      <Card style={styles.card}>
+        <View style={styles.cardStyle}>
+          <Image
+            source={{uri: item.image}}
+            style={styles.imageBackground}></Image>
+          <View style={styles.cardProperties}>
+            <Title style={styles.titleText}>{item.title}</Title>
+            <Paragraph style={styles.dateText}>
+              Date: {moment(item.date).format('DD MMMM, YYYY')}
+            </Paragraph>
+
+            <Text style={styles.descriptionText}>{item.description}</Text>
+
+            <TouchableOpacity
+              style={styles.viewVideoButton}
+              onPress={() =>
+                navigation.navigate('VideoPlayer', {
+                  videoUrl: item.videoUrl,
+                  title: item.title,
+                  description: item.description,
+                })
+              }>
+              <Text style={styles.viewVideoText}>View Video</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Card>
+    </>
   );
 
   return (

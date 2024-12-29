@@ -1,3 +1,4 @@
+import {colors} from '@/theme/colors';
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
@@ -9,12 +10,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#6200ee',
   },
   title: {
     fontSize: 18,
-    color: '#fff',
-    marginLeft: 10,
+    color: 'black',
+    marginLeft: 80,
     fontWeight: 'bold',
   },
   card: {
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     color: '#333',
+    fontWeight: '600',
   },
   actions: {
     flexDirection: 'row',
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
+    color: '#888',
   },
   commentInput: {
     borderWidth: 1,
@@ -67,6 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+    color: '#000',
   },
   addCommentButton: {
     marginBottom: 16,
@@ -80,6 +83,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     color: '#333',
+  },
+  likeAndDislikeText: {
+    fontSize: 14,
+    color: '#888',
+    fontWeight: '500',
   },
 });
 

@@ -14,6 +14,7 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './style';
 import {useNavigation} from '@react-navigation/native';
+import {colors} from '@/theme/colors';
 
 const VideoPlayerScreen = ({route}: {route: any}) => {
   const {videoUrl, title, description} = route.params;
@@ -44,9 +45,9 @@ const VideoPlayerScreen = ({route}: {route: any}) => {
       {/* Top Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#fff" />
+          <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        <Avatar.Icon size={40} icon="video" />
+        {/* <Avatar.Icon size={40} icon="video" /> */}
         <Text style={styles.title}>{title}</Text>
       </View>
 
@@ -79,11 +80,11 @@ const VideoPlayerScreen = ({route}: {route: any}) => {
       <View style={styles.actions}>
         <TouchableOpacity onPress={handleLike} style={styles.actionButton}>
           <IconButton icon="thumb-up" size={24} />
-          <Text>{likeCount} Likes</Text>
+          <Text style={styles.likeAndDislikeText}>{likeCount} Likes</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleDislike} style={styles.actionButton}>
           <IconButton icon="thumb-down" size={24} />
-          <Text>{dislikeCount} Dislikes</Text>
+          <Text style={styles.likeAndDislikeText}>{dislikeCount} Dislikes</Text>
         </TouchableOpacity>
       </View>
 
@@ -94,6 +95,7 @@ const VideoPlayerScreen = ({route}: {route: any}) => {
           value={comment}
           onChangeText={setComment}
           placeholder="Add a comment"
+          placeholderTextColor={'#888888'}
           style={styles.commentInput}
         />
         <Button
