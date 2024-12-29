@@ -16,6 +16,7 @@ import {TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import styles from './style';
+import SettingsScreen from '@/screens/SettingsScreen';
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -170,6 +171,15 @@ const AppNavigator = () => {
             </View>
           ),
         }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerShown: true,
+          title: 'Settings',
+          headerTintColor: '#000',
+        }} // Hides the header for Onboarding
       />
     </Stack.Navigator>
   );
