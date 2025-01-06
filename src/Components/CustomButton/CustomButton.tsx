@@ -14,27 +14,54 @@ const CustomButton: React.FC<ICustomButtonProps> = ({
 }) => {
   return (
     <View>
-      {pageName === 'MedicineDetails' ? (
-        <TouchableOpacity disabled={disabled} style={styles.buttonProperties} onPress={onPress}>
-          {icon !== true && !disabled ? <View>{icon}</View> : <></>}
-          {text !== '' && !disabled ? (
-            <Text style={styles.buttonText}>{text}</Text>
-          ) : (
-            <ActivityIndicator size={'large'} color={'white'} />
-          )}
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity disabled={disabled} style={styles.buttonProperties} onPress={onPress}>
-          {text !== '' && !disabled ? (
-            <Text style={styles.buttonText}>{text}</Text>
-          ) : (
-            <ActivityIndicator size={'large'} color={'white'} />
-          )}
-          {icon !== true && !disabled ? <View>{icon}</View> : <></>}
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity disabled={disabled} style={styles.buttonProperties} onPress={onPress}>
+        {/* Conditionally render icon */}
+        {icon && !disabled && <View>{icon}</View>}
+
+        {/* Conditionally render text or loading indicator */}
+        {text !== '' && !disabled ? (
+          <Text style={styles.buttonText}>{text}</Text>
+        ) : (
+          <ActivityIndicator size={'large'} color={'white'} />
+        )}
+      </TouchableOpacity>
     </View>
   );
 };
 
+
+// const CustomButton: React.FC<ICustomButtonProps> = ({
+//   text,
+//   icon,
+//   onPress,
+//   disabled,
+//   pageName
+// }) => {
+//   return (
+//     <View>
+//       {pageName === 'MedicineDetails' ? (
+//         <TouchableOpacity disabled={disabled} style={styles.buttonProperties} onPress={onPress}>
+//           {icon !== true && !disabled ? <View>{icon}</View> : <></>}
+//           {text !== '' && !disabled ? (
+//             <Text style={styles.buttonText}>{text}</Text>
+//           ) : (
+//             <ActivityIndicator size={'large'} color={'white'} />
+//           )}
+//         </TouchableOpacity>
+//       ) : (
+//         <TouchableOpacity disabled={disabled} style={styles.buttonProperties} onPress={onPress}>
+//           {text !== '' && !disabled ? (
+//             <Text style={styles.buttonText}>{text}</Text>
+//           ) : (
+//             <ActivityIndicator size={'large'} color={'white'} />
+//           )}
+//           {icon !== true && !disabled ? <View>{icon}</View> : <></>}
+//         </TouchableOpacity>
+//       )}
+//     </View>
+//   );
+// };
+
 export default CustomButton;
+
+

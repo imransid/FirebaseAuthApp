@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   TextInput,
   type TextInputProps,
@@ -24,6 +24,7 @@ const CustomTextInput: React.FC<ICustomTextInputProps & TextInputProps> = ({
   rightIcon,
   isError = false,
 }) => {
+
   const [showPassword, setShowPassword] = useState(false);
 
   const [isFocused, setIsFocused] = useState(false);
@@ -60,7 +61,7 @@ const CustomTextInput: React.FC<ICustomTextInputProps & TextInputProps> = ({
         maxLength={maxLength}
         onChangeText={onChangeText}
         keyboardType={getKeyboardType()}
-        secureTextEntry={!showPassword}
+        secureTextEntry={isPassword ? !showPassword : false}
         onFocus={() => {
           setIsFocused(true);
         }}

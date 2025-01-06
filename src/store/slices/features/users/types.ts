@@ -1,4 +1,4 @@
-import { type AccessTokenInfo } from '@/store/types/types';
+import {type AccessTokenInfo} from '@/store/types/types';
 
 // Define the user type
 export interface UserType {
@@ -22,6 +22,7 @@ export interface IUserState {
 // The users global state
 export interface UsersStateType {
   user: IUserState;
+  token: string;
 
   // Later, we can add other sub-states like:
   // list,

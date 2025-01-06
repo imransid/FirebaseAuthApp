@@ -1,19 +1,26 @@
-import React from 'react';
-import {FC} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, { useEffect } from 'react';
+import { FC } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {colors} from '@/theme/colors';
+import { colors } from '@/theme/colors';
 import LinearGradient from 'react-native-linear-gradient';
 
 const MainScreen: FC = () => {
   const navigation = useNavigation();
+
+
+  useEffect(() => {
+
+    // get user details 
+
+  })
 
   return (
     <>
@@ -47,8 +54,8 @@ const MainScreen: FC = () => {
         <TouchableOpacity style={styles.topCard}>
           <LinearGradient
             colors={['#f57c00', '#FF5252', '#ad1457', '#7d3c98', '#00695c']}
-            start={{x: 0, y: 0}} // Starting point of the gradient (left side)
-            end={{x: 1, y: 0}} // Ending point of the gradient (right side)
+            start={{ x: 0, y: 0 }} // Starting point of the gradient (left side)
+            end={{ x: 1, y: 0 }} // Ending point of the gradient (right side)
             style={styles.topCard}>
             <Text style={styles.topCardText1}>Full Video Package</Text>
             <Text style={styles.topCardText2}>

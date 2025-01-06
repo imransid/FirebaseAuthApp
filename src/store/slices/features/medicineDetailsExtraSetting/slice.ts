@@ -62,6 +62,10 @@ export const medicineDetailsExtraSettingSlice = createSlice({
     //   });
     //   state.storeTreatmentDuration = Array.from(updatedMap.values());
     // },
+
+    
+
+
     setExtraMedicineReminder: (
       state: IMedicineDetailsExtraSettingType,
       payload: PayloadAction<IMedicineReminder[]>
@@ -71,6 +75,8 @@ export const medicineDetailsExtraSettingSlice = createSlice({
     clearExtraMedicineDetails: (state: IMedicineDetailsExtraSettingType) => {
       state.storeInstrucTionList = [];
       state.storeMedicineReminder = [];
+
+      
       state.storeTreatmentDuration = [];
     }
   }
@@ -84,3 +90,6 @@ export const {
 } = medicineDetailsExtraSettingSlice.actions;
 
 export const medicineDetailsExtraSettingReducer = medicineDetailsExtraSettingSlice.reducer;
+
+
+

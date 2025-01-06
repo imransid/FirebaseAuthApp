@@ -1,10 +1,12 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import {ApolloClient, InMemoryCache, HttpLink} from '@apollo/client';
 
-import { BASE_URL } from './environment';
-
+// Apollo Client setup
 const client = new ApolloClient({
-  uri: BASE_URL, // Replace with your endpoint
-  cache: new InMemoryCache()
+  link: new HttpLink({
+    uri: 'http://3.107.186.222:4000/graphql', // Your GraphQL endpoint
+  }),
+  cache: new InMemoryCache(),
+  connectToDevTools: true, // Optional: Enables Apollo Client DevTools in development
 });
 
 export default client;

@@ -55,8 +55,12 @@ import { MD3DarkTheme, DefaultTheme, Provider as PaperProvider } from 'react-nat
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/AppNavigator';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Provider as StoreProvider } from 'react-redux';
 import { Platform } from 'react-native';
-
+import { ApolloProvider } from '@apollo/client';
+import client from '@/utils/apolloClient';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor, store } from './src/store';
 
 const App = () => {
 
@@ -74,11 +78,17 @@ const App = () => {
 
 
   return (
-    <PaperProvider theme={isDarkMode ? MD3DarkTheme : DefaultTheme}>
-      <NavigationContainer theme={isDarkMode ? MD3DarkTheme : DefaultTheme}>
-        <AppNavigator />
-      </NavigationContainer>
-    </PaperProvider>
+    <ApolloProvider client={client}>
+      <StoreProvider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <PaperProvider theme={isDarkMode ? MD3DarkTheme : DefaultTheme}>
+            <NavigationContainer theme={isDarkMode ? MD3DarkTheme : DefaultTheme}>
+              <AppNavigator />
+            </NavigationContainer>
+          </PaperProvider>
+        </PersistGate>
+      </StoreProvider>
+    </ApolloProvider>
   );
 };
 
