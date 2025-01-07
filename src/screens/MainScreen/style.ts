@@ -167,6 +167,37 @@ const styles = StyleSheet.create({
   listeningShadePosition: {
     marginLeft: scale(4),
   },
+
+  showUserListButton: {
+    marginTop: 10,
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    margin: 20,
+    borderRadius: 8,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  closeButton: {
+    marginTop: 20,
+  },
+
+  modalContent: {
+    marginBottom: 20,
+  },
+  addTutorialChip: {
+    backgroundColor: '#ff5722',
+    padding: 10,
+    borderRadius: 10,
+  },
+  addTutorialText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

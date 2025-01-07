@@ -126,7 +126,7 @@ const LoginScreen = () => {
           <View style={{ marginTop: scale(45) }}>
             <View style={{ flexDirection: 'row', gap: 10 }}>
               <Text style={styles.loginHeaderText1}>IELTS</Text>
-              <Text style={styles.loginHeaderText2}>daily</Text>
+              <Text style={styles.loginHeaderText2}>With POLOCK BHAI</Text>
             </View>
           </View>
         </View>
@@ -241,12 +241,12 @@ const styles = StyleSheet.create({
     marginLeft: scale(5),
   },
   loginHeaderText1: {
-    fontSize: moderateScale(38),
+    fontSize: moderateScale(20),
     fontWeight: '700',
     color: 'black',
   },
   loginHeaderText2: {
-    fontSize: moderateScale(38),
+    fontSize: moderateScale(20),
     fontWeight: '400',
     color: colors.typedText,
   },
