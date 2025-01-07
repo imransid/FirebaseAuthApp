@@ -1,19 +1,11 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Alert,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  SafeAreaView,
-  KeyboardAvoidingView,
-} from 'react-native';
+import {View, Text, Alert, Image, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {Controller, set, useForm} from 'react-hook-form';
+import {Controller, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import {signUpFormValidation} from '@/utils/formValidation';
 import CustomTextInput from '@/Components/CustomTextInput/CustomTextInput';
 import CustomButton from '@/Components/CustomButton/CustomButton';
@@ -39,6 +31,7 @@ const SignUpScreen = () => {
     password: string;
     confirmPassword: string;
     lastName: string;
+    mobile: string;
     role: string;
   }
 
@@ -55,6 +48,7 @@ const SignUpScreen = () => {
       password: '',
       confirmPassword: '',
       lastName: '',
+      mobile: '',
       role: 'student',
     },
   });
@@ -149,6 +143,29 @@ const SignUpScreen = () => {
             />
             {errors.lastName != null && (
               <Text style={styles.errorTxt}>{errors.lastName.message}</Text>
+            )}
+          </View>
+
+          <View style={styles.textInputComponentProperties}>
+            <Controller
+              control={control}
+              name="mobile"
+              render={({field: {onChange, value}}) => (
+                <CustomTextInput
+                  type="mobile"
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder="Mobile Number"
+                  inputStyle={styles.inputText}
+                  isError={Boolean(errors.mobile)}
+                  leftIcon={
+                    <Feather name="smartphone" size={25} color={'#888888'} />
+                  }
+                />
+              )}
+            />
+            {errors.mobile != null && (
+              <Text style={styles.errorTxt}>{errors.mobile.message}</Text>
             )}
           </View>
 
