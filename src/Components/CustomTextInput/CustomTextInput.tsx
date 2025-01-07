@@ -36,6 +36,8 @@ const CustomTextInput: React.FC<ICustomTextInputProps & TextInputProps> = ({
     switch (type) {
       case 'email':
         return 'email-address';
+      case 'mobile':
+        return 'phone-pad';
       default:
         return 'default';
     }
