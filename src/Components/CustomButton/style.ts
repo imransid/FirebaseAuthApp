@@ -9,16 +9,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.buttonBg,
     borderRadius: scale(10),
     flexDirection: 'row',
-    gap: scale(10),
     height: verticalScale(46),
     justifyContent: 'center',
-    width: scale(260),
+    width: scale(240),
   },
   buttonText: {
     color: colors.white,
-    //fontFamily: 'WorkSansSemiBold',
     fontWeight: '600',
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(18),
   },
 });
 

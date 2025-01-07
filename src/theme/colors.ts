@@ -79,7 +79,8 @@ export const colors = {
   carrotOrange: palette.color27,
   linkWater: palette.color29,
 
-  typedText: palette.color30,
+  typedText: palette.color31,
+  error: palette.color28,
   speakingChipColor: palette.color7,
   writingChipColor: palette.color6,
   listeningChipColor: palette.color19,

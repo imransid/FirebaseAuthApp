@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   completedContainer: {
-    height: scale(46),
+    height: scale(52),
     width: scale(200),
     backgroundColor: '#ffffff40',
     borderRadius: 50,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   completedContainerOuterRoundPosition: {
-    marginTop: 2,
+    marginTop: 1,
   },
   completedContainerOuterRound: {
     height: 50,

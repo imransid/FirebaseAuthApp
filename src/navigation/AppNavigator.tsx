@@ -10,7 +10,7 @@ import SpeakingScreen from '@/screens/SpeakingScreen';
 import ListeningScreen from '@/screens/ListeningScreen';
 import WritingScreen from '@/screens/WritingScreen';
 import ReadingScreen from '@/screens/ReadingScreen';
-import SignUpScreen from '@/screens/SignUpScreen'
+import SignUpScreen from '@/screens/SignUpScreen';
 import MainScreen from '@/screens/MainScreen';
 import {colors} from '@/theme/colors';
 import {TouchableOpacity, View} from 'react-native';
@@ -42,7 +42,7 @@ const AppNavigator = () => {
       <Stack.Screen
         name="SignUp"
         component={SignUpScreen}
-        options={{ headerShown: false }} // Hides the header for SignIn
+        options={{headerShown: false}} // Hides the header for SignIn
       />
       <Stack.Screen
         name="Main"
