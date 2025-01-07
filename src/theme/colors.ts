@@ -86,4 +86,6 @@ export const colors = {
   readingChipColor: palette.color12,
   appBackground: palette.color34,
   userNameTextColor: palette.color11,
+
+  userDlt: palette.color28,
 };

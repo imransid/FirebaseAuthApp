@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import styles from './style';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,7 +20,7 @@ import { RootState } from '@/store';
 import ToastPopUp from '@/utils/Toast.android';
 import { CREATE_TUTORIAL_MUTATION } from '@/mutation/createTutorial.mutation';
 import client, { tutorialLink } from '@/utils/apolloClient';
-
+import { UPDATE_PROFILE_MUTATION, DELETE_USER_MUTATION } from '@/mutation/updateProfile.mutations';
 
 const MainScreen: FC = () => {
   const navigation = useNavigation();
@@ -57,6 +57,38 @@ const MainScreen: FC = () => {
     },
   });
 
+
+  const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the token
+      },
+    },
+    onCompleted: () => {
+      ToastPopUp('User deleted successfully!');
+    },
+    onError: (error) => {
+      console.error('Error deleting user:', error);
+      ToastPopUp('Failed to delete user. Please try again.');
+    },
+  });
+
+
+  const [updateProfile] = useMutation(UPDATE_PROFILE_MUTATION, {
+    context: {
+      headers: {
+        Authorization: `Bearer ${token}`, // Pass the token
+      },
+    },
+    onCompleted: (data) => {
+      ToastPopUp(`Approval updated for ${data.updateProfile.firstName}!`);
+    },
+    onError: (error) => {
+      console.error('Error updating approval:', error);
+      ToastPopUp('Failed to update approval. Please try again.');
+    },
+  });
+
   useEffect(() => {
 
     if (data !== undefined && loading === false) {
@@ -64,21 +96,39 @@ const MainScreen: FC = () => {
     }
 
     if (Users !== undefined && usersLoading === false) {
-      setUsers(Users.getAllUsers)
+      const filteredUsers = Users.getAllUsers.filter(user => user.role !== 'admin');
+      setUsers(filteredUsers);
     }
 
   }, [data, loading, Users])
 
-
-
-  const handleEdit = (userId: string) => {
-    console.log(`Edit user with ID: ${userId}`);
-    // Implement the edit functionality here
-  };
-
-  const handleDelete = (userId: string) => {
-    console.log(`Delete user with ID: ${userId}`);
-    // Implement the delete functionality here
+  const handleDelete = async (userId: string) => {
+    Alert.alert(
+      'Delete User', // Title
+      'Are you sure you want to delete this user?', // Message
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Delete action canceled'),
+          style: 'cancel', // Style for the cancel button
+        },
+        {
+          text: 'OK',
+          onPress: async () => {
+            try {
+              await deleteUser({
+                variables: { id: userId },
+              });
+              // Optionally refresh the user list or remove the user from the local state
+              console.log('User deleted successfully');
+            } catch (error) {
+              console.error('Error deleting user:', error);
+            }
+          },
+        },
+      ],
+      { cancelable: false } // Prevent dismissing the alert by tapping outside
+    );
   };
 
   const [menuVisible, setMenuVisible] = useState(false);
@@ -92,14 +142,24 @@ const MainScreen: FC = () => {
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
-  const handleCheckboxChange = (userId: string, value: boolean) => {
+  const handleCheckboxChange = async (userId: string, value: boolean) => {
     setSelectedUsers((prev) => ({
       ...prev,
       [userId]: value,
     }));
     console.log(`User with ID: ${userId} approved: ${value}`);
-  };
 
+    // Call mutation to update approval status
+    try {
+      await updateProfile({
+        variables: {
+          approveStatus: value,
+        },
+      });
+    } catch (error) {
+      console.error('Error updating approval status:', error);
+    }
+  };
 
 
   const handleCreateTutorial = async () => {
@@ -135,92 +195,20 @@ const MainScreen: FC = () => {
   };
 
 
-  const fetchTutorials = async () => {
-    // const query = `
-    //   query GetAllTutorials {
-    //     getAllTutorials {
-    //       id
-    //       title
-    //       image
-    //       videoUrl
-    //       category
-    //       description
-    //       like
-    //       dislike
-    //     }
-    //   }
-    // `;
-
-    // const response = await fetch('http://3.26.192.7:4001/graphql', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    //   body: JSON.stringify({ query }),
-    // });
-
-    // console.log('response', response)
-
-    // if (!response.ok) {
-    //   throw new Error(`HTTP error! status: ${response.status}`);
-    // }
-
-    // const result = await response.json();
-    return [];//result.data.getAllTutorials;
-  };
-
-
   const handleListening = async () => {
-
-    let tutorial = await fetchTutorials()
-
-
-    // // // Assuming 'tutorial' contains the data fetched from the GraphQL query
-    // const listeningTutorials = tutorial?.filter(item => item.category === 'Listening');
-
-    // // Pass the filtered data to the 'ListeningScreen' via navigation
     navigation.navigate('ListeningScreen' as never);
-
   }
 
   const handleReading = async () => {
-
-    let tutorial = await fetchTutorials()
-
-
-    // // Assuming 'tutorial' contains the data fetched from the GraphQL query
-    const ReadingTutorials = tutorial?.filter(item => item.category === 'Reading');
-
-    // // Pass the filtered data to the 'ListeningScreen' via navigation
-    navigation.navigate('ReadingScreen' as never, { tutorials: ReadingTutorials } as never);
-
+    navigation.navigate('ReadingScreen' as never);
   }
 
 
   const handleSpeaking = async () => {
-
-    let tutorial = await fetchTutorials()
-
-
-    // // Assuming 'tutorial' contains the data fetched from the GraphQL query
-    const SpokingTutorials = tutorial?.filter(item => item.category === 'Spoking');
-
-    // // Pass the filtered data to the 'ListeningScreen' via navigation
-    navigation.navigate('SpeakingScreen' as never, { tutorials: SpokingTutorials } as never);
-
+    navigation.navigate('SpeakingScreen' as never);
   }
   const handleWriting = async () => {
-
-    let tutorial = await fetchTutorials()
-
-
-    // // Assuming 'tutorial' contains the data fetched from the GraphQL query
-    const listeningTutorials = tutorial?.filter(item => item.category === 'Listening');
-
-    // // Pass the filtered data to the 'ListeningScreen' via navigation
-    navigation.navigate('WritingScreen' as never, { tutorials: listeningTutorials } as never);
-
+    navigation.navigate('WritingScreen' as never);
   }
 
 
@@ -306,7 +294,13 @@ const MainScreen: FC = () => {
                 <DataTable.Cell>{user?.email}</DataTable.Cell>
                 <DataTable.Cell>{user?.role}</DataTable.Cell>
                 <DataTable.Cell>
-                  <Button onPress={() => handleDelete(user.id)}>Delete</Button>
+                  <TouchableOpacity onPress={() => handleDelete(user.id)}>
+                    <MaterialCommunityIcons
+                      name="account-off"
+                      size={25}
+                      color={colors.userDlt}
+                    />
+                  </TouchableOpacity>
                 </DataTable.Cell>
                 <DataTable.Cell>
                   <Checkbox
@@ -354,9 +348,9 @@ const MainScreen: FC = () => {
             start={{ x: 0, y: 0 }} // Starting point of the gradient (left side)
             end={{ x: 1, y: 0 }} // Ending point of the gradient (right side)
             style={styles.topCard}>
-            <Text style={styles.topCardText1}>{user.role === 'admin' ? "Add Tutorial" : "Full Video Package"}</Text>
+            <Text style={styles.topCardText1}>{user.role === 'admin' ? "Add Tutorial" : ""}</Text>
             <Text style={styles.topCardText2}>
-              - including 1x bonus feedback
+              Journey with Polock Bhai
             </Text>
           </LinearGradient>
         </TouchableOpacity>
