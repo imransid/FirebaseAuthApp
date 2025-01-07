@@ -329,7 +329,9 @@ const MainScreen: FC = () => {
                   color={colors.userNameTextColor}
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.settingsChip}>
+              <TouchableOpacity
+                style={styles.settingsChip}
+                onPress={() => navigation.navigate('Settings' as never)}>
                 <Ionicons
                   name="settings"
                   size={25}

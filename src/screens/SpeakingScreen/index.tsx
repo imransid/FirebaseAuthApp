@@ -1,29 +1,30 @@
-
-
-
-import React, { useEffect, useState } from 'react';
-import { FC } from 'react';
-import { View, Text, FlatList, ImageBackground, TouchableOpacity } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, {useEffect, useState} from 'react';
+import {FC} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  ImageBackground,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './style';
-import { Card, Paragraph, Title } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
-import { useQuery } from '@apollo/client';
-// import { GET_ALL_TUTORIALS_QUERY } from '@/query/getALLTutorial.query';
+import {Card, Paragraph, Title} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import {useQuery} from '@apollo/client';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { colors } from '@/theme/colors';
-import { RootState } from '@/store';
-import { useSelector } from 'react-redux';
-import { GET_ALL_TUTORIALS_QUERY } from '@/query/getALLTutorial.query';
-
-
+import {colors} from '@/theme/colors';
+import {RootState} from '@/store';
+import {useSelector} from 'react-redux';
+import {GET_ALL_TUTORIALS_QUERY} from '@/query/getALLTutorial.query';
+import moment from 'moment';
 
 const SpeakingScreen: FC = () => {
-
-  const token = useSelector((state: RootState) => state.users.token)
-  const [listeningList, setListeningList] = useState([])
-  const { data, loading, error } = useQuery(GET_ALL_TUTORIALS_QUERY, {
+  const token = useSelector((state: RootState) => state.users.token);
+  const [listeningList, setListeningList] = useState([]);
+  const {data, loading, error} = useQuery(GET_ALL_TUTORIALS_QUERY, {
     context: {
       uri: 'http://3.26.192.7:4001/graphql', // Set the dynamic link
       headers: {
@@ -36,48 +37,53 @@ const SpeakingScreen: FC = () => {
 
   useEffect(() => {
     if (data !== undefined && loading === false) {
-      const listeningTutorials = data?.getAllTutorials?.filter(item => item.category === 'READING');
-      setListeningList(listeningTutorials)
+      console.log(data, 'data');
+      const listeningTutorials = data?.getAllTutorials?.filter(
+        item => item.category === 'SPEAKING',
+      );
+      setListeningList(listeningTutorials);
     }
+  }, [data, loading]);
 
-  }, [data, loading])
+  const renderItem = ({item}: {item: any}) => (
+    <>
+      <Card style={styles.card}>
+        <View style={styles.cardStyle}>
+          <Image
+            source={{uri: item.image}}
+            style={styles.imageBackground}></Image>
+          <View style={styles.cardProperties}>
+            <Title style={styles.titleText}>{item.title}</Title>
+            <Paragraph style={styles.dateText}>
+              Date: {moment(item.date).format('DD MMMM, YYYY')}
+            </Paragraph>
 
-  const renderItem = ({ item }: { item: any }) => (
+            <Text style={styles.descriptionText}>{item.description}</Text>
 
-    <Card style={{ margin: 10 }}>
-      <ImageBackground
-        source={{ uri: item.image }}
-        style={styles.imageBackground}
-        imageStyle={styles.imageStyle} // Optional: To customize the image styling
-      >
-        <Card.Content>
-          <Title style={styles.titleText}>{item.title}</Title>
-          <Paragraph style={styles.dateText}>Date: {item.createdAt}</Paragraph>
-        </Card.Content>
-      </ImageBackground>
-      <Card.Content>
-        <Paragraph>{item.description}</Paragraph>
-      </Card.Content>
-      <Card.Actions>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('VideoPlayer', { videoUrl: item.videoUrl, title: item.title, description: item.description, like: item.like, dislike: item.dislike, id: item.id })
-          }
-        >
-          <Text style={{ color: '#007BFF', fontSize: 16 }}>View Video</Text>
-        </TouchableOpacity>
-      </Card.Actions>
-    </Card>
+            <TouchableOpacity
+              style={styles.viewVideoButton}
+              onPress={() =>
+                navigation.navigate('VideoPlayer', {
+                  videoUrl: item.videoUrl,
+                  title: item.title,
+                  description: item.description,
+                })
+              }>
+              <Text style={styles.viewVideoText}>View Video</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Card>
+    </>
   );
 
   return (
     <View>
-
       <Spinner
         visible={loading}
         textContent={' Loading...'}
         color={colors.white}
-        textStyle={{ color: colors.white }}
+        textStyle={{color: colors.white}}
       />
 
       <View style={styles.headerView}>
@@ -88,23 +94,23 @@ const SpeakingScreen: FC = () => {
           <Text style={styles.activityNameText}>SPEAKING</Text>
         </View>
 
-        <View style={{ left: 270, bottom: 60 }}>
-          <View
-            style={{
-              height: 54,
-              width: 200,
-              backgroundColor: '#ffffff40',
-              borderRadius: 50,
-            }}>
-            <View style={{ marginTop: 2 }}>
-              <View
-                style={{
-                  height: 50,
-                  width: 50,
-                  backgroundColor: '#ffffff40',
-                  borderRadius: 50,
-                  alignItems: 'center',
-                }}></View>
+        <View style={styles.headerTextPosition}>
+          <Text style={styles.headerTextStyle}>IELTS Daily Speaking</Text>
+        </View>
+
+        <View style={styles.completedContainerPosition}>
+          <View style={styles.completedContainer}>
+            <View style={styles.completedContainerInside}>
+              <View style={styles.completedContainerOuterRoundPosition}>
+                <View style={styles.completedContainerOuterRound}>
+                  <View style={styles.completedContainerInnerRound}>
+                    <Text style={styles.completedPercentText}>0%</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.completedTextPosition}>
+                <Text style={styles.completedText}>Completed</Text>
+              </View>
             </View>
           </View>
         </View>
@@ -114,13 +120,10 @@ const SpeakingScreen: FC = () => {
         data={listeningList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: 180 }} // Add extra padding here
+        contentContainerStyle={{paddingBottom: 180}} // Add extra padding here
       />
     </View>
   );
 };
 
-
 export default SpeakingScreen;
-
-

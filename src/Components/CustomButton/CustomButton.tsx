@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import {Text, TouchableOpacity, View, ActivityIndicator} from 'react-native';
 
 import type ICustomButtonProps from '../../Interfaces/ICustomButtonProps';
 
@@ -10,11 +10,14 @@ const CustomButton: React.FC<ICustomButtonProps> = ({
   icon,
   onPress,
   disabled,
-  pageName
+  pageName,
 }) => {
   return (
     <View>
-      <TouchableOpacity disabled={disabled} style={styles.buttonProperties} onPress={onPress}>
+      <TouchableOpacity
+        disabled={disabled}
+        style={styles.buttonProperties}
+        onPress={onPress}>
         {/* Conditionally render icon */}
         {icon && !disabled && <View>{icon}</View>}
 
@@ -28,7 +31,6 @@ const CustomButton: React.FC<ICustomButtonProps> = ({
     </View>
   );
 };
-
 
 // const CustomButton: React.FC<ICustomButtonProps> = ({
 //   text,
@@ -63,5 +65,3 @@ const CustomButton: React.FC<ICustomButtonProps> = ({
 // };
 
 export default CustomButton;
-
-

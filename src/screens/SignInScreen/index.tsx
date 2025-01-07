@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,24 +7,24 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import CustomTextInput from '@/Components/CustomTextInput/CustomTextInput';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {Controller, useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
-import { colors } from '@/theme/colors';
-import { mobileSignInFormValidation } from '@/utils/formValidation';
+import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
+import {colors} from '@/theme/colors';
+import {signInFormValidation} from '@/utils/formValidation';
 import CustomButton from '@/Components/CustomButton/CustomButton';
-import { RootStackParamList } from '@/navigation/AppNavigator';
-import { LOGIN_MUTATION } from '@/mutation/login.mutations';
-import { useMutation } from '@apollo/client';
+import {RootStackParamList} from '@/navigation/AppNavigator';
+import {LOGIN_MUTATION} from '@/mutation/login.mutations';
+import {useMutation} from '@apollo/client';
 import ToastPopUp from '@/utils/Toast.android';
-import { updateToken } from '@/store/slices/features/users/slice';
-import { useDispatch } from 'react-redux'
+import {updateToken} from '@/store/slices/features/users/slice';
+import {useDispatch} from 'react-redux';
 
 // Define the type of navigation object
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Onboarding'>;
@@ -34,7 +34,6 @@ const LoginScreen = () => {
   const [disable, setDisable] = useState(false);
 
   const dispatch = useDispatch();
-
 
   const [loginMutation] = useMutation(LOGIN_MUTATION);
 
@@ -49,9 +48,9 @@ const LoginScreen = () => {
     control,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: {errors},
   } = useForm<ILoginDataProps>({
-    resolver: yupResolver(mobileSignInFormValidation),
+    resolver: yupResolver(signInFormValidation),
     defaultValues: {
       email: '',
       password: '',
@@ -59,23 +58,20 @@ const LoginScreen = () => {
   });
 
   const handleGoogleSignIn = async (data: ILoginDataProps) => {
-
     try {
       const response = await loginMutation({
-        variables: { input: data },
+        variables: {input: data},
       });
 
       if (response.data.login) {
-        ToastPopUp(response.data.login.message)
-        dispatch(updateToken(response.data.login.token))
-        navigation.navigate("Main" as never);
+        ToastPopUp(response.data.login.message);
+        dispatch(updateToken(response.data.login.token));
+        navigation.navigate('Main' as never);
       }
     } catch (error) {
       console.error('Sign-IN Error:', error);
       Alert.alert('Error', 'Failed to CONNECT account. Please try again.');
     }
-
-    // navigation.navigate("SignUp" as never)
 
     // try {
     //   // Trigger Google Sign-In
@@ -119,12 +115,12 @@ const LoginScreen = () => {
         </View>
       </View>
       <View style={styles.loginContentContainer}>
-        <View style={{ flexDirection: 'row', alignContent: 'center' }}>
+        <View style={{flexDirection: 'row', alignContent: 'center'}}>
           <Image
             source={require('../../assets/images/book_logo.png')}
             style={styles.loginHeaderImage}></Image>
-          <View style={{ marginTop: scale(45) }}>
-            <View style={{ flexDirection: 'row', gap: 10 }}>
+          <View style={{marginTop: scale(45)}}>
+            <View style={{flexDirection: 'row', gap: 10}}>
               <Text style={styles.loginHeaderText1}>IELTS</Text>
               <Text style={styles.loginHeaderText2}>With POLOCK BHAI</Text>
             </View>
@@ -137,7 +133,7 @@ const LoginScreen = () => {
             <Controller
               control={control}
               name="email"
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <CustomTextInput
                   type="email"
                   value={value}
@@ -164,7 +160,7 @@ const LoginScreen = () => {
             <Controller
               control={control}
               name="password"
-              render={({ field: { onChange, value } }) => (
+              render={({field: {onChange, value}}) => (
                 <CustomTextInput
                   type="password"
                   value={value}
@@ -197,7 +193,7 @@ const LoginScreen = () => {
           </View>
           <View style={styles.buttonPosition}>
             <CustomButton
-              onPress={handleGoogleSignIn}
+              onPress={() => navigation.navigate('SignUp' as never)}
               disabled={disable}
               icon={<></>}
               text="Sign Up"
@@ -236,8 +232,8 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   loginHeaderImage: {
-    height: scale(130),
-    width: scale(130),
+    height: scale(95),
+    width: scale(95),
     marginLeft: scale(5),
   },
   loginHeaderText1: {
@@ -262,20 +258,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: scale(5),
   },
-  //   signInButton: {
-  //     padding: 15,
-  //     backgroundColor: '#4285F4',
-  //     borderRadius: 5,
-  //   },
-  //   signInText: {
-  //     color: '#fff',
-  //     fontWeight: 'bold',
-  //     fontSize: 16,
-  //   },
   inputText: {
-    color: colors.header,
+    color: colors.typedText,
     fontSize: moderateScale(14),
-    //fontFamily: 'WorkSansMedium',
   },
   textInputComponentPosition: {
     alignItems: 'center',
@@ -287,12 +272,10 @@ const styles = StyleSheet.create({
   errorTxt: {
     color: colors.error,
     fontSize: moderateScale(14),
-    //fontFamily: 'WorkSansMedium',
   },
   inputHeader: {
-    color: colors.header,
+    color: colors.typedText,
     fontSize: moderateScale(14),
-    //fontFamily: 'WorkSansMedium'
   },
   buttonPosition: {
     marginTop: verticalScale(18),
