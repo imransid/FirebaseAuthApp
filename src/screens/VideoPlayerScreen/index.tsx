@@ -15,20 +15,71 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './style';
 import {useNavigation} from '@react-navigation/native';
 import {colors} from '@/theme/colors';
+import {UPDATE_TUTORIAL} from '@/mutation/updateTutorial.mutations';
+import client, {tutorialLink} from '@/utils/apolloClient';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store';
 
 const VideoPlayerScreen = ({route}: {route: any}) => {
-  const {videoUrl, title, description} = route.params;
+  const {id, videoUrl, title, description, like, dislike} = route.params;
 
-  const navigation = useNavigation();
-
-  const [likeCount, setLikeCount] = useState(0);
-  const [dislikeCount, setDislikeCount] = useState(0);
+  const [likeCount, setLikeCount] = useState(like);
+  const [dislikeCount, setDislikeCount] = useState(dislike);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const token = useSelector((state: RootState) => state.users.token);
 
-  const handleLike = () => setLikeCount(likeCount + 1);
-  const handleDislike = () => setDislikeCount(dislikeCount + 1);
+  const navigation = useNavigation();
+
+  const handleLike = async () => {
+    const newLikeCount = likeCount + 1;
+    setLikeCount(newLikeCount);
+
+    try {
+      client.setLink(tutorialLink); // Set to tutorial endpoint
+      const {data} = await client.mutate({
+        mutation: UPDATE_TUTORIAL,
+        variables: {
+          id: parseFloat(id), // Ensure id is a Float, if necessary
+          like: parseFloat(newLikeCount), // Explicitly convert to Float
+        },
+        context: {
+          headers: {
+            Authorization: `Bearer ${token}`, // Pass the token
+          },
+        },
+      });
+      console.log('Updated likes:', data.updateTutorial.like);
+    } catch (error) {
+      console.error('Error updating likes:', error);
+    }
+  };
+
+  const handleDislike = async () => {
+    const newDislikeCount = dislikeCount + 1;
+    setDislikeCount(newDislikeCount);
+
+    try {
+      client.setLink(tutorialLink); // Set to tutorial endpoint
+      const {data} = await client.mutate({
+        mutation: UPDATE_TUTORIAL,
+        variables: {
+          id: parseFloat(id), // Ensure id is a Float, if necessary
+          dislike: parseFloat(newDislikeCount), // Explicitly convert to Float
+        },
+        context: {
+          headers: {
+            Authorization: `Bearer ${token}`, // Pass the token
+          },
+        },
+      });
+      console.log('Updated dislikes:', data.updateTutorial.dislike);
+    } catch (error) {
+      console.error('Error updating dislikes:', error);
+    }
+  };
+
   const handleAddComment = () => {
     if (comment.trim()) {
       setComments([...comments, comment.trim()]);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {FC} from 'react';
 import {
   View,
@@ -6,103 +6,136 @@ import {
   FlatList,
   ImageBackground,
   TouchableOpacity,
-  Image,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './style';
 import {Card, Paragraph, Title} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
-import moment from 'moment';
+import {useQuery} from '@apollo/client';
+// import { GET_ALL_TUTORIALS_QUERY } from '@/query/getALLTutorial.query';
+import Spinner from 'react-native-loading-spinner-overlay';
+import {colors} from '@/theme/colors';
+import {RootState} from '@/store';
+import {useSelector} from 'react-redux';
+import {GET_ALL_TUTORIALS_QUERY} from '@/query/getALLTutorial.query';
 
-const listData = [
-  {
-    title: 'Listening Section 1',
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Y3mCIL-rKwmc220gblo52lpAjbKv46kO48gSssh3PXRJA9zPq-bILOOA4rhoVqXJSeE&usqp=CAU',
-    date: '2024-12-01',
-    videoUrl:
-      'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
-    description: 'Introduction to basic listening skills and exercises.',
-  },
-  {
-    title: 'Listening Section 2',
-    image: 'https://careersgyan.com/wp-content/uploads/2021/12/articles-04.jpg',
-    date: '2024-12-02',
-    videoUrl:
-      'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
-    description:
-      'Understanding key details and identifying main ideas in conversations.',
-  },
-  {
-    title: 'Listening Section 3',
-    image: 'https://careersgyan.com/wp-content/uploads/2021/12/articles-04.jpg',
-    date: '2024-12-03',
-    videoUrl:
-      'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
-    description: 'Recognizing tone, context, and speaker intent.',
-  },
-  {
-    title: 'Listening Section 4',
-    image:
-      'https://careersgyan.com/wp-content/uploads/2021/12/articles-03-346x188.jpg',
-    date: '2024-12-04',
-    videoUrl:
-      'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
-    description: 'Advanced listening strategies for academic lectures.',
-  },
-  {
-    title: 'Listening Section 5',
-    image: 'https://careersgyan.com/wp-content/uploads/2021/12/articles-04.jpg',
-    date: '2024-12-05',
-    videoUrl:
-      'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
-    description:
-      'Practicing listening comprehension through real-world examples.',
-  },
-];
+// const listData = [
+//   {
+//     title: 'Listening Section 1',
+//     image:
+//       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7Y3mCIL-rKwmc220gblo52lpAjbKv46kO48gSssh3PXRJA9zPq-bILOOA4rhoVqXJSeE&usqp=CAU',
+//     date: '2024-12-01',
+//     videoUrl:
+//       'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
+//     description: 'Introduction to basic listening skills and exercises.',
+//   },
+//   {
+//     title: 'Listening Section 2',
+//     image: 'https://careersgyan.com/wp-content/uploads/2021/12/articles-04.jpg',
+//     date: '2024-12-02',
+//     videoUrl:
+//       'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
+//     description:
+//       'Understanding key details and identifying main ideas in conversations.',
+//   },
+//   {
+//     title: 'Listening Section 3',
+//     image: 'https://careersgyan.com/wp-content/uploads/2021/12/articles-04.jpg',
+//     date: '2024-12-03',
+//     videoUrl:
+//       'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
+//     description: 'Recognizing tone, context, and speaker intent.',
+//   },
+//   {
+//     title: 'Listening Section 4',
+//     image:
+//       'https://careersgyan.com/wp-content/uploads/2021/12/articles-03-346x188.jpg',
+//     date: '2024-12-04',
+//     videoUrl:
+//       'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
+//     description: 'Advanced listening strategies for academic lectures.',
+//   },
+//   {
+//     title: 'Listening Section 5',
+//     image: 'https://careersgyan.com/wp-content/uploads/2021/12/articles-04.jpg',
+//     date: '2024-12-05',
+//     videoUrl:
+//       'https://drive.google.com/uc?export=download&id=1g4hA4JXIsJnKWaNVLCbK21PnyD46URoO',
+//     description:
+//       'Practicing listening comprehension through real-world examples.',
+//   },
+// ];
 
 const SpeakingScreen: FC = () => {
+  const token = useSelector((state: RootState) => state.users.token);
+  const [listeningList, setListeningList] = useState([]);
+  const {data, loading, error} = useQuery(GET_ALL_TUTORIALS_QUERY, {
+    context: {
+      uri: 'http://3.26.192.7:4001/graphql', // Set the dynamic link
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  });
+
   const navigation = useNavigation();
 
-  const renderItem = ({item}: {item: (typeof listData)[0]}) => (
-    <>
-      <Card style={styles.card}>
-        <View style={styles.cardStyle}>
-          <Image
-            source={{uri: item.image}}
-            style={styles.imageBackground}></Image>
-          <View style={styles.cardProperties}>
-            <Title style={styles.titleText}>{item.title}</Title>
-            <Paragraph style={styles.dateText}>
-              Date: {moment(item.date).format('DD MMMM, YYYY')}
-            </Paragraph>
+  useEffect(() => {
+    if (data !== undefined && loading === false) {
+      const listeningTutorials = data?.getAllTutorials?.filter(
+        item => item.category === 'READING',
+      );
+      setListeningList(listeningTutorials);
+    }
+  }, [data, loading]);
 
-            <Text style={styles.descriptionText}>{item.description}</Text>
-
-            <TouchableOpacity
-              style={styles.viewVideoButton}
-              onPress={() =>
-                navigation.navigate('VideoPlayer', {
-                  videoUrl: item.videoUrl,
-                  title: item.title,
-                  description: item.description,
-                })
-              }>
-              <Text style={styles.viewVideoText}>View Video</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Card>
-    </>
+  const renderItem = ({item}: {item: any}) => (
+    <Card style={{margin: 10}}>
+      <ImageBackground
+        source={{uri: item.image}}
+        style={styles.imageBackground}
+        imageStyle={styles.imageStyle} // Optional: To customize the image styling
+      >
+        <Card.Content>
+          <Title style={styles.titleText}>{item.title}</Title>
+          <Paragraph style={styles.dateText}>Date: {item.createdAt}</Paragraph>
+        </Card.Content>
+      </ImageBackground>
+      <Card.Content>
+        <Paragraph>{item.description}</Paragraph>
+      </Card.Content>
+      <Card.Actions>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('VideoPlayer', {
+              videoUrl: item.videoUrl,
+              title: item.title,
+              description: item.description,
+              like: item.like,
+              dislike: item.dislike,
+              id: item.id,
+            })
+          }>
+          <Text style={{color: '#007BFF', fontSize: 16}}>View Video</Text>
+        </TouchableOpacity>
+      </Card.Actions>
+    </Card>
   );
 
   return (
     <View>
+      <Spinner
+        visible={loading}
+        textContent={' Loading...'}
+        color={colors.white}
+        textStyle={{color: colors.white}}
+      />
+
       <View style={styles.headerView}>
         <View style={styles.headericonAndText}>
           <View style={styles.headerMainIconPosition}>
-            <FontAwesome5 name="microphone" size={60} color="#fff" />
+            <FontAwesome5 name="headset" size={60} color="#fff" />
           </View>
           <Text style={styles.activityNameText}>SPEAKING</Text>
         </View>
@@ -130,7 +163,7 @@ const SpeakingScreen: FC = () => {
       </View>
 
       <FlatList
-        data={listData}
+        data={listeningList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
         contentContainerStyle={{paddingBottom: 180}} // Add extra padding here
