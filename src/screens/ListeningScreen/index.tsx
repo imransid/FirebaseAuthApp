@@ -33,7 +33,7 @@ const ListeningScreen: FC = () => {
 
   useEffect(() => {
     if (data !== undefined && loading === false) {
-      const listeningTutorials = data?.getAllTutorials?.filter(item => item.category === 'Listening');
+      const listeningTutorials = data?.getAllTutorials?.filter(item => item.category === 'LISTENING');
       setListeningList(listeningTutorials)
     }
 

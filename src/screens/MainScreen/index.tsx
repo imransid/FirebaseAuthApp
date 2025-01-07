@@ -265,7 +265,7 @@ const MainScreen: FC = () => {
                 </Button>
               }
             >
-              {['Listening', 'Reading', 'Writing', 'Spoking'].map((item) => (
+              {['LISTENING', 'READING', 'WRITING', 'SPEAKING'].map((item) => (
                 <Menu.Item
                   key={item}
                   onPress={() => {
