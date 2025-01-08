@@ -357,7 +357,9 @@ const MainScreen: FC = () => {
           </TouchableOpacity>
           <View style={styles.notificationAndSettingsProperties}>
             <View style={styles.notificationAndSettings}>
-              <TouchableOpacity style={styles.notificationChip}>
+              <TouchableOpacity
+                style={styles.notificationChip}
+                onPress={() => navigation.navigate('Notifications' as never)}>
                 <MaterialCommunityIcons
                   name="bell"
                   size={25}

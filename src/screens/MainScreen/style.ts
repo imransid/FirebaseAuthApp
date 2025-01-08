@@ -150,8 +150,8 @@ const styles = StyleSheet.create({
   },
   userNameText: {
     color: colors.userNameTextColor,
-    fontSize: scale(12),
-    fontWeight: '600',
+    fontSize: scale(14),
+    fontWeight: '700',
   },
   notificationAndSettingsProperties: {
     flexDirection: 'row',

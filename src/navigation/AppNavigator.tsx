@@ -18,6 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import styles from './style';
 import SettingsScreen from '@/screens/SettingsScreen';
+import NotificationScreen from '@/screens/NotificationScreen';
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -185,6 +186,15 @@ const AppNavigator = () => {
         options={{
           headerShown: true,
           title: 'Settings',
+          headerTintColor: '#000',
+        }} // Hides the header for Onboarding
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={NotificationScreen}
+        options={{
+          headerShown: true,
+          title: 'Notifications',
           headerTintColor: '#000',
         }} // Hides the header for Onboarding
       />
