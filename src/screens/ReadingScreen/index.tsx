@@ -70,6 +70,7 @@ const ReadingScreen: FC = () => {
             style={styles.viewVideoButton}
             onPress={() =>
               navigation.navigate('VideoPlayer', {
+                id: item.id,
                 videoUrl: item.videoUrl,
                 title: item.title,
                 description: item.description,

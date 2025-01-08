@@ -178,9 +178,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '600',
     marginBottom: 20,
+    color: 'black',
   },
   closeButton: {
     marginTop: 20,

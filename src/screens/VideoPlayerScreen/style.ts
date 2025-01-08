@@ -9,7 +9,26 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
+    justifyContent: 'center',
+    height: 40,
+    width: 'auto',
+    top: 5,
+  },
+  headerLeftIconPosition: {
+    position: 'absolute',
+    left: 10,
+  },
+  headerLeftIconBackground: {
+    height: 40,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#00000020',
+    borderRadius: 15,
+  },
+  headerTitlePosition: {
+    position: 'absolute',
+    right: 155,
   },
   title: {
     fontSize: 18,

@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -299,13 +300,17 @@ const MainScreen: FC = () => {
       </Portal>
 
       {/* user */}
-
       <Portal>
         <Modal
           visible={visible}
           onDismiss={hideModal}
           contentContainerStyle={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Student List</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.modalTitle}>Student List</Text>
+            <TouchableOpacity onPress={hideModal}>
+              <FontAwesome name="close" size={22} color="#000" />
+            </TouchableOpacity>
+          </View>
           <DataTable>
             <DataTable.Header>
               <DataTable.Title>Name</DataTable.Title>
@@ -339,9 +344,6 @@ const MainScreen: FC = () => {
               </DataTable.Row>
             ))}
           </DataTable>
-          <Button onPress={hideModal} style={styles.closeButton}>
-            Close
-          </Button>
         </Modal>
       </Portal>
 
