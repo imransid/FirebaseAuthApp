@@ -43,7 +43,7 @@ export const signUpFormValidation = yup.object().shape({
     .string()
     .required('Last Name is required')
     .matches(/^[a-zA-Z\s]+$/, 'Full Name must only contain letters and spaces'), // Only allow letters and spaces,
-  mobile: yup
+  mobileNumber: yup
     .string()
     .required('Mobile Number is required')
     .matches(/^\d+$/, 'Mobile Number must contain only digits') // Allow only numeric characters

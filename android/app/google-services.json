@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:709351998176:android:ce6571476c11787e354685",
         "android_client_info": {
-          "package_name": "com.firebaseauthapp"
+          "package_name": "com.ieltswithpolockbhai"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "709351998176-b9t7jeg4438736lu1mp4qamorna3r3en.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.firebaseauthapp",
+            "package_name": "com.ieltswithpolockbhai",
             "certificate_hash": "8ae6ed0d898914f209b26881f502410e8f59dd6d"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "709351998176-g7gc892a21pg50ut78sniaigv601a1n2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.firebaseauthapp",
+            "package_name": "com.ieltswithpolockbhai",
             "certificate_hash": "e67786a339bc56c013df566951365cccff6d37aa"
           }
         },

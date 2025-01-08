@@ -18,7 +18,7 @@ end
 # Use modular headers globally
 use_frameworks! :linkage => :static
 
-target 'firebaseauthapp' do
+target 'ieltswithpolockbhai' do
   config = use_native_modules!
 
   use_react_native!(
@@ -28,7 +28,7 @@ target 'firebaseauthapp' do
   )
 
 
-  target 'firebaseauthappTests' do
+  target 'ieltswithpolockbhaiTests' do
     inherit! :complete
     # Pods for testing
   end

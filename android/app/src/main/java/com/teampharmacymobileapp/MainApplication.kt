@@ -1,4 +1,4 @@
-package com.firebaseauthapp
+package com.ieltswithpolockbhai
 
 import android.app.Application
 import com.facebook.react.PackageList

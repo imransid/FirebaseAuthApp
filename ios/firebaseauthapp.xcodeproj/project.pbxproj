@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* firebaseauthappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* firebaseauthappTests.m */; };
+		00E356F31AD99517003FC87E /* ieltswithpolockbhaiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ieltswithpolockbhaiTests.m */; };
 		0585FD0A2D19C54500FA69DE /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0585FD042D19C54500FA69DE /* MaterialCommunityIcons.ttf */; };
 		0585FD0B2D19C54500FA69DE /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0585FCFD2D19C54500FA69DE /* FontAwesome5_Solid.ttf */; };
 		0585FD0C2D19C54500FA69DE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0585FCF82D19C54500FA69DE /* EvilIcons.ttf */; };
@@ -51,10 +51,10 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1BC0B319F2903747F33F6FEB /* Pods_firebaseauthapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B298B9B7A1E4EA73E770C99 /* Pods_firebaseauthapp.framework */; };
+		1BC0B319F2903747F33F6FEB /* Pods_ieltswithpolockbhai.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B298B9B7A1E4EA73E770C99 /* Pods_ieltswithpolockbhai.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		99407C3A9680CC939B866DE1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A2E3B394D9DA60158FF601AE /* PrivacyInfo.xcprivacy */; };
-		A0D842E64D4B052F2650BFE3 /* Pods_firebaseauthapp_firebaseauthappTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9EF508DC74DB29B1EB5702 /* Pods_firebaseauthapp_firebaseauthappTests.framework */; };
+		A0D842E64D4B052F2650BFE3 /* Pods_ieltswithpolockbhai_ieltswithpolockbhaiTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B9EF508DC74DB29B1EB5702 /* Pods_ieltswithpolockbhai_ieltswithpolockbhaiTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,14 +63,14 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = firebaseauthapp;
+			remoteInfo = ieltswithpolockbhai;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* firebaseauthappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = firebaseauthappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* ieltswithpolockbhaiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ieltswithpolockbhaiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* firebaseauthappTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = firebaseauthappTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* ieltswithpolockbhaiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ieltswithpolockbhaiTests.m; sourceTree = "<group>"; };
 		0337C7F2E3F14A1093A50092 /* WorkSans-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-ExtraLight.ttf"; path = "../src/assets/fonts/WorkSans-ExtraLight.ttf"; sourceTree = "<group>"; };
 		0585FCF62D19C54500FA69DE /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
 		0585FCF72D19C54500FA69DE /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
@@ -93,30 +93,30 @@
 		0585FD082D19C54500FA69DE /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
 		05FB87FA2CFF21100014F0BB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0AC455E8E74145058B8213B1 /* WorkSans-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-ExtraLightItalic.ttf"; path = "../src/assets/fonts/WorkSans-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		0B9EF508DC74DB29B1EB5702 /* Pods_firebaseauthapp_firebaseauthappTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_firebaseauthapp_firebaseauthappTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07F961A680F5B00A75B9A /* firebaseauthapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = firebaseauthapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = firebaseauthapp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = firebaseauthapp/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = firebaseauthapp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = firebaseauthapp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = firebaseauthapp/main.m; sourceTree = "<group>"; };
-		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = firebaseauthapp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		0B9EF508DC74DB29B1EB5702 /* Pods_ieltswithpolockbhai_ieltswithpolockbhaiTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ieltswithpolockbhai_ieltswithpolockbhaiTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* ieltswithpolockbhai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ieltswithpolockbhai.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ieltswithpolockbhai/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ieltswithpolockbhai/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ieltswithpolockbhai/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ieltswithpolockbhai/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ieltswithpolockbhai/main.m; sourceTree = "<group>"; };
+		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = ieltswithpolockbhai/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		1FB179B5981D465FB05797EB /* WorkSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-MediumItalic.ttf"; path = "../src/assets/fonts/WorkSans-MediumItalic.ttf"; sourceTree = "<group>"; };
-		2266C713B4C0665B8D0C37AF /* Pods-firebaseauthapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-firebaseauthapp.release.xcconfig"; path = "Target Support Files/Pods-firebaseauthapp/Pods-firebaseauthapp.release.xcconfig"; sourceTree = "<group>"; };
+		2266C713B4C0665B8D0C37AF /* Pods-ieltswithpolockbhai.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ieltswithpolockbhai.release.xcconfig"; path = "Target Support Files/Pods-ieltswithpolockbhai/Pods-ieltswithpolockbhai.release.xcconfig"; sourceTree = "<group>"; };
 		236F65F09E5B43E6BC55A860 /* WorkSansRegular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = WorkSansRegular.ttf; path = ../src/assets/fonts/WorkSansRegular.ttf; sourceTree = "<group>"; };
 		2D211B1CE18B437F98C4CD60 /* WorkSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-SemiBoldItalic.ttf"; path = "../src/assets/fonts/WorkSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		32E70C34255D4D2D8C34B26F /* WorkSansSemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = WorkSansSemiBold.ttf; path = ../src/assets/fonts/WorkSansSemiBold.ttf; sourceTree = "<group>"; };
 		505604E91345445890664C62 /* WorkSans-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-ThinItalic.ttf"; path = "../src/assets/fonts/WorkSans-ThinItalic.ttf"; sourceTree = "<group>"; };
 		5EC0A71B027D4228AA08439B /* WorkSans-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Black.ttf"; path = "../src/assets/fonts/WorkSans-Black.ttf"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = firebaseauthapp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ieltswithpolockbhai/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86BD7F010975475CBA5756DF /* WorkSans-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-BlackItalic.ttf"; path = "../src/assets/fonts/WorkSans-BlackItalic.ttf"; sourceTree = "<group>"; };
 		86D9904EA6F5431CAA4FA936 /* WorkSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-BoldItalic.ttf"; path = "../src/assets/fonts/WorkSans-BoldItalic.ttf"; sourceTree = "<group>"; };
-		8B298B9B7A1E4EA73E770C99 /* Pods_firebaseauthapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_firebaseauthapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B298B9B7A1E4EA73E770C99 /* Pods_ieltswithpolockbhai.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ieltswithpolockbhai.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D3D9FAD82274DE29DE19279 /* WorkSansBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = WorkSansBold.ttf; path = ../src/assets/fonts/WorkSansBold.ttf; sourceTree = "<group>"; };
 		95D51C78BCF74B659C34D9BB /* WorkSans-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Thin.ttf"; path = "../src/assets/fonts/WorkSans-Thin.ttf"; sourceTree = "<group>"; };
-		A2E3B394D9DA60158FF601AE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = firebaseauthapp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		BA2ABAE02D67B78DA92263DF /* Pods-firebaseauthapp-firebaseauthappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-firebaseauthapp-firebaseauthappTests.debug.xcconfig"; path = "Target Support Files/Pods-firebaseauthapp-firebaseauthappTests/Pods-firebaseauthapp-firebaseauthappTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BD9C14842771E83C71DDDA39 /* Pods-firebaseauthapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-firebaseauthapp.debug.xcconfig"; path = "Target Support Files/Pods-firebaseauthapp/Pods-firebaseauthapp.debug.xcconfig"; sourceTree = "<group>"; };
+		A2E3B394D9DA60158FF601AE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ieltswithpolockbhai/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		BA2ABAE02D67B78DA92263DF /* Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.debug.xcconfig"; path = "Target Support Files/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BD9C14842771E83C71DDDA39 /* Pods-ieltswithpolockbhai.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ieltswithpolockbhai.debug.xcconfig"; path = "Target Support Files/Pods-ieltswithpolockbhai/Pods-ieltswithpolockbhai.debug.xcconfig"; sourceTree = "<group>"; };
 		C5552CEFE36940A2ABC48FC9 /* WorkSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-LightItalic.ttf"; path = "../src/assets/fonts/WorkSans-LightItalic.ttf"; sourceTree = "<group>"; };
 		C5B4858921FC4787A45DBEFF /* WorkSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-ExtraBold.ttf"; path = "../src/assets/fonts/WorkSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		CA4454BECA3F48879D1AFA64 /* WorkSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Light.ttf"; path = "../src/assets/fonts/WorkSans-Light.ttf"; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 		DE0D8B9724354433B7DCF66F /* WorkSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "WorkSans-Italic.ttf"; path = "../src/assets/fonts/WorkSans-Italic.ttf"; sourceTree = "<group>"; };
 		E313E548CEC54CF985D5A460 /* WorkSansMedium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = WorkSansMedium.ttf; path = ../src/assets/fonts/WorkSansMedium.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FB3B17060100A22D702D3816 /* Pods-firebaseauthapp-firebaseauthappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-firebaseauthapp-firebaseauthappTests.release.xcconfig"; path = "Target Support Files/Pods-firebaseauthapp-firebaseauthappTests/Pods-firebaseauthapp-firebaseauthappTests.release.xcconfig"; sourceTree = "<group>"; };
+		FB3B17060100A22D702D3816 /* Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.release.xcconfig"; path = "Target Support Files/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0D842E64D4B052F2650BFE3 /* Pods_firebaseauthapp_firebaseauthappTests.framework in Frameworks */,
+				A0D842E64D4B052F2650BFE3 /* Pods_ieltswithpolockbhai_ieltswithpolockbhaiTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,20 +140,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BC0B319F2903747F33F6FEB /* Pods_firebaseauthapp.framework in Frameworks */,
+				1BC0B319F2903747F33F6FEB /* Pods_ieltswithpolockbhai.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* firebaseauthappTests */ = {
+		00E356EF1AD99517003FC87E /* ieltswithpolockbhaiTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* firebaseauthappTests.m */,
+				00E356F21AD99517003FC87E /* ieltswithpolockbhaiTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = firebaseauthappTests;
+			path = ieltswithpolockbhaiTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -191,7 +191,7 @@
 			path = "/Users/rafa/Documents/github/nidle_QMS_2/nidle-qms-v2/node_modules/react-native-vector-icons/Fonts";
 			sourceTree = "<absolute>";
 		};
-		13B07FAE1A68108700A75B9A /* firebaseauthapp */ = {
+		13B07FAE1A68108700A75B9A /* ieltswithpolockbhai */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -203,15 +203,15 @@
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				A2E3B394D9DA60158FF601AE /* PrivacyInfo.xcprivacy */,
 			);
-			name = firebaseauthapp;
+			name = ieltswithpolockbhai;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				8B298B9B7A1E4EA73E770C99 /* Pods_firebaseauthapp.framework */,
-				0B9EF508DC74DB29B1EB5702 /* Pods_firebaseauthapp_firebaseauthappTests.framework */,
+				8B298B9B7A1E4EA73E770C99 /* Pods_ieltswithpolockbhai.framework */,
+				0B9EF508DC74DB29B1EB5702 /* Pods_ieltswithpolockbhai_ieltswithpolockbhaiTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -227,9 +227,9 @@
 			isa = PBXGroup;
 			children = (
 				05FB87FA2CFF21100014F0BB /* GoogleService-Info.plist */,
-				13B07FAE1A68108700A75B9A /* firebaseauthapp */,
+				13B07FAE1A68108700A75B9A /* ieltswithpolockbhai */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* firebaseauthappTests */,
+				00E356EF1AD99517003FC87E /* ieltswithpolockbhaiTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
@@ -244,8 +244,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* firebaseauthapp.app */,
-				00E356EE1AD99517003FC87E /* firebaseauthappTests.xctest */,
+				13B07F961A680F5B00A75B9A /* ieltswithpolockbhai.app */,
+				00E356EE1AD99517003FC87E /* ieltswithpolockbhaiTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -278,10 +278,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				BD9C14842771E83C71DDDA39 /* Pods-firebaseauthapp.debug.xcconfig */,
-				2266C713B4C0665B8D0C37AF /* Pods-firebaseauthapp.release.xcconfig */,
-				BA2ABAE02D67B78DA92263DF /* Pods-firebaseauthapp-firebaseauthappTests.debug.xcconfig */,
-				FB3B17060100A22D702D3816 /* Pods-firebaseauthapp-firebaseauthappTests.release.xcconfig */,
+				BD9C14842771E83C71DDDA39 /* Pods-ieltswithpolockbhai.debug.xcconfig */,
+				2266C713B4C0665B8D0C37AF /* Pods-ieltswithpolockbhai.release.xcconfig */,
+				BA2ABAE02D67B78DA92263DF /* Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.debug.xcconfig */,
+				FB3B17060100A22D702D3816 /* Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -289,9 +289,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* firebaseauthappTests */ = {
+		00E356ED1AD99517003FC87E /* ieltswithpolockbhaiTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "firebaseauthappTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ieltswithpolockbhaiTests" */;
 			buildPhases = (
 				F8799C9371E9D2A74D32EBC0 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
@@ -305,14 +305,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = firebaseauthappTests;
-			productName = firebaseauthappTests;
-			productReference = 00E356EE1AD99517003FC87E /* firebaseauthappTests.xctest */;
+			name = ieltswithpolockbhaiTests;
+			productName = ieltswithpolockbhaiTests;
+			productReference = 00E356EE1AD99517003FC87E /* ieltswithpolockbhaiTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* firebaseauthapp */ = {
+		13B07F861A680F5B00A75B9A /* ieltswithpolockbhai */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "firebaseauthapp" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ieltswithpolockbhai" */;
 			buildPhases = (
 				911C8028192F78FBCDD48EDF /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
@@ -328,9 +328,9 @@
 			);
 			dependencies = (
 			);
-			name = firebaseauthapp;
-			productName = firebaseauthapp;
-			productReference = 13B07F961A680F5B00A75B9A /* firebaseauthapp.app */;
+			name = ieltswithpolockbhai;
+			productName = ieltswithpolockbhai;
+			productReference = 13B07F961A680F5B00A75B9A /* ieltswithpolockbhai.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -350,7 +350,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "firebaseauthapp" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ieltswithpolockbhai" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -363,8 +363,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* firebaseauthapp */,
-				00E356ED1AD99517003FC87E /* firebaseauthappTests */,
+				13B07F861A680F5B00A75B9A /* ieltswithpolockbhai */,
+				00E356ED1AD99517003FC87E /* ieltswithpolockbhaiTests */,
 			);
 		};
 /* End PBXProject section */
@@ -452,15 +452,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp/Pods-firebaseauthapp-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai/Pods-ieltswithpolockbhai-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp/Pods-firebaseauthapp-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai/Pods-ieltswithpolockbhai-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp/Pods-firebaseauthapp-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai/Pods-ieltswithpolockbhai-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		41A0FCFB11D4EBACA21CFC01 /* [CP] Embed Pods Frameworks */ = {
@@ -469,15 +469,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp-firebaseauthappTests/Pods-firebaseauthapp-firebaseauthappTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp-firebaseauthappTests/Pods-firebaseauthapp-firebaseauthappTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp-firebaseauthappTests/Pods-firebaseauthapp-firebaseauthappTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		911C8028192F78FBCDD48EDF /* [CP] Check Pods Manifest.lock */ = {
@@ -495,7 +495,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-firebaseauthapp-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ieltswithpolockbhai-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -535,15 +535,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp-firebaseauthappTests/Pods-firebaseauthapp-firebaseauthappTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp-firebaseauthappTests/Pods-firebaseauthapp-firebaseauthappTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp-firebaseauthappTests/Pods-firebaseauthapp-firebaseauthappTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F2FCF436AE6017892C90441F /* [CP] Embed Pods Frameworks */ = {
@@ -552,15 +552,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp/Pods-firebaseauthapp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai/Pods-ieltswithpolockbhai-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp/Pods-firebaseauthapp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai/Pods-ieltswithpolockbhai-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-firebaseauthapp/Pods-firebaseauthapp-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ieltswithpolockbhai/Pods-ieltswithpolockbhai-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F8799C9371E9D2A74D32EBC0 /* [CP] Check Pods Manifest.lock */ = {
@@ -578,7 +578,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-firebaseauthapp-firebaseauthappTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -592,7 +592,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* firebaseauthappTests.m in Sources */,
+				00E356F31AD99517003FC87E /* ieltswithpolockbhaiTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,7 +610,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* firebaseauthapp */;
+			target = 13B07F861A680F5B00A75B9A /* ieltswithpolockbhai */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -618,14 +618,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA2ABAE02D67B78DA92263DF /* Pods-firebaseauthapp-firebaseauthappTests.debug.xcconfig */;
+			baseConfigurationReference = BA2ABAE02D67B78DA92263DF /* Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = firebaseauthappTests/Info.plist;
+				INFOPLIST_FILE = ieltswithpolockbhaiTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -639,17 +639,17 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/firebaseauthapp.app/firebaseauthapp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ieltswithpolockbhai.app/ieltswithpolockbhai";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB3B17060100A22D702D3816 /* Pods-firebaseauthapp-firebaseauthappTests.release.xcconfig */;
+			baseConfigurationReference = FB3B17060100A22D702D3816 /* Pods-ieltswithpolockbhai-ieltswithpolockbhaiTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = firebaseauthappTests/Info.plist;
+				INFOPLIST_FILE = ieltswithpolockbhaiTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -663,19 +663,19 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/firebaseauthapp.app/firebaseauthapp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ieltswithpolockbhai.app/ieltswithpolockbhai";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD9C14842771E83C71DDDA39 /* Pods-firebaseauthapp.debug.xcconfig */;
+			baseConfigurationReference = BD9C14842771E83C71DDDA39 /* Pods-ieltswithpolockbhai.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = firebaseauthapp/Info.plist;
+				INFOPLIST_FILE = ieltswithpolockbhai/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -687,7 +687,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = firebaseauthapp;
+				PRODUCT_NAME = ieltswithpolockbhai;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -696,12 +696,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2266C713B4C0665B8D0C37AF /* Pods-firebaseauthapp.release.xcconfig */;
+			baseConfigurationReference = 2266C713B4C0665B8D0C37AF /* Pods-ieltswithpolockbhai.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = firebaseauthapp/Info.plist;
+				INFOPLIST_FILE = ieltswithpolockbhai/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -713,7 +713,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = firebaseauthapp;
+				PRODUCT_NAME = ieltswithpolockbhai;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -903,7 +903,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "firebaseauthappTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ieltswithpolockbhaiTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -912,7 +912,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "firebaseauthapp" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ieltswithpolockbhai" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -921,7 +921,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "firebaseauthapp" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ieltswithpolockbhai" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

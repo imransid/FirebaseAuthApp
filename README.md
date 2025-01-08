@@ -1,6 +1,6 @@
-# FirebaseAuthApp
+# ieltswithpolockbhai
 
-🚀 **FirebaseAuthApp** is a React Native application providing a seamless user experience with Firebase Authentication, Google Sign-In, personal blogging capabilities, dynamic content fetching, and theme support. Built for both Android and iOS platforms, the app leverages modern libraries like **React Native Reanimated 3** and **React Native Fast Image** for optimized performance and smooth animations.
+🚀 **ieltswithpolockbhai** is a React Native application providing a seamless user experience with Firebase Authentication, Google Sign-In, personal blogging capabilities, dynamic content fetching, and theme support. Built for both Android and iOS platforms, the app leverages modern libraries like **React Native Reanimated 3** and **React Native Fast Image** for optimized performance and smooth animations.
 
 ---
 
@@ -25,7 +25,7 @@ Follow these steps to get the app running on your local machine:
 1. **Clone the Repository**
    ```bash
    git clone <repository-url>
-   cd FirebaseAuthApp
+   cd ieltswithpolockbhai
    Install Dependencies
    Ensure you have Yarn installed, then run:
    ```
@@ -76,7 +76,7 @@ If you have ideas or feature requests, feel free to:
 
 Submit an issue
 Create a pull request
-Let’s make FirebaseAuthApp even better together! 🎉
+Let’s make ieltswithpolockbhai even better together! 🎉
 
 🛠️ Troubleshooting
 If you encounter issues, follow these steps:

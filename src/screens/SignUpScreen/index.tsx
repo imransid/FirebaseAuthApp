@@ -32,7 +32,7 @@ const SignUpScreen = () => {
     password: string;
     confirmPassword: string;
     lastName: string;
-    mobile: string;
+    mobileNumber: string;
     role: string;
   }
 
@@ -49,7 +49,7 @@ const SignUpScreen = () => {
       password: '',
       confirmPassword: '',
       lastName: '',
-      mobile: '',
+      mobileNumber: '',
       role: 'student',
     },
   });
@@ -150,7 +150,7 @@ const SignUpScreen = () => {
           <View style={styles.textInputComponentProperties}>
             <Controller
               control={control}
-              name="mobile"
+              name="mobileNumber"
               render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="mobile"
@@ -158,15 +158,15 @@ const SignUpScreen = () => {
                   onChangeText={onChange}
                   placeholder="Mobile Number"
                   inputStyle={styles.inputText}
-                  isError={Boolean(errors.mobile)}
+                  isError={Boolean(errors.mobileNumber)}
                   leftIcon={
                     <Feather name="smartphone" size={25} color={'#888888'} />
                   }
                 />
               )}
             />
-            {errors.mobile != null && (
-              <Text style={styles.errorTxt}>{errors.mobile.message}</Text>
+            {errors.mobileNumber != null && (
+              <Text style={styles.errorTxt}>{errors.mobileNumber.message}</Text>
             )}
           </View>
 
