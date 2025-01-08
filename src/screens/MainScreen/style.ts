@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   topCardPosition: {
-    top: scale(180),
+    top: scale(150),
     alignItems: 'center',
   },
   topCardText1: {
@@ -81,11 +81,11 @@ const styles = StyleSheet.create({
   },
   firstChipsPosition: {
     alignItems: 'center',
-    top: scale(190),
+    top: scale(160),
   },
   secondChipsPosition: {
     alignItems: 'center',
-    top: scale(200),
+    top: scale(170),
   },
   speakingChipProperties: {
     height: scale(85),

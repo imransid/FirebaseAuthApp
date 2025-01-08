@@ -1,10 +1,12 @@
 import {gql} from '@apollo/client';
 
 export const UPDATE_PROFILE_MUTATION = gql`
-  mutation UpdateProfile($approveStatus: Boolean!) {
-    updateProfile(updateProfileInput: {approveStatus: $approveStatus}) {
+  mutation UpdateApprovalStatus($id: Int!, $approveStatus: Boolean!) {
+    updateUserApprovalStatus(id: $id, approveStatus: $approveStatus) {
       id
       firstName
+      lastName
+      email
       approveStatus
     }
   }

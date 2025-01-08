@@ -1,47 +1,64 @@
-import React, { useEffect, useState } from 'react';
-import { FC } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FC} from 'react';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import styles from './style';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { colors } from '@/theme/colors';
+import {colors} from '@/theme/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { GET_A_USER_QUERY, GET_ALL_USERS_QUERY } from '../../query/getAuser.query';
-import { useMutation, useQuery } from '@apollo/client';
-import { Modal, Portal, Button, DataTable, Checkbox, TextInput, Title, Menu } from 'react-native-paper';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import {
+  GET_A_USER_QUERY,
+  GET_ALL_USERS_QUERY,
+} from '../../query/getAuser.query';
+import {useMutation, useQuery} from '@apollo/client';
+import {
+  Modal,
+  Portal,
+  Button,
+  DataTable,
+  Checkbox,
+  TextInput,
+  Title,
+  Menu,
+} from 'react-native-paper';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/store';
 import ToastPopUp from '@/utils/Toast.android';
-import { CREATE_TUTORIAL_MUTATION } from '@/mutation/createTutorial.mutation';
-import client, { tutorialLink } from '@/utils/apolloClient';
-import { UPDATE_PROFILE_MUTATION, DELETE_USER_MUTATION } from '@/mutation/updateProfile.mutations';
+import {CREATE_TUTORIAL_MUTATION} from '@/mutation/createTutorial.mutation';
+import client, {tutorialLink} from '@/utils/apolloClient';
+import {
+  UPDATE_PROFILE_MUTATION,
+  DELETE_USER_MUTATION,
+} from '@/mutation/updateProfile.mutations';
 
 const MainScreen: FC = () => {
   const navigation = useNavigation();
-  const [selectedUsers, setSelectedUsers] = useState<{ [key: string]: boolean }>({});
+  const [selectedUsers, setSelectedUsers] = useState<{[key: string]: boolean}>(
+    {},
+  );
   const [user, setUser] = useState({});
   const [users, setUsers] = useState([]);
 
   //getAllUsers
-  const token = useSelector((state: RootState) => state.users.token)
+  const token = useSelector((state: RootState) => state.users.token);
 
   const [visible, setVisible] = useState(false);
   const [tutorialModalVisible, setTutorialModalVisible] = useState(false);
   const [tutorialData, setTutorialData] = useState({
     title: '',
-    image: 'https://www.shutterstock.com/image-photo/graduation-cap-earth-globe-concept-260nw-2349898783.jpg',
-    videoUrl: 'https://drive.google.com/file/d/1tz6SGcsPYJQrYIhqRWlCTnoDPxhR4vdN/view?usp=drive_link',
+    image: '', //'https://www.shutterstock.com/image-photo/graduation-cap-earth-globe-concept-260nw-2349898783.jpg',
+    videoUrl: '', //'https://drive.google.com/file/d/1tz6SGcsPYJQrYIhqRWlCTnoDPxhR4vdN/view?usp=drive_link',
     category: '',
     description: '',
   });
 
-  const { data, loading, error } = useQuery(GET_A_USER_QUERY, {
+  const {data, loading, error} = useQuery(GET_A_USER_QUERY, {
     context: {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -49,14 +66,13 @@ const MainScreen: FC = () => {
     },
   });
 
-  const { data: Users, loading: usersLoading } = useQuery(GET_ALL_USERS_QUERY, {
+  const {data: Users, loading: usersLoading} = useQuery(GET_ALL_USERS_QUERY, {
     context: {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     },
   });
-
 
   const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
     context: {
@@ -67,12 +83,11 @@ const MainScreen: FC = () => {
     onCompleted: () => {
       ToastPopUp('User deleted successfully!');
     },
-    onError: (error) => {
+    onError: error => {
       console.error('Error deleting user:', error);
       ToastPopUp('Failed to delete user. Please try again.');
     },
   });
-
 
   const [updateProfile] = useMutation(UPDATE_PROFILE_MUTATION, {
     context: {
@@ -80,27 +95,31 @@ const MainScreen: FC = () => {
         Authorization: `Bearer ${token}`, // Pass the token
       },
     },
-    onCompleted: (data) => {
-      ToastPopUp(`Approval updated for ${data.updateProfile.firstName}!`);
+    onCompleted: data => {
+      console.log('data', data);
+
+      ToastPopUp(
+        `Approval updated for ${data.updateUserApprovalStatus.firstName}!`,
+      );
     },
-    onError: (error) => {
+    onError: error => {
       console.error('Error updating approval:', error);
       ToastPopUp('Failed to update approval. Please try again.');
     },
   });
 
   useEffect(() => {
-
     if (data !== undefined && loading === false) {
-      setUser(data.getAUser)
+      setUser(data.getAUser);
     }
 
     if (Users !== undefined && usersLoading === false) {
-      const filteredUsers = Users.getAllUsers.filter(user => user.role !== 'admin');
+      const filteredUsers = Users.getAllUsers.filter(
+        user => user.role !== 'admin',
+      );
       setUsers(filteredUsers);
     }
-
-  }, [data, loading, Users])
+  }, [data, loading, Users]);
 
   const handleDelete = async (userId: string) => {
     Alert.alert(
@@ -117,9 +136,8 @@ const MainScreen: FC = () => {
           onPress: async () => {
             try {
               await deleteUser({
-                variables: { id: userId },
+                variables: {id: parseInt(userId)},
               });
-              // Optionally refresh the user list or remove the user from the local state
               console.log('User deleted successfully');
             } catch (error) {
               console.error('Error deleting user:', error);
@@ -127,7 +145,7 @@ const MainScreen: FC = () => {
           },
         },
       ],
-      { cancelable: false } // Prevent dismissing the alert by tapping outside
+      {cancelable: false}, // Prevent dismissing the alert by tapping outside
     );
   };
 
@@ -136,24 +154,23 @@ const MainScreen: FC = () => {
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
 
-
   const showTutorialModal = () => setTutorialModalVisible(true);
   const hideTutorialModal = () => setTutorialModalVisible(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
   const handleCheckboxChange = async (userId: string, value: boolean) => {
-    setSelectedUsers((prev) => ({
+    setSelectedUsers(prev => ({
       ...prev,
       [userId]: value,
     }));
-    console.log(`User with ID: ${userId} approved: ${value}`);
 
     // Call mutation to update approval status
     try {
       await updateProfile({
         variables: {
           approveStatus: value,
+          id: parseInt(userId),
         },
       });
     } catch (error) {
@@ -161,12 +178,11 @@ const MainScreen: FC = () => {
     }
   };
 
-
   const handleCreateTutorial = async () => {
     client.setLink(tutorialLink); // Set to tutorial endpoint
     try {
       // Pass tutorialData as createTutorialInput in variables
-      const { data } = await client.mutate({
+      const {data} = await client.mutate({
         mutation: CREATE_TUTORIAL_MUTATION,
         variables: {
           createTutorialInput: tutorialData,
@@ -185,7 +201,7 @@ const MainScreen: FC = () => {
       ToastPopUp('Tutorial created successfully!');
 
       // Optionally, reset tutorialData if needed for form reset
-      // setTutorialData(initialTutorialData); 
+      // setTutorialData(initialTutorialData);
     } catch (error) {
       console.error('Error creating tutorial:', error);
       hideTutorialModal();
@@ -194,54 +210,58 @@ const MainScreen: FC = () => {
     }
   };
 
-
   const handleListening = async () => {
     navigation.navigate('ListeningScreen' as never);
-  }
+  };
 
   const handleReading = async () => {
     navigation.navigate('ReadingScreen' as never);
-  }
-
+  };
 
   const handleSpeaking = async () => {
     navigation.navigate('SpeakingScreen' as never);
-  }
+  };
   const handleWriting = async () => {
     navigation.navigate('WritingScreen' as never);
-  }
-
+  };
 
   return (
     <>
-
       <Spinner
         visible={loading || usersLoading}
         textContent={' Loading...'}
         color={colors.white}
-        textStyle={{ color: colors.white }}
+        textStyle={{color: colors.white}}
       />
 
       {/* Add Tutorial Modal */}
       <Portal>
-        <Modal visible={tutorialModalVisible} onDismiss={hideTutorialModal} contentContainerStyle={styles.modalContainer}>
-
+        <Modal
+          visible={tutorialModalVisible}
+          onDismiss={hideTutorialModal}
+          contentContainerStyle={styles.modalContainer}>
           <Title>Add Tutorial</Title>
           <View style={styles.modalContent}>
             <TextInput
               label="Title"
               value={tutorialData.title}
-              onChangeText={(text) => setTutorialData({ ...tutorialData, title: text })}
+              onChangeText={text =>
+                setTutorialData({...tutorialData, title: text})
+              }
             />
             <TextInput
               label="Image URL"
               value={tutorialData.image}
-              onChangeText={(text) => setTutorialData({ ...tutorialData, image: text })}
+              onChangeText={text =>
+                setTutorialData({...tutorialData, image: text})
+              }
             />
             <TextInput
               label="Video URL"
               value={tutorialData.videoUrl}
-              onChangeText={(text) => setTutorialData({ ...tutorialData, videoUrl: text })}
+              onChangeText={text =>
+                setTutorialData({...tutorialData, videoUrl: text})
+              }
             />
 
             <Menu
@@ -251,13 +271,12 @@ const MainScreen: FC = () => {
                 <Button onPress={openMenu}>
                   {tutorialData.category || 'Select Category'}
                 </Button>
-              }
-            >
-              {['LISTENING', 'READING', 'WRITING', 'SPEAKING'].map((item) => (
+              }>
+              {['LISTENING', 'READING', 'WRITING', 'SPEAKING'].map(item => (
                 <Menu.Item
                   key={item}
                   onPress={() => {
-                    setTutorialData({ ...tutorialData, category: item });
+                    setTutorialData({...tutorialData, category: item});
                     closeMenu();
                   }}
                   title={item}
@@ -267,25 +286,32 @@ const MainScreen: FC = () => {
             <TextInput
               label="Description"
               value={tutorialData.description}
-              onChangeText={(text) => setTutorialData({ ...tutorialData, description: text })}
+              onChangeText={text =>
+                setTutorialData({...tutorialData, description: text})
+              }
             />
             <Button onPress={handleCreateTutorial}>Add Tutorial</Button>
           </View>
-          <Button onPress={hideTutorialModal} style={styles.closeButton}>Close</Button>
+          <Button onPress={hideTutorialModal} style={styles.closeButton}>
+            Close
+          </Button>
         </Modal>
       </Portal>
 
       {/* user */}
 
       <Portal>
-        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={styles.modalContainer}>
-          <Text style={styles.modalTitle}>User List</Text>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Student List</Text>
           <DataTable>
             <DataTable.Header>
               <DataTable.Title>Name</DataTable.Title>
               <DataTable.Title>Email</DataTable.Title>
               <DataTable.Title>Role</DataTable.Title>
-              <DataTable.Title>Actions</DataTable.Title>
+              {/* <DataTable.Title>Actions</DataTable.Title> */}
               <DataTable.Title>Approve Status</DataTable.Title>
             </DataTable.Header>
             {users?.map((user: any) => (
@@ -293,7 +319,7 @@ const MainScreen: FC = () => {
                 <DataTable.Cell>{user?.firstName}</DataTable.Cell>
                 <DataTable.Cell>{user?.email}</DataTable.Cell>
                 <DataTable.Cell>{user?.role}</DataTable.Cell>
-                <DataTable.Cell>
+                {/* <DataTable.Cell>
                   <TouchableOpacity onPress={() => handleDelete(user.id)}>
                     <MaterialCommunityIcons
                       name="account-off"
@@ -301,23 +327,30 @@ const MainScreen: FC = () => {
                       color={colors.userDlt}
                     />
                   </TouchableOpacity>
-                </DataTable.Cell>
+                </DataTable.Cell> */}
                 <DataTable.Cell>
                   <Checkbox
                     status={selectedUsers[user.id] ? 'checked' : 'unchecked'}
-                    onPress={() => handleCheckboxChange(user?.id, !selectedUsers[user?.id])}
+                    onPress={() =>
+                      handleCheckboxChange(user?.id, !selectedUsers[user?.id])
+                    }
                   />
                 </DataTable.Cell>
               </DataTable.Row>
             ))}
           </DataTable>
-          <Button onPress={hideModal} style={styles.closeButton}>Close</Button>
+          <Button onPress={hideModal} style={styles.closeButton}>
+            Close
+          </Button>
         </Modal>
       </Portal>
 
       <View style={styles.header}>
         <View style={styles.headerChipProperties}>
-          <TouchableOpacity disabled={user?.role === 'admin' ? false : true} onPress={showModal} style={styles.userNameChip}>
+          <TouchableOpacity
+            disabled={user?.role === 'admin' ? false : true}
+            onPress={showModal}
+            style={styles.userNameChip}>
             <Text style={styles.userNameText}>{user?.firstName}</Text>
           </TouchableOpacity>
           <View style={styles.notificationAndSettingsProperties}>
@@ -344,16 +377,23 @@ const MainScreen: FC = () => {
       </View>
 
       <View style={styles.topCardPosition}>
-        <TouchableOpacity style={styles.topCard} disabled={user?.role === 'admin' ? false : true} onPress={showTutorialModal} >
+        <TouchableOpacity
+          style={styles.topCard}
+          disabled={user?.role === 'admin' ? false : true}
+          onPress={showTutorialModal}>
           <LinearGradient
             colors={['#f57c00', '#FF5252', '#ad1457', '#7d3c98', '#00695c']}
-            start={{ x: 0, y: 0 }} // Starting point of the gradient (left side)
-            end={{ x: 1, y: 0 }} // Ending point of the gradient (right side)
+            start={{x: 0, y: 0}} // Starting point of the gradient (left side)
+            end={{x: 1, y: 0}} // Ending point of the gradient (right side)
             style={styles.topCard}>
-            <Text style={styles.topCardText1}>{user.role === 'admin' ? "Add Tutorial" : ""}</Text>
-            <Text style={styles.topCardText2}>
-              Journey with Polock Bhai
+            <Text style={styles.topCardText1}>
+              {user.role === 'admin'
+                ? 'Add Tutorial'
+                : 'Journey with Polock Bhai'}
             </Text>
+            {/* <Text style={styles.topCardText2}>
+              Journey with Polock Bhai
+            </Text> */}
           </LinearGradient>
         </TouchableOpacity>
       </View>

@@ -1,7 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {FC} from 'react';
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './style';
 import {Card, Paragraph, Title} from 'react-native-paper';
@@ -17,7 +23,8 @@ import moment from 'moment';
 const ReadingScreen: FC = () => {
   const token = useSelector((state: RootState) => state.users.token);
   const [listeningList, setListeningList] = useState([]);
-  const {data, loading, error} = useQuery(GET_ALL_TUTORIALS_QUERY, {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const {data, loading, error, refetch} = useQuery(GET_ALL_TUTORIALS_QUERY, {
     context: {
       uri: 'http://3.26.192.7:4001/graphql', // Set the dynamic link
       headers: {
@@ -37,43 +44,49 @@ const ReadingScreen: FC = () => {
     }
   }, [data, loading]);
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refetch(); // Refetch data from the server
+    } catch (error) {
+      console.error('Error during refetch:', error);
+    }
+    setIsRefreshing(false);
+  };
+
   const renderItem = ({item}: {item: any}) => (
-    <>
-      <Card style={styles.card}>
-        <View style={styles.cardStyle}>
-          <Image
-            source={{uri: item.image}}
-            style={styles.imageBackground}></Image>
-          <View style={styles.cardProperties}>
-            <Title style={styles.titleText}>{item.title}</Title>
-            <Paragraph style={styles.dateText}>
-              Date: {moment(item.date).format('DD MMMM, YYYY')}
-            </Paragraph>
+    <Card style={styles.card}>
+      <View style={styles.cardStyle}>
+        <Image source={{uri: item.image}} style={styles.imageBackground} />
+        <View style={styles.cardProperties}>
+          <Title style={styles.titleText}>{item.title}</Title>
+          <Paragraph style={styles.dateText}>
+            Date: {moment(item.date).format('DD MMMM, YYYY')}
+          </Paragraph>
 
-            <Text style={styles.descriptionText}>{item.description}</Text>
+          <Text style={styles.descriptionText}>{item.description}</Text>
 
-            <TouchableOpacity
-              style={styles.viewVideoButton}
-              onPress={() =>
-                navigation.navigate('VideoPlayer', {
-                  videoUrl: item.videoUrl,
-                  title: item.title,
-                  description: item.description,
-                })
-              }>
-              <Text style={styles.viewVideoText}>View Video</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.viewVideoButton}
+            onPress={() =>
+              navigation.navigate('VideoPlayer', {
+                videoUrl: item.videoUrl,
+                title: item.title,
+                description: item.description,
+              })
+            }>
+            <Text style={styles.viewVideoText}>View Video</Text>
+          </TouchableOpacity>
         </View>
-      </Card>
-    </>
+      </View>
+    </Card>
   );
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <Spinner
         visible={loading}
-        textContent={' Loading...'}
+        textContent="Loading..."
         color={colors.white}
         textStyle={{color: colors.white}}
       />
@@ -112,7 +125,13 @@ const ReadingScreen: FC = () => {
         data={listeningList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
-        contentContainerStyle={{paddingBottom: 180}} // Add extra padding here
+        contentContainerStyle={{paddingBottom: 20}} // Reduced padding
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing} // Show refresh spinner
+            onRefresh={handleRefresh} // Call refresh handler on pull-to-refresh
+          />
+        }
       />
     </View>
   );

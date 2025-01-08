@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,25 +7,26 @@ import {
   Alert,
   Image,
 } from 'react-native';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import CustomTextInput from '@/Components/CustomTextInput/CustomTextInput';
-import {Controller, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
-import {colors} from '@/theme/colors';
-import {signInFormValidation} from '@/utils/formValidation';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { colors } from '@/theme/colors';
+import { signInFormValidation } from '@/utils/formValidation';
 import CustomButton from '@/Components/CustomButton/CustomButton';
-import {RootStackParamList} from '@/navigation/AppNavigator';
-import {LOGIN_MUTATION} from '@/mutation/login.mutations';
-import {useMutation} from '@apollo/client';
+import { RootStackParamList } from '@/navigation/AppNavigator';
+import { LOGIN_MUTATION } from '@/mutation/login.mutations';
+import { useMutation } from '@apollo/client';
 import ToastPopUp from '@/utils/Toast.android';
-import {updateToken} from '@/store/slices/features/users/slice';
-import {useDispatch} from 'react-redux';
+import { updateToken } from '@/store/slices/features/users/slice';
+import { useDispatch } from 'react-redux';
 
+import bookLogo from '../../assets/images/book_logo.jpeg'
 // Define the type of navigation object
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Onboarding'>;
 
@@ -48,7 +49,7 @@ const LoginScreen = () => {
     control,
     handleSubmit,
     setValue,
-    formState: {errors},
+    formState: { errors },
   } = useForm<ILoginDataProps>({
     resolver: yupResolver(signInFormValidation),
     defaultValues: {
@@ -60,7 +61,7 @@ const LoginScreen = () => {
   const handleGoogleSignIn = async (data: ILoginDataProps) => {
     try {
       const response = await loginMutation({
-        variables: {input: data},
+        variables: { input: data },
       });
 
       if (response.data.login) {
@@ -115,12 +116,12 @@ const LoginScreen = () => {
         </View>
       </View>
       <View style={styles.loginContentContainer}>
-        <View style={{flexDirection: 'row', alignContent: 'center'}}>
+        <View style={{ flexDirection: 'row', alignContent: 'center' }}>
           <Image
-            source={require('../../assets/images/book_logo.png')}
+            source={bookLogo}
             style={styles.loginHeaderImage}></Image>
-          <View style={{marginTop: scale(45)}}>
-            <View style={{flexDirection: 'row', gap: 10}}>
+          <View style={{ marginTop: scale(45) }}>
+            <View style={{ flexDirection: 'row', gap: 10 }}>
               <Text style={styles.loginHeaderText1}>IELTS</Text>
               <Text style={styles.loginHeaderText2}>With POLOCK BHAI</Text>
             </View>
@@ -133,7 +134,7 @@ const LoginScreen = () => {
             <Controller
               control={control}
               name="email"
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="email"
                   value={value}
@@ -160,7 +161,7 @@ const LoginScreen = () => {
             <Controller
               control={control}
               name="password"
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="password"
                   value={value}

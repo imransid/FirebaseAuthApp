@@ -1,19 +1,20 @@
-import React, {useState} from 'react';
-import {View, Text, Alert, Image, ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {Controller, useForm} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
+import React, { useState } from 'react';
+import { View, Text, Alert, Image, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Feather from 'react-native-vector-icons/Feather';
-import {signUpFormValidation} from '@/utils/formValidation';
+import { signUpFormValidation } from '@/utils/formValidation';
 import CustomTextInput from '@/Components/CustomTextInput/CustomTextInput';
 import CustomButton from '@/Components/CustomButton/CustomButton';
-import {RootStackParamList} from '@/navigation/AppNavigator';
-import {useMutation} from '@apollo/client';
-import {REGISTER_MUTATION} from '@/mutation/register.mutations';
+import { RootStackParamList } from '@/navigation/AppNavigator';
+import { useMutation } from '@apollo/client';
+import { REGISTER_MUTATION } from '@/mutation/register.mutations';
 import ToastPopUp from '@/utils/Toast.android';
 import styles from './style';
+import bookLogo from '@/assets/images/book_logo.jpeg'
 
 // Define the type of navigation object
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Welcome'>;
@@ -39,7 +40,7 @@ const SignUpScreen = () => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm<ISignUpDataProps>({
     resolver: yupResolver(signUpFormValidation),
     defaultValues: {
@@ -57,7 +58,7 @@ const SignUpScreen = () => {
     setDisable(true);
     try {
       const response = await registerMutation({
-        variables: {input: data},
+        variables: { input: data },
       });
 
       if (response.data.register) {
@@ -81,7 +82,7 @@ const SignUpScreen = () => {
       <ScrollView style={styles.signUpContentContainer}>
         <View style={styles.secondaryHeaderImageProperties}>
           <Image
-            source={require('../../assets/images/book_logo.png')}
+            source={bookLogo}
             style={styles.signUpHeaderImage}></Image>
           <View style={styles.secondaryHeaderTextPosition}>
             <View style={styles.secondaryHeaderTextProperties}>
@@ -96,7 +97,7 @@ const SignUpScreen = () => {
             <Controller
               control={control}
               name="firstName"
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="string"
                   value={value}
@@ -123,7 +124,7 @@ const SignUpScreen = () => {
             <Controller
               control={control}
               name="lastName"
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="string"
                   value={value}
@@ -150,7 +151,7 @@ const SignUpScreen = () => {
             <Controller
               control={control}
               name="mobile"
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="mobile"
                   value={value}
@@ -173,7 +174,7 @@ const SignUpScreen = () => {
             <Controller
               control={control}
               name="email"
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="email"
                   value={value}
@@ -200,7 +201,7 @@ const SignUpScreen = () => {
             <Controller
               control={control}
               name="password"
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="password"
                   value={value}
@@ -229,7 +230,7 @@ const SignUpScreen = () => {
             <Controller
               control={control}
               name="confirmPassword"
-              render={({field: {onChange, value}}) => (
+              render={({ field: { onChange, value } }) => (
                 <CustomTextInput
                   type="password"
                   value={value}
