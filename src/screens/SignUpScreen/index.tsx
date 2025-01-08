@@ -57,8 +57,12 @@ const SignUpScreen = () => {
   const handleSignUp = async (data: ISignUpDataProps) => {
     setDisable(true);
     try {
+
+      // Remove confirmPassword before sending the data
+      const { confirmPassword, ...input } = data;
+
       const response = await registerMutation({
-        variables: { input: data },
+        variables: { input },
       });
 
       if (response.data.register) {
