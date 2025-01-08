@@ -241,7 +241,21 @@ const MainScreen: FC = () => {
           visible={tutorialModalVisible}
           onDismiss={hideTutorialModal}
           contentContainerStyle={styles.modalContainer}>
-          <Title>Add Tutorial</Title>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Title
+              style={{
+                marginBottom: 20,
+                fontSize: 18,
+                fontWeight: '600',
+              }}>
+              Add Tutorial
+            </Title>
+
+            <TouchableOpacity onPress={hideTutorialModal}>
+              <FontAwesome name="close" size={20} color="#000" />
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.modalContent}>
             <TextInput
               label="Title"
@@ -293,9 +307,6 @@ const MainScreen: FC = () => {
             />
             <Button onPress={handleCreateTutorial}>Add Tutorial</Button>
           </View>
-          <Button onPress={hideTutorialModal} style={styles.closeButton}>
-            Close
-          </Button>
         </Modal>
       </Portal>
 
