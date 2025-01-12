@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
+  RefreshControl,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -24,7 +25,8 @@ import moment from 'moment';
 const SpeakingScreen: FC = () => {
   const token = useSelector((state: RootState) => state.users.token);
   const [listeningList, setListeningList] = useState([]);
-  const {data, loading, error} = useQuery(GET_ALL_TUTORIALS_QUERY, {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const {data, loading, error, refetch} = useQuery(GET_ALL_TUTORIALS_QUERY, {
     context: {
       uri: 'http://3.26.192.7:4001/graphql', // Set the dynamic link
       headers: {
@@ -45,6 +47,16 @@ const SpeakingScreen: FC = () => {
     }
   }, [data, loading]);
 
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refetch(); // Refetch data from the server
+    } catch (error) {
+      console.error('Error during refetch:', error);
+    }
+    setIsRefreshing(false);
+  };
+
   const renderItem = ({item}: {item: any}) => (
     <>
       <Card style={styles.card}>
@@ -64,6 +76,7 @@ const SpeakingScreen: FC = () => {
               style={styles.viewVideoButton}
               onPress={() =>
                 navigation.navigate('VideoPlayer', {
+                  id: item.id,
                   videoUrl: item.videoUrl,
                   title: item.title,
                   description: item.description,
@@ -121,6 +134,12 @@ const SpeakingScreen: FC = () => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
         contentContainerStyle={{paddingBottom: 180}} // Add extra padding here
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing} // Show refresh spinner
+            onRefresh={handleRefresh} // Call refresh handler on pull-to-refresh
+          />
+        }
       />
     </View>
   );

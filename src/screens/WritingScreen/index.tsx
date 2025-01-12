@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {FC} from 'react';
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './style';
@@ -17,7 +24,8 @@ import moment from 'moment';
 const WritingScreen: FC = () => {
   const token = useSelector((state: RootState) => state.users.token);
   const [listeningList, setListeningList] = useState([]);
-  const {data, loading, error} = useQuery(GET_ALL_TUTORIALS_QUERY, {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const {data, loading, error, refetch} = useQuery(GET_ALL_TUTORIALS_QUERY, {
     context: {
       uri: 'http://3.26.192.7:4001/graphql', // Set the dynamic link
       headers: {
@@ -36,6 +44,16 @@ const WritingScreen: FC = () => {
       setListeningList(listeningTutorials);
     }
   }, [data, loading]);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      await refetch(); // Refetch data from the server
+    } catch (error) {
+      console.error('Error during refetch:', error);
+    }
+    setIsRefreshing(false);
+  };
 
   const renderItem = ({item}: {item: any}) => (
     <>
@@ -56,6 +74,7 @@ const WritingScreen: FC = () => {
               style={styles.viewVideoButton}
               onPress={() =>
                 navigation.navigate('VideoPlayer', {
+                  id: item.id,
                   videoUrl: item.videoUrl,
                   title: item.title,
                   description: item.description,
@@ -113,6 +132,12 @@ const WritingScreen: FC = () => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
         contentContainerStyle={{paddingBottom: 180}} // Add extra padding here
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing} // Show refresh spinner
+            onRefresh={handleRefresh} // Call refresh handler on pull-to-refresh
+          />
+        }
       />
     </View>
   );

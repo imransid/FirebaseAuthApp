@@ -150,8 +150,8 @@ const styles = StyleSheet.create({
   },
   userNameText: {
     color: colors.userNameTextColor,
-    fontSize: scale(12),
-    fontWeight: '600',
+    fontSize: scale(14),
+    fontWeight: '700',
   },
   notificationAndSettingsProperties: {
     flexDirection: 'row',
@@ -178,9 +178,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 18,
+    fontWeight: '600',
     marginBottom: 20,
+    color: 'black',
   },
   closeButton: {
     marginTop: 20,

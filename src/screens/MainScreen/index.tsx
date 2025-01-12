@@ -6,6 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -240,7 +241,21 @@ const MainScreen: FC = () => {
           visible={tutorialModalVisible}
           onDismiss={hideTutorialModal}
           contentContainerStyle={styles.modalContainer}>
-          <Title>Add Tutorial</Title>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Title
+              style={{
+                marginBottom: 20,
+                fontSize: 18,
+                fontWeight: '600',
+              }}>
+              Add Tutorial
+            </Title>
+
+            <TouchableOpacity onPress={hideTutorialModal}>
+              <FontAwesome name="close" size={20} color="#000" />
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.modalContent}>
             <TextInput
               label="Title"
@@ -292,20 +307,21 @@ const MainScreen: FC = () => {
             />
             <Button onPress={handleCreateTutorial}>Add Tutorial</Button>
           </View>
-          <Button onPress={hideTutorialModal} style={styles.closeButton}>
-            Close
-          </Button>
         </Modal>
       </Portal>
 
       {/* user */}
-
       <Portal>
         <Modal
           visible={visible}
           onDismiss={hideModal}
           contentContainerStyle={styles.modalContainer}>
-          <Text style={styles.modalTitle}>Student List</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.modalTitle}>Student List</Text>
+            <TouchableOpacity onPress={hideModal}>
+              <FontAwesome name="close" size={22} color="#000" />
+            </TouchableOpacity>
+          </View>
           <DataTable>
             <DataTable.Header>
               <DataTable.Title>Name</DataTable.Title>
@@ -339,9 +355,6 @@ const MainScreen: FC = () => {
               </DataTable.Row>
             ))}
           </DataTable>
-          <Button onPress={hideModal} style={styles.closeButton}>
-            Close
-          </Button>
         </Modal>
       </Portal>
 
@@ -355,7 +368,9 @@ const MainScreen: FC = () => {
           </TouchableOpacity>
           <View style={styles.notificationAndSettingsProperties}>
             <View style={styles.notificationAndSettings}>
-              <TouchableOpacity style={styles.notificationChip}>
+              <TouchableOpacity
+                style={styles.notificationChip}
+                onPress={() => navigation.navigate('Notifications' as never)}>
                 <MaterialCommunityIcons
                   name="bell"
                   size={25}

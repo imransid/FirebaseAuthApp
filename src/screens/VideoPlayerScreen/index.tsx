@@ -1,20 +1,11 @@
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Video from 'react-native-video';
-import {Card, IconButton, Button, Avatar} from 'react-native-paper';
+import {Card, IconButton} from 'react-native-paper';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './style';
 import {useNavigation} from '@react-navigation/native';
-import {colors} from '@/theme/colors';
 import {UPDATE_TUTORIAL} from '@/mutation/updateTutorial.mutations';
 import client, {tutorialLink} from '@/utils/apolloClient';
 import {useSelector} from 'react-redux';
@@ -23,8 +14,8 @@ import {RootState} from '@/store';
 const VideoPlayerScreen = ({route}: {route: any}) => {
   const {id, videoUrl, title, description, like, dislike} = route.params;
 
-  const [likeCount, setLikeCount] = useState(like);
-  const [dislikeCount, setDislikeCount] = useState(dislike);
+  const [likeCount, setLikeCount] = useState(0);
+  const [dislikeCount, setDislikeCount] = useState(0);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,11 +29,17 @@ const VideoPlayerScreen = ({route}: {route: any}) => {
 
     try {
       client.setLink(tutorialLink); // Set to tutorial endpoint
+
+      if (id === null || id === undefined) {
+        console.error('Error: id is null or undefined');
+        return;
+      }
+
       const {data} = await client.mutate({
         mutation: UPDATE_TUTORIAL,
         variables: {
           id: parseFloat(id), // Ensure id is a Float, if necessary
-          like: parseFloat(newLikeCount), // Explicitly convert to Float
+          like: newLikeCount, // Explicitly convert to Float
         },
         context: {
           headers: {
@@ -66,7 +63,7 @@ const VideoPlayerScreen = ({route}: {route: any}) => {
         mutation: UPDATE_TUTORIAL,
         variables: {
           id: parseFloat(id), // Ensure id is a Float, if necessary
-          dislike: parseFloat(newDislikeCount), // Explicitly convert to Float
+          dislike: newDislikeCount, // Explicitly convert to Float
         },
         context: {
           headers: {
@@ -95,11 +92,18 @@ const VideoPlayerScreen = ({route}: {route: any}) => {
     <View style={styles.container}>
       {/* Top Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#000" />
-        </TouchableOpacity>
+        <View style={styles.headerLeftIconPosition}>
+          <TouchableOpacity
+            style={styles.headerLeftIconBackground}
+            onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
+        </View>
         {/* <Avatar.Icon size={40} icon="video" /> */}
-        <Text style={styles.title}>{title}</Text>
+
+        <View style={styles.headerTitlePosition}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
       </View>
 
       {/* Video Section with Skeleton Loader */}
@@ -140,7 +144,7 @@ const VideoPlayerScreen = ({route}: {route: any}) => {
       </View>
 
       {/* Comment Section */}
-      <View style={styles.commentSection}>
+      {/* <View style={styles.commentSection}>
         <Text style={styles.commentTitle}>Comments</Text>
         <TextInput
           value={comment}
@@ -165,7 +169,7 @@ const VideoPlayerScreen = ({route}: {route: any}) => {
             </View>
           )}
         />
-      </View>
+      </View> */}
     </View>
   );
 };

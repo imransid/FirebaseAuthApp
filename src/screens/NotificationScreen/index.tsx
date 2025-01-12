@@ -3,7 +3,7 @@ import {FC} from 'react';
 import {View, Text} from 'react-native';
 import styles from './style';
 
-const SettingsScreen: FC = () => {
+const NotificationScreen: FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.mainText}>Coming Soon!</Text>
@@ -11,4 +11,4 @@ const SettingsScreen: FC = () => {
   );
 };
 
-export default SettingsScreen;
+export default NotificationScreen;
