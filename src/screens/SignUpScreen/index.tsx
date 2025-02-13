@@ -15,7 +15,7 @@ import { REGISTER_MUTATION } from '@/mutation/register.mutations';
 import ToastPopUp from '@/utils/Toast.android';
 import styles from './style';
 import bookLogo from '@/assets/images/book_logo.jpeg'
-
+import DeviceInfo from 'react-native-device-info';
 // Define the type of navigation object
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Welcome'>;
 
@@ -57,21 +57,28 @@ const SignUpScreen = () => {
   const handleSignUp = async (data: ISignUpDataProps) => {
     setDisable(true);
     try {
+      // Await deviceID retrieval
+      const deviceID = await DeviceInfo.getUniqueId();
 
-      // Remove confirmPassword before sending the data
+      // Remove confirmPassword before sending the data and add deviceID
       const { confirmPassword, ...input } = data;
+      const updatedData = { ...input, deviceID, batchStatus: "34" }; // Add batchStatus if required
+
+      console.log("updatedData", updatedData)
 
       const response = await registerMutation({
-        variables: { input },
+        variables: { input: updatedData },
       });
 
-      if (response.data.register) {
+      if (response.data?.register) {
         ToastPopUp(response.data.register.message);
         navigation.navigate('SignIn' as never);
       }
     } catch (error) {
       console.error('Sign-Up Error:', error);
       Alert.alert('Error', 'Failed to create account. Please try again.');
+    } finally {
+      setDisable(false);
     }
   };
 

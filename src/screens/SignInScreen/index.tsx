@@ -25,6 +25,7 @@ import { useMutation } from '@apollo/client';
 import ToastPopUp from '@/utils/Toast.android';
 import { updateToken } from '@/store/slices/features/users/slice';
 import { useDispatch } from 'react-redux';
+import DeviceInfo from 'react-native-device-info';
 
 import bookLogo from '../../assets/images/book_logo.jpeg'
 // Define the type of navigation object
@@ -60,19 +61,28 @@ const LoginScreen = () => {
 
   const handleGoogleSignIn = async (data: ILoginDataProps) => {
     try {
+      // Await deviceID retrieval to ensure it's a string
+      const deviceID = await DeviceInfo.getUniqueId();
+
+      // Add deviceID to data
+      const updatedData = { ...data, deviceID };
+
+      console.log("Google Sign-In Payload:", updatedData); // Debugging
+
       const response = await loginMutation({
-        variables: { input: data },
+        variables: { input: updatedData },
       });
 
-      if (response.data.login) {
+      if (response.data?.login) {
         ToastPopUp(response.data.login.message);
         dispatch(updateToken(response.data.login.token));
         navigation.navigate('Main' as never);
       }
     } catch (error) {
-      console.error('Sign-IN Error:', error);
+      console.error('Sign-In Error:', error);
       Alert.alert('Error', 'Failed to CONNECT account. Please try again.');
     }
+    // };
 
     // try {
     //   // Trigger Google Sign-In

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {FC} from 'react';
+import React, { useEffect, useState } from 'react';
+import { FC } from 'react';
 import {
   View,
   Text,
@@ -10,23 +10,23 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './style';
-import {Card, Paragraph, Title} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import {useQuery} from '@apollo/client';
+import { Card, Paragraph, Title } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { useQuery } from '@apollo/client';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {colors} from '@/theme/colors';
-import {RootState} from '@/store';
-import {useSelector} from 'react-redux';
-import {GET_ALL_TUTORIALS_QUERY} from '@/query/getALLTutorial.query';
+import { colors } from '@/theme/colors';
+import { RootState } from '@/store';
+import { useSelector } from 'react-redux';
+import { GET_ALL_TUTORIALS_QUERY } from '@/query/getALLTutorial.query';
 import moment from 'moment';
 
 const ReadingScreen: FC = () => {
   const token = useSelector((state: RootState) => state.users.token);
   const [listeningList, setListeningList] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const {data, loading, error, refetch} = useQuery(GET_ALL_TUTORIALS_QUERY, {
+  const { data, loading, error } = useQuery(GET_ALL_TUTORIALS_QUERY, {
     context: {
-      uri: 'http://3.26.192.7:4001/graphql', // Set the dynamic link
+      uri: 'http://3.27.192.76:4001/graphql', // Set the dynamic link
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -54,10 +54,10 @@ const ReadingScreen: FC = () => {
     setIsRefreshing(false);
   };
 
-  const renderItem = ({item}: {item: any}) => (
+  const renderItem = ({ item }: { item: any }) => (
     <Card style={styles.card}>
       <View style={styles.cardStyle}>
-        <Image source={{uri: item.image}} style={styles.imageBackground} />
+        <Image source={{ uri: item.image }} style={styles.imageBackground} />
         <View style={styles.cardProperties}>
           <Title style={styles.titleText}>{item.title}</Title>
           <Paragraph style={styles.dateText}>
@@ -83,12 +83,12 @@ const ReadingScreen: FC = () => {
   );
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Spinner
         visible={loading}
         textContent="Loading..."
         color={colors.white}
-        textStyle={{color: colors.white}}
+        textStyle={{ color: colors.white }}
       />
 
       <View style={styles.headerView}>
@@ -125,7 +125,7 @@ const ReadingScreen: FC = () => {
         data={listeningList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
-        contentContainerStyle={{paddingBottom: 20}} // Reduced padding
+        contentContainerStyle={{ paddingBottom: 20 }} // Reduced padding
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing} // Show refresh spinner

@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import SignInScreen from '../screens/SignInScreen';
 import HomeScreen from '../screens/HomeScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
@@ -12,18 +12,19 @@ import WritingScreen from '@/screens/WritingScreen';
 import ReadingScreen from '@/screens/ReadingScreen';
 import SignUpScreen from '@/screens/SignUpScreen';
 import MainScreen from '@/screens/MainScreen';
-import {colors} from '@/theme/colors';
-import {TouchableOpacity, View} from 'react-native';
+import { colors } from '@/theme/colors';
+import { TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import styles from './style';
 import SettingsScreen from '@/screens/SettingsScreen';
+import IELTSWebView from '@/screens/WebView'
 
 export type RootStackParamList = {
   Onboarding: undefined;
   Welcome: undefined;
-  HomeScreen: {videoURL?: ''} | undefined;
-  MainScreen: {chipName?: ''} | undefined;
+  HomeScreen: { videoURL?: '' } | undefined;
+  MainScreen: { chipName?: '' } | undefined;
 };
 
 const Stack = createStackNavigator();
@@ -36,45 +37,52 @@ const AppNavigator = () => {
       <Stack.Screen
         name="SignIn"
         component={SignInScreen}
-        options={{headerShown: false}} // Hides the header for SignIn
+        options={{ headerShown: false }} // Hides the header for SignIn
       />
 
       <Stack.Screen
         name="SignUp"
         component={SignUpScreen}
-        options={{headerShown: false}} // Hides the header for SignIn
+        options={{ headerShown: false }} // Hides the header for SignIn
       />
       <Stack.Screen
         name="Main"
         component={MainScreen}
-        options={{headerShown: false}} // Hides the header for SignIn
+        options={{ headerShown: false }} // Hides the header for SignIn
       />
       <Stack.Screen
         name="Onboarding"
         component={OnboardingScreen}
-        options={{headerShown: false}} // Hides the header for Onboarding
+        options={{ headerShown: false }} // Hides the header for Onboarding
       />
       <Stack.Screen
         name="Welcome"
         component={WelcomeScreen}
-        options={{headerShown: false}} // Hides the header for Welcome
+        options={{ headerShown: false }} // Hides the header for Welcome
       />
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{headerShown: false}} // Hides the header for Home
+        options={{ headerShown: false }} // Hides the header for Home
       />
 
       <Stack.Screen
         name="ExploreTab"
         component={ExploreTab}
-        options={{headerShown: false}} // Hides the header for Home
+        options={{ headerShown: false }} // Hides the header for Home
       />
       <Stack.Screen
         name="VideoPlayer"
         component={VideoPlayerScreen}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
+
+      <Stack.Screen
+        name="IELTSWebView"
+        component={IELTSWebView}
+        options={{ headerShown: false }}
+      />
+
       <Stack.Screen
         name="ListeningScreen"
         component={ListeningScreen}

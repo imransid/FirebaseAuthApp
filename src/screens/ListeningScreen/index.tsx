@@ -1,29 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import {FC} from 'react';
-import {View, Text, FlatList, Image, TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FC } from 'react';
+import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import styles from './style';
-import {Card, Paragraph, Title} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import {useQuery} from '@apollo/client';
+import { Card, Paragraph, Title } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { useQuery } from '@apollo/client';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {colors} from '@/theme/colors';
-import {RootState} from '@/store';
-import {useSelector} from 'react-redux';
-import {GET_ALL_TUTORIALS_QUERY} from '@/query/getALLTutorial.query';
+import { colors } from '@/theme/colors';
+import { RootState } from '@/store';
+import { useSelector } from 'react-redux';
+import { GET_ALL_TUTORIALS_QUERY } from '@/query/getALLTutorial.query';
 import moment from 'moment';
 
 const ListeningScreen: FC = () => {
   const token = useSelector((state: RootState) => state.users.token);
   const [listeningList, setListeningList] = useState([]);
-  const {data, loading, error} = useQuery(GET_ALL_TUTORIALS_QUERY, {
+  const { data, loading, error } = useQuery(GET_ALL_TUTORIALS_QUERY, {
     context: {
-      uri: 'http://3.26.192.7:4001/graphql', // Set the dynamic link
+      uri: 'http://3.27.192.76:4001/graphql', // Set the dynamic link
       headers: {
         Authorization: `Bearer ${token}`,
       },
     },
   });
+
+
+  console.log("data", data, error, "error")
 
   const navigation = useNavigation();
 
@@ -36,12 +39,12 @@ const ListeningScreen: FC = () => {
     }
   }, [data, loading]);
 
-  const renderItem = ({item}: {item: any}) => (
+  const renderItem = ({ item }: { item: any }) => (
     <>
       <Card style={styles.card}>
         <View style={styles.cardStyle}>
           <Image
-            source={{uri: item.image}}
+            source={{ uri: item.image }}
             style={styles.imageBackground}></Image>
           <View style={styles.cardProperties}>
             <Title style={styles.titleText}>{item.title}</Title>
@@ -74,7 +77,7 @@ const ListeningScreen: FC = () => {
         visible={loading}
         textContent={' Loading...'}
         color={colors.white}
-        textStyle={{color: colors.white}}
+        textStyle={{ color: colors.white }}
       />
 
       <View style={styles.headerView}>
@@ -110,7 +113,7 @@ const ListeningScreen: FC = () => {
         data={listeningList}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
-        contentContainerStyle={{paddingBottom: 180}} // Add extra padding here
+        contentContainerStyle={{ paddingBottom: 180 }} // Add extra padding here
       />
     </View>
   );

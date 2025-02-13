@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {FC} from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FC } from 'react';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import styles from './style';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {colors} from '@/theme/colors';
+import { colors } from '@/theme/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {
   GET_A_USER_QUERY,
   GET_ALL_USERS_QUERY,
 } from '../../query/getAuser.query';
-import {useMutation, useQuery} from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   Modal,
   Portal,
@@ -27,19 +27,20 @@ import {
   Title,
   Menu,
 } from 'react-native-paper';
-import {useSelector} from 'react-redux';
-import {RootState} from '@/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 import ToastPopUp from '@/utils/Toast.android';
-import {CREATE_TUTORIAL_MUTATION} from '@/mutation/createTutorial.mutation';
-import client, {tutorialLink} from '@/utils/apolloClient';
+import { CREATE_TUTORIAL_MUTATION } from '@/mutation/createTutorial.mutation';
+import client, { tutorialLink } from '@/utils/apolloClient';
 import {
   UPDATE_PROFILE_MUTATION,
   DELETE_USER_MUTATION,
 } from '@/mutation/updateProfile.mutations';
+import axios from 'axios';
 
 const MainScreen: FC = () => {
   const navigation = useNavigation();
-  const [selectedUsers, setSelectedUsers] = useState<{[key: string]: boolean}>(
+  const [selectedUsers, setSelectedUsers] = useState<{ [key: string]: boolean }>(
     {},
   );
   const [user, setUser] = useState({});
@@ -52,13 +53,17 @@ const MainScreen: FC = () => {
   const [tutorialModalVisible, setTutorialModalVisible] = useState(false);
   const [tutorialData, setTutorialData] = useState({
     title: '',
-    image: '', //'https://www.shutterstock.com/image-photo/graduation-cap-earth-globe-concept-260nw-2349898783.jpg',
-    videoUrl: '', //'https://drive.google.com/file/d/1tz6SGcsPYJQrYIhqRWlCTnoDPxhR4vdN/view?usp=drive_link',
+    image: '',
+    videoUrl: '',
     category: '',
     description: '',
+    source: 'drive',  // Default value for source
+    mediaType: 'drive',  // Default mediaType value
+    filename: 'tutorial-video.mp4',  // Default filename
   });
 
-  const {data, loading, error} = useQuery(GET_A_USER_QUERY, {
+
+  const { data, loading, error } = useQuery(GET_A_USER_QUERY, {
     context: {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -66,7 +71,7 @@ const MainScreen: FC = () => {
     },
   });
 
-  const {data: Users, loading: usersLoading} = useQuery(GET_ALL_USERS_QUERY, {
+  const { data: Users, loading: usersLoading } = useQuery(GET_ALL_USERS_QUERY, {
     context: {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -136,7 +141,7 @@ const MainScreen: FC = () => {
           onPress: async () => {
             try {
               await deleteUser({
-                variables: {id: parseInt(userId)},
+                variables: { id: parseInt(userId) },
               });
               console.log('User deleted successfully');
             } catch (error) {
@@ -145,7 +150,7 @@ const MainScreen: FC = () => {
           },
         },
       ],
-      {cancelable: false}, // Prevent dismissing the alert by tapping outside
+      { cancelable: false }, // Prevent dismissing the alert by tapping outside
     );
   };
 
@@ -181,18 +186,78 @@ const MainScreen: FC = () => {
   const handleCreateTutorial = async () => {
     client.setLink(tutorialLink); // Set to tutorial endpoint
     try {
-      // Pass tutorialData as createTutorialInput in variables
-      const {data} = await client.mutate({
-        mutation: CREATE_TUTORIAL_MUTATION,
-        variables: {
-          createTutorialInput: tutorialData,
+
+
+      const createTutorialMutation = `
+      mutation CreateTutorial {
+        createTutorial(
+          createTutorialInput: {
+            title: "${tutorialData.title}"
+            image: "${tutorialData.image}"
+            videoUrl: "${tutorialData.videoUrl}"
+            category: "${tutorialData.category}"
+            description: "${tutorialData.description}"
+            like: ${0}
+            dislike: ${0}
+            source: "${tutorialData.source}"
+            mediaType: "${tutorialData.mediaType}"
+            filename: "${tutorialData.filename}"
+          }
+        ) {
+          image
+          title
+          mediaType
+          source
+          description
+          category
+          filename
+          id
+          videoUrl
+          like
+          dislike
+        }
+      }
+    `;
+
+
+      const response = await axios.post(
+        'http://3.27.192.76:4001/graphql',
+        {
+          query: createTutorialMutation
         },
-        context: {
+        {
           headers: {
-            Authorization: `Bearer ${token}`, // Add token here as well
-          },
-        },
-      });
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Your token here
+          }
+        }
+      );
+
+      // Handle response data
+      const { data } = response;
+      if (data && data.data.createTutorial) {
+        console.log('Tutorial created successfully:', data.data.createTutorial);
+        // Optionally, show a success message or handle further UI actions
+      } else {
+        console.log('Failed to create tutorial', data.errors);
+      }
+
+      // const { data } = await client.mutate({
+      //   mutation: CREATE_TUTORIAL_MUTATION,
+      //   variables: {
+      //     createTutorialInput: {
+      //       ...tutorialData,
+      //       source: 'drive',  // Example value for source
+      //       mediaType: 'video',  // Example value for mediaType (change as per your requirement)
+      //       filename: 'tutorial-video.mp4',  // Example filename (change as per your requirement)
+      //     },
+      //   },
+      //   context: {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`, // Add token here as well
+      //     },
+      //   },
+      // });
 
       // Close the modal after successful tutorial creation
       hideTutorialModal(); // Assuming closeModal is the function that closes the modal
@@ -231,7 +296,7 @@ const MainScreen: FC = () => {
         visible={loading || usersLoading}
         textContent={' Loading...'}
         color={colors.white}
-        textStyle={{color: colors.white}}
+        textStyle={{ color: colors.white }}
       />
 
       {/* Add Tutorial Modal */}
@@ -246,21 +311,21 @@ const MainScreen: FC = () => {
               label="Title"
               value={tutorialData.title}
               onChangeText={text =>
-                setTutorialData({...tutorialData, title: text})
+                setTutorialData({ ...tutorialData, title: text })
               }
             />
             <TextInput
               label="Image URL"
               value={tutorialData.image}
               onChangeText={text =>
-                setTutorialData({...tutorialData, image: text})
+                setTutorialData({ ...tutorialData, image: text })
               }
             />
             <TextInput
               label="Video URL"
               value={tutorialData.videoUrl}
               onChangeText={text =>
-                setTutorialData({...tutorialData, videoUrl: text})
+                setTutorialData({ ...tutorialData, videoUrl: text })
               }
             />
 
@@ -276,7 +341,7 @@ const MainScreen: FC = () => {
                 <Menu.Item
                   key={item}
                   onPress={() => {
-                    setTutorialData({...tutorialData, category: item});
+                    setTutorialData({ ...tutorialData, category: item });
                     closeMenu();
                   }}
                   title={item}
@@ -287,7 +352,7 @@ const MainScreen: FC = () => {
               label="Description"
               value={tutorialData.description}
               onChangeText={text =>
-                setTutorialData({...tutorialData, description: text})
+                setTutorialData({ ...tutorialData, description: text })
               }
             />
             <Button onPress={handleCreateTutorial}>Add Tutorial</Button>
@@ -383,8 +448,8 @@ const MainScreen: FC = () => {
           onPress={showTutorialModal}>
           <LinearGradient
             colors={['#f57c00', '#FF5252', '#ad1457', '#7d3c98', '#00695c']}
-            start={{x: 0, y: 0}} // Starting point of the gradient (left side)
-            end={{x: 1, y: 0}} // Ending point of the gradient (right side)
+            start={{ x: 0, y: 0 }} // Starting point of the gradient (left side)
+            end={{ x: 1, y: 0 }} // Ending point of the gradient (right side)
             style={styles.topCard}>
             <Text style={styles.topCardText1}>
               {user.role === 'admin'
@@ -394,6 +459,25 @@ const MainScreen: FC = () => {
             {/* <Text style={styles.topCardText2}>
               Journey with Polock Bhai
             </Text> */}
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ height: 20, width: '100%' }}></View>
+
+      <View style={styles.topCardPosition}>
+        <TouchableOpacity
+          style={styles.topCard}
+          // disabled={user?.role === 'admin' ? false : true}
+          onPress={() => navigation.navigate("IELTSWebView")}>
+          <LinearGradient
+            colors={['#ad1457', '#7d3c98', '#00695c', '#f57c00', '#FF5252']}
+            start={{ x: 0, y: 0 }} // Starting point of the gradient (left side)
+            end={{ x: 1, y: 0 }} // Ending point of the gradient (right side)
+            style={styles.topCard}>
+            <Text style={styles.topCardText1}>
+              {'Mock Tour'}
+            </Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>

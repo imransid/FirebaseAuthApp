@@ -1,26 +1,13 @@
-// import {ApolloClient, InMemoryCache, HttpLink} from '@apollo/client';
-
-// // Apollo Client setup
-// const client = new ApolloClient({
-//   link: new HttpLink({
-//     uri: 'http://3.26.192.7:4000/graphql', // Your GraphQL endpoint
-//   }),
-//   cache: new InMemoryCache(),
-//   connectToDevTools: true, // Optional: Enables Apollo Client DevTools in development
-// });
-
-// export default client;
-
 import {ApolloClient, InMemoryCache, HttpLink, split} from '@apollo/client';
 import {getMainDefinition} from '@apollo/client/utilities';
 
 // Define HttpLinks for both endpoints
 export const userAuthLink = new HttpLink({
-  uri: 'http://3.26.192.7:4000/graphql', // User/Auth endpoint
+  uri: 'http://3.27.192.76:4000/graphql', // User/Auth endpoint
 });
 
 export const tutorialLink = new HttpLink({
-  uri: 'http://3.26.192.7:4001/graphql', // Tutorial endpoint
+  uri: 'http://3.27.192.76:4001/graphql', // Tutorial endpoint
 });
 
 // Split link based on operation name or other criteria
