@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import styles from './style';
 import SettingsScreen from '@/screens/SettingsScreen';
 import IELTSWebView from '@/screens/WebView'
+import StudentZone from '@/screens/StudentsJone'
 
 export type RootStackParamList = {
   Onboarding: undefined;
@@ -74,6 +75,12 @@ const AppNavigator = () => {
       <Stack.Screen
         name="VideoPlayer"
         component={VideoPlayerScreen}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="StudentZone"
+        component={StudentZone}
         options={{ headerShown: false }}
       />
 

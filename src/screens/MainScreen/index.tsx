@@ -414,7 +414,7 @@ const MainScreen: FC = () => {
         <View style={styles.headerChipProperties}>
           <TouchableOpacity
             disabled={user?.role === 'admin' ? false : true}
-            onPress={showModal}
+            onPress={() => navigation.navigate("StudentZone" as never)}
             style={styles.userNameChip}>
             <Text style={styles.userNameText}>{user?.firstName}</Text>
           </TouchableOpacity>
