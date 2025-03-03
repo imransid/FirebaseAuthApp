@@ -18,7 +18,7 @@ const ListeningScreen: FC = () => {
   const [listeningList, setListeningList] = useState([]);
   const { data, loading, error } = useQuery(GET_ALL_TUTORIALS_QUERY, {
     context: {
-      uri: 'http://3.27.192.76:4001/graphql', // Set the dynamic link
+      uri: 'http://54.179.177.128:4001/graphql', // Set the dynamic link
       headers: {
         Authorization: `Bearer ${token}`,
       },

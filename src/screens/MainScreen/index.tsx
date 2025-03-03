@@ -221,7 +221,7 @@ const MainScreen: FC = () => {
 
 
       const response = await axios.post(
-        'http://3.27.192.76:4001/graphql',
+        'http://54.179.177.128:4001/graphql',
         {
           query: createTutorialMutation
         },

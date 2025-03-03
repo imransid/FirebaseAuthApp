@@ -3,11 +3,11 @@ import {getMainDefinition} from '@apollo/client/utilities';
 
 // Define HttpLinks for both endpoints
 export const userAuthLink = new HttpLink({
-  uri: 'http://3.27.192.76:4000/graphql', // User/Auth endpoint
+  uri: 'http://54.179.177.128:4000/graphql', // User/Auth endpoint
 });
 
 export const tutorialLink = new HttpLink({
-  uri: 'http://3.27.192.76:4001/graphql', // Tutorial endpoint
+  uri: 'http://54.179.177.128:4001/graphql', // Tutorial endpoint
 });
 
 // Split link based on operation name or other criteria

@@ -34,6 +34,7 @@ const SignUpScreen = () => {
     lastName: string;
     mobileNumber: string;
     role: string;
+    batchStatus: string
   }
 
   // yup validation with react-hook-form
@@ -51,6 +52,7 @@ const SignUpScreen = () => {
       lastName: '',
       mobileNumber: '',
       role: 'student',
+      batchStatus: ''
     },
   });
 
@@ -62,7 +64,7 @@ const SignUpScreen = () => {
 
       // Remove confirmPassword before sending the data and add deviceID
       const { confirmPassword, ...input } = data;
-      const updatedData = { ...input, deviceID, batchStatus: "34" }; // Add batchStatus if required
+      const updatedData = { ...input, deviceID }; // Add batchStatus if required
 
       console.log("updatedData", updatedData)
 
@@ -157,6 +159,37 @@ const SignUpScreen = () => {
               <Text style={styles.errorTxt}>{errors.lastName.message}</Text>
             )}
           </View>
+
+
+
+          <View style={styles.textInputComponentProperties}>
+            <Controller
+              control={control}
+              name="batchStatus"
+              render={({ field: { onChange, value } }) => (
+                <CustomTextInput
+                  type="string"
+                  value={value}
+                  onChangeText={onChange}
+                  placeholder="batch Number"
+                  inputStyle={styles.inputText}
+                  isError={Boolean(errors.batchStatus)}
+                  leftIcon={
+                    <MaterialCommunityIcons
+                      name="account-supervisor"
+                      size={28}
+                      color={'#888888'}
+                    />
+                  }
+                />
+              )}
+            />
+            {errors.batchStatus != null && (
+              <Text style={styles.errorTxt}>{errors.batchStatus.message}</Text>
+            )}
+          </View>
+
+          {/* end */}
 
           <View style={styles.textInputComponentProperties}>
             <Controller

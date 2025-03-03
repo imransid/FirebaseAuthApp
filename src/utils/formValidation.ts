@@ -97,6 +97,8 @@ export const signUpFormValidation = yup.object().shape({
       ['student', 'teacher'],
       'Role must be either "student" or "teacher"',
     ),
+
+  batchStatus: yup.string().required('batchStatus is required'),
 });
 
 // export const signUpFormValidation = yup.object().shape({
